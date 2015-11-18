@@ -4,7 +4,7 @@
   "description": "A football chess",
   "main": "webpack.config.js",
   "scripts": {
-    "start": "./node_modules/.bin/webpack-dev-server",
+    "start": "webpack-dev-server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
@@ -20,11 +20,19 @@
     "webpack-dev-server": "^1.12.1"
   },
   "author": "@carlesba",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "dependencies": {
     "classname": "0.0.0",
     "lodash.fill": "^3.2.2",
     "react": "^0.14.2",
     "react-dom": "^0.14.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/carlesba/chessball.git"
+  },
+  "bugs": {
+    "url": "https://github.com/carlesba/chessball/issues"
+  },
+  "homepage": "https://github.com/carlesba/chessball#readme"
 }
