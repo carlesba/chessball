@@ -1,0 +1,38 @@
+// 0 - turn the rule off
+// 1 - turn the rule on as a warning (doesn't affect exit code)
+// 2 - turn the rule on as an error (exit code is 1 when triggered)
+
+{
+    "parser": "babel-eslint",
+    "rules": {
+        "camelcase": [1],
+        "comma-dangle": [2],
+        "complexity": [1, 7],
+        "consistent-this": [2],
+        "curly": [2, "all"],
+        "eqeqeq": [1],
+        "max-depth": [1, 2],
+        "max-nested-callbacks": [1, 2],
+        "max-statements": [1, 15],
+        "new-cap": [1],
+        "no-dupe-keys": [2],
+        "no-extra-bind": [2],
+        "no-redeclare": [2],
+        "no-undef": [2],
+        "no-unused-expressions": [2],
+        "no-unused-vars": [2, { "args": "none" }],
+        "no-use-before-define": [2, "nofunc"],
+        "strict": 0,
+        "quotes": [1, "single"]
+    },
+    "plugins": ["react"],
+    "ecmaFeatures": {},
+    "env": {
+        "browser": true,
+        "node": true,
+        "amd": true,
+        "es6": true,
+        "commonjs": true,
+    },
+    "globals": {}
+}

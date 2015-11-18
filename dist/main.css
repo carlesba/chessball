@@ -1,0 +1,26 @@
+.clearfix:after {
+	visibility: hidden;
+	display: block;
+	font-size: 0;
+	content: " ";
+	clear: both;
+	height: 0;
+}
+.row {
+	clear: both;
+}
+.square {
+	width: 50px;
+	height: 50px;
+}
+.square--special::before {
+	content: '·';
+	text-align: center;
+	font-size: 3em;
+	width: 100%;
+	color: white;
+	display: inline-block;
+}
+.row .square {
+	float: left;
+}
