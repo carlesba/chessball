@@ -1,10 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import boardDataBuilder from './builders/boardDataBuilder';
-import Board from './Board';
+import ChessBall from './ChessBall';
 
-const boardData = boardDataBuilder();
+const boardData = boardDataBuilder()
 
-window.boardData = boardData;
-const domNode = document.getElementById('game');
-ReactDOM.render(<Board boardData={boardData} />, domNode);
+const domNode = document.getElementById('game')
+ReactDOM.render(<ChessBall board={boardData} />, domNode)

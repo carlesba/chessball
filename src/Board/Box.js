@@ -1,6 +1,6 @@
 import React from 'react';
 import classname from 'classname';
-import {calcBackground} from './builders/boxColors';
+import {calcBackground} from '../builders/boxColors';
 const SHOW_CONTENT = false;
 
 const Box = React.createClass({
