@@ -22,13 +22,13 @@
   "author": "@carlesba",
   "license": "Apache-2.0",
   "dependencies": {
-    "@reactivex/rxjs": "^5.0.0-alpha.10",
     "classname": "0.0.0",
     "flux": "^2.1.1",
     "lodash": "^3.10.1",
     "lodash.fill": "^3.2.2",
     "react": "^0.14.2",
-    "react-dom": "^0.14.2"
+    "react-dom": "^0.14.2",
+    "rx": "^4.0.7"
   },
   "repository": {
     "type": "git",

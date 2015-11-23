@@ -1,6 +1,9 @@
 import ChessballDispatcher from '../dispatcher/ChessballDispatcher';
 import EventEmiter from 'events';
 import _ from 'lodash';
+import Rx from 'rx';
+
+window.rx = Rx;
 
 const chips = [{
 	chipId: 0,
@@ -25,10 +28,13 @@ var ChipsStore = _.assign({}, EventEmiter.prototype, {
 });
 
 const callbacks = {
-	MOVE_CHIP: ({chipId, top, left}) => {
+	TAKE_CHIP: ({chipId, top, left}) => {
 		let chip = _.find(chips, {chipId})
 		_.assign(chip, {top, left})
 		ChipsStore.emitChange()
+	},
+	MOVE_CHIP: (chipId) => {
+		let chip = _.find(chips, {chipId})
 	}
 }
 
