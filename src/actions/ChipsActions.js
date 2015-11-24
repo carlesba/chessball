@@ -1,10 +1,10 @@
 import ChessballDispatcher from '../dispatcher/ChessballDispatcher';
 
-const TAKE_CHIP = 'TAKE_CHIP';
+const MOVE_CHIP = 'MOVE_CHIP';
 
 export function moveChip (chipId, top, left) {
 	ChessballDispatcher.dispatch({
-		type: TAKE_CHIP,
+		type: MOVE_CHIP,
 		payload: {chipId, top, left}
 	})
 }

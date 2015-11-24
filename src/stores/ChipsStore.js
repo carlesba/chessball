@@ -28,13 +28,10 @@ var ChipsStore = _.assign({}, EventEmiter.prototype, {
 });
 
 const callbacks = {
-	TAKE_CHIP: ({chipId, top, left}) => {
+	MOVE_CHIP: ({chipId, top, left}) => {
 		let chip = _.find(chips, {chipId})
 		_.assign(chip, {top, left})
 		ChipsStore.emitChange()
-	},
-	MOVE_CHIP: (chipId) => {
-		let chip = _.find(chips, {chipId})
 	}
 }
 

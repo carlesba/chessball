@@ -10,6 +10,9 @@ const Chip = React.createClass({
 			translateY: 0
 		};
 	},
+	componentWillReceiveProps(nextProps) {
+		this.updateDefaultPosition()
+	},
 	render() {
 		const {top, left} = this.props.chip;
 		const {translateX, translateY} = this.state;
@@ -31,10 +34,14 @@ const Chip = React.createClass({
 			.subscribe(this.updatePosition)
 		Rx.Observable.fromEvent(document, 'mouseup')
 			.first()
-			.subscribe(()=>{
+			.subscribe((e)=>{
+				console.log(('mouseup', e));
 				mousemove.dispose()
-				this.updateDefaultPosition()
-				// this.leaveChip()
+				const {translateX, translateY} = this.state;
+				const {chipId, top, left} = this.props.chip;
+				const nextX = translateX + left;
+				const nextY = translateY + top;
+				moveChip(chipId, nextY, nextX)
 			})
 	},
 	updatePosition ({x, y}) {
