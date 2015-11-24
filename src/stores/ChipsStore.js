@@ -10,6 +10,18 @@ const chips = [{
 	kind: 'ball',
 	top: 0,
 	left: 0
+}, {
+	chipId: 1,
+	kind: 'player',
+	team: 0,
+	top: 50,
+	left: 50
+}, {
+	chipId: 2,
+	kind: 'player',
+	team: 1,
+	top: 0,
+	left: 50
 }];
 
 var ChipsStore = {

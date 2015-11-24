@@ -1,7 +1,13 @@
 import React from 'react';
 import Rx from 'rx';
 import ReactDOM from 'react-dom';
-import {moveChip, leaveChip} from '../actions/ChipsActions';
+import {moveChip} from '../actions/ChipsActions';
+
+const colors = {
+	ball: 'black',
+	player0: 'red',
+	player1: 'blue'
+}
 
 const Chip = React.createClass({
 	getInitialState() {
@@ -17,6 +23,7 @@ const Chip = React.createClass({
 		const {top, left} = this.props.chip;
 		const {translateX, translateY} = this.state;
 		const styles = {top, left,
+			backgroundColor: this.getBackground(),
 			transform: `translate(${translateX}px,${translateY}px)`
 		};
 		return (
@@ -45,21 +52,22 @@ const Chip = React.createClass({
 			})
 	},
 	updatePosition ({x, y}) {
-		// const {chipId} = this.props.chip
 		const {translateX, translateY} = this.state
 		this.setState({
 			translateX: x + translateX,
 			translateY: y + translateY
 		})
-		// moveChip(chipId, newTop, newLeft)
 	},
 	updateDefaultPosition () {
 		this.setState(this.getInitialState())
+	},
+	getBackground() {
+		const {kind, team} = this.props.chip;
+		const colorKey = (team > -1)?
+			`${kind}${team}`:
+			`${kind}${team}`;
+		return colors[colorKey]
 	}
-	// leaveChip () {
-		// const {chipId} = this.props.chip
-		// leaveChip(chipId)
-	// }
 });
 
 export default Chip;
