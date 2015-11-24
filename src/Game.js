@@ -13,10 +13,10 @@ const Game = React.createClass({
 		return getChipsSate()
 	},
 	componentWillMount() {
-		ChipsStore.subscribePositionChange(this.updateChips)
+		this.positionStream = ChipsStore.subscribePositionStream(this.updateChips)
 	},
 	componentWillUnmount() {
-		ChipsStore.unsubscribePositionChange(this.updateChips)
+		this.positionStream.dispose()
 	},
 	updateChips (chips) {
 		this.setState({chips})

@@ -1,9 +1,9 @@
 import ChessballDispatcher from '../dispatcher/ChessballDispatcher';
-import EventEmiter from 'events';
 import _ from 'lodash';
 import Rx from 'rx';
 
 window.rx = Rx;
+const positionStream = new Rx.Subject();
 
 const chips = [{
 	chipId: 0,
@@ -12,26 +12,23 @@ const chips = [{
 	left: 0
 }];
 
-var ChipsStore = _.assign({}, EventEmiter.prototype, {
+var ChipsStore = {
 	getChips: function () {
 		return chips
 	},
-	emitChange: function () {
-		this.emit('UPDATE_POSITION', chips)
+	publishPosition: function () {
+		positionStream.onNext(chips)
 	},
-	subscribePositionChange: function (cb) {
-		this.on('UPDATE_POSITION', cb)
-	},
-	unsubscribePositionChange: function (cb) {
-		this.removeListener('UPDATE_POSITION', cb)
+	subscribePositionStream: function (cb) {
+		return positionStream.subscribe(cb)
 	}
-});
+};
 
 const callbacks = {
 	MOVE_CHIP: ({chipId, top, left}) => {
 		let chip = _.find(chips, {chipId})
 		_.assign(chip, {top, left})
-		ChipsStore.emitChange()
+		ChipsStore.publishPosition()
 	}
 }
 
