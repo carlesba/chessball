@@ -4,7 +4,7 @@ module.exports = {
   cache: false,
   process: true,
   stats: {
-      colors: true
+    colors: true
   },
   entry: [
     'webpack-dev-server/client?http://localhost:8080',
@@ -16,7 +16,7 @@ module.exports = {
     publicPath: '/dist/'
   },
   resolve: {
-    root:'./',
+    root: './',
     modulesDirectories: ['node_modules'],
     extensions: ['', '.js']
   },
@@ -32,4 +32,4 @@ module.exports = {
       }
     ]
   }
-};
+}

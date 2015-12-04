@@ -1,7 +1,7 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import boardDataBuilder from './builders/boardDataBuilder';
-import ChessBall from './ChessBall';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import boardDataBuilder from './builders/boardDataBuilder'
+import ChessBall from './ChessBall'
 
 const boardData = boardDataBuilder()
 
