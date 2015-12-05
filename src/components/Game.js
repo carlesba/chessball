@@ -1,27 +1,8 @@
 import React from 'react'
 import Chip from './Chip'
 import { connect } from 'react-redux'
-// import ChipsStore from '../stores/ChipsStore'
-
-// function getChipsSate () {
-//   return {
-//     chips: ChipsStore.getChips()
-//   }
-// }
 
 const Game = React.createClass({
-  // getInitialState () {
-  //   return getChipsSate()
-  // },
-  // componentWillMount () {
-  //   this.positionStream = ChipsStore.subscribePositionStream(this.updateChips)
-  // },
-  // componentWillUnmount () {
-  //   this.positionStream.dispose()
-  // },
-  // updateChips (chips) {
-  //   this.setState({chips})
-  // },
   render () {
     const { chips, moveChip } = this.props
     return (

@@ -11,7 +11,6 @@ let store = createStore(chipsReducer)
 const boardData = boardDataBuilder()
 
 const domNode = document.getElementById('game')
-// ReactDOM.render(<ChessBall board={boardData} />, domNode)
 
 ReactDOM.render(
   <Provider store={store}>

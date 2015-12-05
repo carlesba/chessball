@@ -1,7 +1,6 @@
 import React from 'react'
 import Rx from 'rx'
 import ReactDOM from 'react-dom'
-// import { moveChip } from '../actions/ChipsActions'
 
 const colors = {
   ball: 'black',
@@ -72,7 +71,6 @@ const Chip = React.createClass({
       })
   },
   updatePosition ({x, y}) {
-    // const {translateX, translateY} = this.state
     const {top, left} = this.props.chip
     this.setState({
       moving: true,
