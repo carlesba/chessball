@@ -1,34 +1,22 @@
 import React from 'react'
-import Chip from './Chip'
+import Board from './Board'
+import Chips from './Chips'
 import { connect } from 'react-redux'
 
-const Game = ({chips, moveChip}) => {
+const Game = ({board, chips}) => {
   return (
-  <div className='game'>
-    {chips.map((chip, i) => {
-      return <Chip key={i} chip={chip} moveChip={moveChip}/>
-    })}
-  </div>
+    <div className='game' id='game'>
+      <Board boardData={board} />
+      <Chips chips={chips} />
+    </div>
   )
 }
 
-function mapStateToProps (state) {
+function mapStateToProps (state, props) {
   return {
-    chips: state.chips
+    chips: state.chips,
+    board: props.board
   }
 }
 
-function dispatchToProps (dispatch) {
-  return {
-    moveChip: (chipId, top, left) => {
-      dispatch({
-        type: 'MOVE_CHIP',
-        chipId,
-        top,
-        left
-      })
-    }
-  }
-}
-
-export default connect(mapStateToProps, dispatchToProps)(Game)
+export default connect(mapStateToProps)(Game)

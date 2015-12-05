@@ -8,7 +8,7 @@ const colors = {
   player1: 'blue'
 }
 const getReferencePoints = () => {
-  const reference = document.getElementsByClassName('chessball')[0]
+  const reference = document.getElementById('game')
     .getBoundingClientRect()
   return {
     topRef: reference.top,

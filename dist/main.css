@@ -7,7 +7,7 @@
 	height: 0;
 }
 
-.chessball {
+.game {
 	position: relative;
 	width: 550px;
 	margin: auto;
@@ -15,11 +15,11 @@
 .row {
 	clear: both;
 }
-.square {
+.tile {
 	width: 50px;
 	height: 50px;
 }
-.square--special::before {
+.tile--special::before {
 	content: '·';
 	text-align: center;
 	font-size: 3em;
@@ -27,7 +27,7 @@
 	color: white;
 	display: inline-block;
 }
-.row .square {
+.row .tile {
 	float: left;
 }
 

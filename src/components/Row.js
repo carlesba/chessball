@@ -1,10 +1,10 @@
 import React from 'react'
-import Box from './Box'
+import Tile from './Tile'
 
 const Row = ({data}) => {
   return (
 		<div className='row clearfix'>
-			{data.map((box, i) => <Box key={i} data={box}/>)}
+			{data.map((tile, i) => <Tile key={i} data={tile}/>)}
 		</div>
 	)
 }
