@@ -12,10 +12,10 @@ const Game = ({board, chips}) => {
   )
 }
 
-function mapStateToProps (state, props) {
+function mapStateToProps (state) {
   return {
     chips: state.chips,
-    board: props.board
+    board: state.board
   }
 }
 

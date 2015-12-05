@@ -1,6 +1,5 @@
 import React from 'react'
 import Rx from 'rx'
-import ReactDOM from 'react-dom'
 
 const colors = {
   ball: 'black',
