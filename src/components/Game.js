@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 const Game = ({board, chips}) => {
   return (
     <div className='game' id='game'>
-      <Board boardData={board} />
+      <Board board={board} />
       <Chips chips={chips} />
     </div>
   )
