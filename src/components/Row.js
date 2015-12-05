@@ -1,14 +1,12 @@
-import React from 'react';
-import Box from './Box';
+import React from 'react'
+import Box from './Box'
 
-const Row = React.createClass({
-	render() {
-		return (
-			<div className='row clearfix'>
-				{this.props.data.map((box, i)=> <Box key={i} data={box}/>)}
-			</div>
-		);
-	}
-});
+const Row = ({data}) => {
+  return (
+		<div className='row clearfix'>
+			{data.map((box, i) => <Box key={i} data={box}/>)}
+		</div>
+	)
+}
 
-export default Row;
+export default Row

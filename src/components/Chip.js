@@ -15,6 +15,13 @@ const getReferencePoints = () => {
     leftRef: reference.left
   }
 }
+const getBackground = (chip) => {
+  const {kind, team} = chip
+  const colorKey = (team > -1)
+    ? `${kind}${team}`
+    : `${kind}${team}`
+  return colors[colorKey]
+}
 
 const Chip = React.createClass({
   getInitialState () {
@@ -28,11 +35,12 @@ const Chip = React.createClass({
     this.updateDefaultPosition()
   },
   render () {
-    const {top, left} = this.props.chip
+    const {chip} = this.props
+    const {top, left} = chip
     const {moving, translateX, translateY} = this.state
     const styles = {top, left,
       zIndex: moving ? 10 : 0,
-      backgroundColor: this.getBackground(),
+      backgroundColor: getBackground(chip),
       transform: `translate(${translateX}px,${translateY}px)`
     }
     return (
@@ -80,13 +88,6 @@ const Chip = React.createClass({
   },
   updateDefaultPosition () {
     this.setState(this.getInitialState())
-  },
-  getBackground () {
-    const {kind, team} = this.props.chip
-    const colorKey = (team > -1)
-      ? `${kind}${team}`
-      : `${kind}${team}`
-    return colors[colorKey]
   }
 })
 
