@@ -4,9 +4,9 @@ import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import boardDataBuilder from './builders/boardDataBuilder'
 import ChessBall from './components/ChessBall'
-import chipsReducer from './reducers/chipsReducer'
+import reducers from './reducers'
 
-let store = createStore(chipsReducer)
+let store = createStore(reducers)
 
 const boardData = boardDataBuilder()
 

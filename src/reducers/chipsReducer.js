@@ -1,4 +1,3 @@
-import { combineReducers } from 'redux'
 import { MOVE_CHIP } from '../actions/ChipsActions'
 
 const initialChips = [{
@@ -40,4 +39,4 @@ const chips = (state = initialChips, action) => {
   }
 }
 
-export default combineReducers({ chips })
+export default chips
