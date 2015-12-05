@@ -2,11 +2,15 @@ import React from 'react'
 import Row from './Row'
 
 const Board = React.createClass({
+  propTypes: {
+    boardData: React.PropTypes.array
+  },
   render: function () {
+    const { boardData } = this.props
     return (
     <div className='board'>
-				{this.props.boardData.map((data, i) => <Row key={i} data={data}/>)}
-			</div>
+        {boardData.map((data, i) => <Row key={i} data={data}/>)}
+      </div>
     )
   }
 })

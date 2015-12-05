@@ -5,7 +5,7 @@ const SHOW_CONTENT = false
 
 const Box = React.createClass({
   propTypes: {
-    data: React.PropTypes.Object
+    data: React.PropTypes.object
   },
   render () {
     const {row, col, kind} = this.props.data
