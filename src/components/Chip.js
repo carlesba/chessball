@@ -31,10 +31,11 @@ const Chip = React.createClass({
   render () {
     const {chip} = this.props
     const {moving, translateX, translateY} = this.state
+    const transformScale = moving ? ' scale(1.2)' : ''
     const styles = {
       zIndex: moving ? 10 : 0,
       backgroundColor: getBackground(chip),
-      transform: `translate(${translateX}px,${translateY}px)`
+      transform: `translate(${translateX}px,${translateY}px) ${transformScale}`
     }
     return (
     <div
