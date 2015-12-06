@@ -1,35 +1,8 @@
 import React from 'react'
 import Rx from 'rx'
-
-const TILE_WIDTH = 50
-const CHIP_WIDTH = 40
-
-const colors = {
-  ball: 'black',
-  player0: 'red',
-  player1: 'blue'
-}
-const getReferencePoints = (domNode) => {
-  const {top, left} = domNode.parentNode.getBoundingClientRect()
-  return {
-    topRef: top,
-    leftRef: left
-  }
-}
-const getBackground = (chip) => {
-  const {kind, team} = chip
-  const colorKey = (team > -1)
-    ? `${kind}${team}`
-    : `${kind}${team}`
-  return colors[colorKey]
-}
-
-const calculateTiles = ({translateX, translateY}) => {
-  return {
-    cols: Math.round(translateX / TILE_WIDTH),
-    rows: Math.round(translateY / TILE_WIDTH)
-  }
-}
+import {getReferencePoints, calculateTiles} from '../utils/position'
+import {getBackground} from '../utils/design'
+import {CHIP_WIDTH} from '../utils/constants'
 
 const Chip = React.createClass({
   propTypes: {

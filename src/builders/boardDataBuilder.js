@@ -1,6 +1,5 @@
 // import fill from 'lodash.fill'
-const ROWS = 15
-const COLS = 11
+import { BOARD_ROWS, BOARD_COLS } from '../utils/constants'
 
 const bigArea1 = {minRow: 1, minCol: 1, maxRow: 4, maxCol: 9}
 const smallArea1 = {minRow: 1, minCol: 2, maxRow: 2, maxCol: 8}
@@ -87,17 +86,12 @@ function buildSquare (row, col) {
 
 function builder () {
   let board = []
-  for (let row = 0; row < ROWS; row++) {
-    for (let col = 0; col < COLS; col++) {
+  for (let row = 0; row < BOARD_ROWS; row++) {
+    for (let col = 0; col < BOARD_COLS; col++) {
       board.push(buildSquare(row, col))
     }
   }
   return board
-  // return fill(new Array(ROWS)).map((a, row) => {
-  //   return fill(new Array(COLS)).map((b, col) => {
-  //     return buildSquare(row, col)
-  //   })
-  // })
 }
 
 export default builder
