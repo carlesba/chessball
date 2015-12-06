@@ -1,4 +1,4 @@
-import fill from 'lodash.fill'
+// import fill from 'lodash.fill'
 const ROWS = 15
 const COLS = 11
 
@@ -23,6 +23,13 @@ const boxes = {
     '13-0', '13-10',
     '13-3', '13-4', '13-5', '13-6', '13-7'
   ]
+}
+
+// 'rowcol': chipId
+const chips = {
+  '00': 0,
+  '01': 1,
+  '11': 2
 }
 
 function isBoxType (type, position) {
@@ -64,20 +71,33 @@ function getField (row, col) {
   return (row < 7) ? 0 : 1
 }
 
+function getChip (row, col) {
+  const key = `${row}${col}`
+  return chips[key]
+}
+
 function buildSquare (row, col) {
   const kind = getType(row, col)
   const area = getArea(row, col)
   const field = getField(row, col)
+  const chipId = getChip(row, col)
 
-  return {row, col, kind, area, field}
+  return {row, col, kind, area, field, chipId}
 }
 
 function builder () {
-  return fill(new Array(ROWS)).map((a, row) => {
-    return fill(new Array(COLS)).map((b, col) => {
-      return buildSquare(row, col)
-    })
-  })
+  let board = []
+  for (let row = 0; row < ROWS; row++) {
+    for (let col = 0; col < COLS; col++) {
+      board.push(buildSquare(row, col))
+    }
+  }
+  return board
+  // return fill(new Array(ROWS)).map((a, row) => {
+  //   return fill(new Array(COLS)).map((b, col) => {
+  //     return buildSquare(row, col)
+  //   })
+  // })
 }
 
 export default builder

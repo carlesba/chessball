@@ -1,10 +1,10 @@
 import React from 'react'
-import Row from './Row'
+import Tile from './Tile'
 
-const Board = ({board}) => {
+const Board = ({board, chips, moveChip}) => {
   return (
   <div className='board'>
-      {board.map((data, i) => <Row key={i} data={data}/>)}
+      {board.map((tile, i) => <Tile key={i} tile={tile} chips={chips} moveChip={moveChip}/>)}
     </div>
   )
 }

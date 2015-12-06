@@ -6,12 +6,15 @@ const colors = {
   player0: 'red',
   player1: 'blue'
 }
-const getReferencePoints = () => {
-  const reference = document.getElementById('game')
+const getReferencePoints = (domNode) => {
+  // const point = domNode.getBoundingClientRect()
+  const reference = domNode.parentNode
     .getBoundingClientRect()
   return {
     topRef: reference.top,
     leftRef: reference.left
+    // topRef: reference.top - point.top,
+    // leftRef: reference.left - reference.left
   }
 }
 const getBackground = (chip) => {
@@ -22,7 +25,19 @@ const getBackground = (chip) => {
   return colors[colorKey]
 }
 
+const calculateTiles = ({translateX, translateY}) => {
+  return {
+    cols: Math.round(translateX / 50),
+    rows: Math.round(translateY / 50)
+  }
+}
+
 const Chip = React.createClass({
+  propTypes: {
+    chip: React.PropTypes.object,
+    moveChip: React.PropTypes.func,
+    currentPosition: React.PropTypes.object
+  },
   getInitialState () {
     return {
       moving: false,
@@ -35,9 +50,8 @@ const Chip = React.createClass({
   },
   render () {
     const {chip} = this.props
-    const {top, left} = chip
     const {moving, translateX, translateY} = this.state
-    const styles = {top, left,
+    const styles = {
       zIndex: moving ? 10 : 0,
       backgroundColor: getBackground(chip),
       transform: `translate(${translateX}px,${translateY}px)`
@@ -52,10 +66,11 @@ const Chip = React.createClass({
     )
   },
   translate () {
+    const { moveChip, currentPosition, chip } = this.props
     const chipWidth = this.el.getBoundingClientRect().width
     const mousemove = Rx.Observable.fromEvent(document, 'mousemove')
       .map((evt) => {
-        const {topRef, leftRef} = getReferencePoints()
+        const {topRef, leftRef} = getReferencePoints(this.el)
         const {x, y} = evt
         return {
           x: x - leftRef - chipWidth / 2,
@@ -67,22 +82,22 @@ const Chip = React.createClass({
     Rx.Observable.fromEvent(document, 'mouseup')
       .first()
       .subscribe((e) => {
-        console.log(('mouseup', e))
         mousemove.dispose()
-        const {translateX, translateY} = this.state
-        const { chip, moveChip } = this.props
-        const {chipId, top, left} = chip
-        const nextX = translateX + left
-        const nextY = translateY + top
-        moveChip(chipId, nextY, nextX)
+        const movement = calculateTiles(this.state)
+        const nextPosition = {
+          row: currentPosition.row + movement.rows,
+          col: currentPosition.col + movement.cols
+        }
+        console.log(movement)
+        moveChip(chip.chipId, currentPosition, nextPosition)
       })
   },
-  updatePosition ({x, y}) {
-    const {top, left} = this.props.chip
+  updatePosition (position) {
+    const {x, y} = position
     this.setState({
       moving: true,
-      translateX: x - left,
-      translateY: y - top
+      translateX: x,
+      translateY: y
     })
   },
   updateDefaultPosition () {

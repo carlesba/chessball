@@ -1,13 +1,13 @@
 import React from 'react'
 import Board from './Board'
-import Chips from './Chips'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import { moveChip } from '../actions/ChipsActions'
 
-const Game = ({board, chips}) => {
+const Game = ({board, chips, moveChip}) => {
   return (
     <div className='game' id='game'>
-      <Board board={board} />
-      <Chips chips={chips} />
+      <Board board={board} chips={chips} moveChip={moveChip}/>
     </div>
   )
 }
@@ -19,4 +19,10 @@ function mapStateToProps (state) {
   }
 }
 
-export default connect(mapStateToProps)(Game)
+function dispatchToProps (dispatch) {
+  return {
+    moveChip: bindActionCreators(moveChip, dispatch)
+  }
+}
+
+export default connect(mapStateToProps, dispatchToProps)(Game)
