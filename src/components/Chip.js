@@ -7,11 +7,15 @@ import {
 } from '../utils/position'
 import {getBackground} from '../utils/design'
 import {CHIP_WIDTH} from '../utils/constants'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { moveChip, showMoves } from '../actions/ChipsActions'
 
 const Chip = React.createClass({
   propTypes: {
     chip: React.PropTypes.object,
     moveChip: React.PropTypes.func,
+    showMoves: React.PropTypes.func,
     currentPosition: React.PropTypes.object
   },
   getInitialState () {
@@ -42,7 +46,13 @@ const Chip = React.createClass({
     )
   },
   translate () {
-    const { moveChip, currentPosition, chip } = this.props
+    const {
+      moveChip,
+      showMoves,
+      currentPosition,
+      chip
+    } = this.props
+    showMoves(currentPosition)
     const mousemove = Rx.Observable.fromEvent(document, 'mousemove')
       .subscribe(this.updatePosition)
 
@@ -67,4 +77,11 @@ const Chip = React.createClass({
   }
 })
 
-export default Chip
+function dispatchToProps (dispatch) {
+  return {
+    moveChip: bindActionCreators(moveChip, dispatch),
+    showMoves: bindActionCreators(showMoves, dispatch)
+  }
+}
+
+export default connect(null, dispatchToProps)(Chip)
