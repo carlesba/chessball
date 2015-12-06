@@ -27,22 +27,23 @@ export const calculateMovePositionsFrom = (origin) => {
   return vertical.concat(horizontal, diagonal1, diagonal2)
 }
 
-export const positionsInnerBoard = ({row, col}) => {
+// return whether a position is inside the board game
+export const positionsInsideBoard = ({row, col}) => {
   return isInBetween(row, 0, BOARD_ROWS - 1) && isInBetween(col, 0, BOARD_COLS - 1)
 }
-
 const tileIsInList = (tile, list) => {
   const {row, col} = tile
   return list.findIndex(el => el.row === row && el.col === col) >= 0
 }
-
 const isEmptyTile = (tile) => typeof tile.chipId !== 'number'
 
-const isAllowedTile = (tile, movePositions) => isEmptyTile(tile) && tileIsInList(tile, movePositions)
+// given a tile and a list of positions return whether a tile can receive a chip
+export const isAllowedTile = (tile, allowedPositions) => isEmptyTile(tile) && tileIsInList(tile, allowedPositions)
 
+// highlight tiles that can receive a chip
 export const showMovesReducer = (tiles, action) => {
   const {currentPosition} = action
-  const movePositions = calculateMovePositionsFrom(currentPosition).filter(positionsInnerBoard)
+  const movePositions = calculateMovePositionsFrom(currentPosition).filter(positionsInsideBoard)
   return tiles.map((tile) => {
     if (isAllowedTile(tile, movePositions)) {
       return Object.assign({}, tile, {highlighted: true})

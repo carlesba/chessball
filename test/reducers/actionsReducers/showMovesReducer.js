@@ -1,5 +1,10 @@
 import expect from 'expect'
-import {calculateMovePositionsFrom} from '../../../src/reducers/actionsReducers/showMovesReducer'
+import {BOARD_ROWS, BOARD_COLS} from '../../../src/utils/constants'
+import {
+  calculateMovePositionsFrom,
+  isAllowedTile,
+  positionsInsideBoard
+} from '../../../src/reducers/actionsReducers/showMovesReducer'
 
 describe('calculateMovePositionsFrom', () => {
   it('should return array of positions given one valid position', () => {
@@ -40,5 +45,35 @@ describe('calculateMovePositionsFrom', () => {
     const result = calculateMovePositionsFrom({row: 10, col: 10})
     expect(result.length).toBe(32)
     positions.forEach(position => expect(result).toInclude(position))
+  })
+})
+
+describe('isAllowedTile', () => {
+  it('should return false when tile is not on the list', () => {
+    const list = [{row: 2, col: 3}]
+    const tile = {row: 2, col: 2, chipId: 1}
+    expect(isAllowedTile(tile, list)).toBe(false)
+  })
+  it('should return false when tile is not empty', () => {
+    const list = [{row: 2, col: 2}]
+    const tile = {row: 2, col: 2, chipId: 1}
+    expect(isAllowedTile(tile, list)).toBe(false)
+  })
+  it('should return true if is in the list and empty', () => {
+    const list = [{row: 2, col: 2}]
+    const tile = {row: 2, col: 2, chipId: null}
+    expect(isAllowedTile(tile, list)).toBe(true)
+  })
+})
+
+describe('positionsInsideBoard', () => {
+  it('returns true when position is inside the board', () => {
+    expect(positionsInsideBoard({row: 5, col: 8})).toBe(true)
+  })
+  it('returns false when position is outside the board', () => {
+    expect(positionsInsideBoard({row: -1, col: 0})).toBe(false)
+    expect(positionsInsideBoard({row: 0, col: -10})).toBe(false)
+    expect(positionsInsideBoard({row: BOARD_ROWS, col: 0})).toBe(false)
+    expect(positionsInsideBoard({row: 0, col: BOARD_COLS})).toBe(false)
   })
 })
