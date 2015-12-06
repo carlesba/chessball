@@ -8,14 +8,15 @@ export const getReferencePoints = (domNode) => {
   }
 }
 
-export const calculateTiles = ({translateX, translateY}) => {
+export const calculateTiles = (x, y) => {
   return {
-    cols: Math.round(translateX / TILE_WIDTH),
-    rows: Math.round(translateY / TILE_WIDTH)
+    cols: Math.round(x / TILE_WIDTH),
+    rows: Math.round(y / TILE_WIDTH)
   }
 }
 
 const isInBetween = (num, min, max) => {
+  if (min >= max) throw new Error('bad arguments')
   return min <= num && num <= max
 }
 
