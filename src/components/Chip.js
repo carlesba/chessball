@@ -1,17 +1,19 @@
 import React from 'react'
 import Rx from 'rx'
 
+const TILE_WIDTH = 50
+const CHIP_WIDTH = 40
+
 const colors = {
   ball: 'black',
   player0: 'red',
   player1: 'blue'
 }
 const getReferencePoints = (domNode) => {
-  const reference = domNode.parentNode
-    .getBoundingClientRect()
+  const {top, left} = domNode.parentNode.getBoundingClientRect()
   return {
-    topRef: reference.top,
-    leftRef: reference.left
+    topRef: top,
+    leftRef: left
   }
 }
 const getBackground = (chip) => {
@@ -24,8 +26,8 @@ const getBackground = (chip) => {
 
 const calculateTiles = ({translateX, translateY}) => {
   return {
-    cols: Math.round(translateX / 50),
-    rows: Math.round(translateY / 50)
+    cols: Math.round(translateX / TILE_WIDTH),
+    rows: Math.round(translateY / TILE_WIDTH)
   }
 }
 
@@ -38,12 +40,12 @@ const Chip = React.createClass({
   getInitialState () {
     return {
       moving: false,
-      translateX: 0,
-      translateY: 0
+      translateX: 5,
+      translateY: 5
     }
   },
-  componentWillReceiveProps (nextProps) {
-    this.updateDefaultPosition()
+  componentWillReceiveProps () {
+    this.setState(this.getInitialState())
   },
   render () {
     const {chip} = this.props
@@ -64,21 +66,12 @@ const Chip = React.createClass({
   },
   translate () {
     const { moveChip, currentPosition, chip } = this.props
-    const chipWidth = this.el.getBoundingClientRect().width
     const mousemove = Rx.Observable.fromEvent(document, 'mousemove')
-      .map((evt) => {
-        const {topRef, leftRef} = getReferencePoints(this.el)
-        const {x, y} = evt
-        return {
-          x: x - leftRef - chipWidth / 2,
-          y: y - topRef - chipWidth / 2
-        }
-      })
       .subscribe(this.updatePosition)
 
     Rx.Observable.fromEvent(document, 'mouseup')
       .first()
-      .subscribe((e) => {
+      .subscribe(() => {
         mousemove.dispose()
         const {rows, cols} = calculateTiles(this.state)
         if (rows === 0 && cols === 0) { return }
@@ -89,16 +82,14 @@ const Chip = React.createClass({
         moveChip(chip.chipId, currentPosition, nextPosition)
       })
   },
-  updatePosition (position) {
-    const {x, y} = position
+  updatePosition (evt) {
+    const {x, y} = evt
+    const {topRef, leftRef} = getReferencePoints(this.el)
     this.setState({
       moving: true,
-      translateX: x,
-      translateY: y
+      translateX: x - leftRef - CHIP_WIDTH / 2,
+      translateY: y - topRef - CHIP_WIDTH / 2
     })
-  },
-  updateDefaultPosition () {
-    this.setState(this.getInitialState())
   }
 })
 
