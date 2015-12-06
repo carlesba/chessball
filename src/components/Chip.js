@@ -7,14 +7,11 @@ const colors = {
   player1: 'blue'
 }
 const getReferencePoints = (domNode) => {
-  // const point = domNode.getBoundingClientRect()
   const reference = domNode.parentNode
     .getBoundingClientRect()
   return {
     topRef: reference.top,
     leftRef: reference.left
-    // topRef: reference.top - point.top,
-    // leftRef: reference.left - reference.left
   }
 }
 const getBackground = (chip) => {
