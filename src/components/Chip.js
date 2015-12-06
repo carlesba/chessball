@@ -83,12 +83,12 @@ const Chip = React.createClass({
       .first()
       .subscribe((e) => {
         mousemove.dispose()
-        const movement = calculateTiles(this.state)
+        const {rows, cols} = calculateTiles(this.state)
+        if (rows === 0 && cols === 0) { return }
         const nextPosition = {
-          row: currentPosition.row + movement.rows,
-          col: currentPosition.col + movement.cols
+          row: currentPosition.row + rows,
+          col: currentPosition.col + cols
         }
-        console.log(movement)
         moveChip(chip.chipId, currentPosition, nextPosition)
       })
   },
