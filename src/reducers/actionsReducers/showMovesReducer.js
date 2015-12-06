@@ -1,26 +1,5 @@
-import {MAX_MOVE, BOARD_ROWS, BOARD_COLS} from '../utils/constants'
-import {isInBetween} from '../utils/position'
-const isTargetTile = (tile, {row, col}) => {
-  return tile.row === row && tile.col === col
-}
-
-// update chips in tiles when moving chips
-export const moveChipReducer = (tiles, action) => {
-  const {currentPosition, nextPosition, chipId} = action
-  return tiles.map((tile) => {
-    if (isTargetTile(tile, currentPosition)) {
-      return Object.assign({}, tile, {chipId: null})
-    } else if (isTargetTile(tile, nextPosition)) {
-      return Object.assign({}, tile, {chipId: chipId})
-    } else {
-      return tile
-    }
-  })
-}
-
-export const cleanHighlights = (tiles) => {
-  return tiles.map(tile => Object.assign({}, tile, {highlighted: null}))
-}
+import {MAX_MOVE, BOARD_ROWS, BOARD_COLS} from '../../utils/constants'
+import {isInBetween} from '../../utils/position'
 
 const aroundNumbers = (origin, positions = MAX_MOVE) => {
   let around = []
@@ -48,10 +27,6 @@ export const calculateMovePositionsFrom = (origin) => {
   return vertical.concat(horizontal, diagonal1, diagonal2)
 }
 
-export const calculateAllowedTiles = (tiles, currentPosition) => {
-  return tiles
-}
-
 export const positionsInnerBoard = ({row, col}) => {
   return isInBetween(row, 0, BOARD_ROWS - 1) && isInBetween(col, 0, BOARD_COLS - 1)
 }
@@ -61,7 +36,7 @@ const tileIsInList = (tile, list) => {
   return list.findIndex(el => el.row === row && el.col === col) >= 0
 }
 
-export const showMoves = (tiles, action) => {
+export const showMovesReducer = (tiles, action) => {
   const {currentPosition} = action
   const movePositions = calculateMovePositionsFrom(currentPosition).filter(positionsInnerBoard)
   return tiles.map((tile) => {

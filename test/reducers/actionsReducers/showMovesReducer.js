@@ -1,5 +1,5 @@
 import expect from 'expect'
-import {calculateMovePositionsFrom} from '../../src/reducers/boardReducerUtils'
+import {calculateMovePositionsFrom} from '../../../src/reducers/actionsReducers/showMovesReducer'
 
 describe('calculateMovePositionsFrom', () => {
   it('should return array of positions given one valid position', () => {
