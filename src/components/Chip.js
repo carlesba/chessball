@@ -1,6 +1,10 @@
 import React from 'react'
 import Rx from 'rx'
-import {getReferencePoints, calculateTiles} from '../utils/position'
+import {
+  getReferencePoints,
+  calculateTiles,
+  calculateNextPosition
+} from '../utils/position'
 import {getBackground} from '../utils/design'
 import {CHIP_WIDTH} from '../utils/constants'
 
@@ -46,12 +50,9 @@ const Chip = React.createClass({
       .first()
       .subscribe(() => {
         mousemove.dispose()
-        const {rows, cols} = calculateTiles(this.state)
-        if (rows === 0 && cols === 0) { return }
-        const nextPosition = {
-          row: currentPosition.row + rows,
-          col: currentPosition.col + cols
-        }
+        const movement = calculateTiles(this.state)
+        if (movement.rows === 0 && movement.cols === 0) { return }
+        const nextPosition = calculateNextPosition(currentPosition, movement)
         moveChip(chip.chipId, currentPosition, nextPosition)
       })
   },
