@@ -26,9 +26,9 @@ const boxes = {
 
 // 'rowcol': chipId
 const chips = {
-  '00': 0,
-  '01': 1,
-  '11': 2
+  '44': 0,
+  '42': 1,
+  '26': 2
 }
 
 function isBoxType (type, position) {
