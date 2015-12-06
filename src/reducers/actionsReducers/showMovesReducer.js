@@ -40,6 +40,7 @@ const isEmptyTile = (tile) => typeof tile.chipId !== 'number'
 // given a tile and a list of positions return whether a tile can receive a chip
 export const isAllowedTile = (tile, allowedPositions) => isEmptyTile(tile) && tileIsInList(tile, allowedPositions)
 
+// TODO: improve showMovesReducer to be able to read tiles
 // highlight tiles that can receive a chip
 export const showMovesReducer = (tiles, action) => {
   const {currentPosition} = action
