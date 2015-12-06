@@ -1,7 +1,7 @@
 import expect from 'expect'
-import {calculatePositionsFrom} from '../../src/reducers/boardReducerUtils'
+import {calculateMovePositionsFrom} from '../../src/reducers/boardReducerUtils'
 
-describe('calculatePositionsFrom', () => {
+describe('calculateMovePositionsFrom', () => {
   it('should return array of positions given one valid position', () => {
     const positions = [
       {row: 9, col: 10}, // horizontal
@@ -37,7 +37,7 @@ describe('calculatePositionsFrom', () => {
       {row: 13, col: 7},
       {row: 14, col: 6}
     ]
-    const result = calculatePositionsFrom({row: 10, col: 10})
+    const result = calculateMovePositionsFrom({row: 10, col: 10})
     expect(result.length).toBe(32)
     positions.forEach(position => expect(result).toInclude(position))
   })

@@ -9,13 +9,18 @@ import {getBackground} from '../utils/design'
 import {CHIP_WIDTH} from '../utils/constants'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { moveChip, showMoves } from '../actions/ChipsActions'
+import {
+  moveChip,
+  showMoves,
+  cleanHighlights
+} from '../actions/ChipsActions'
 
 const Chip = React.createClass({
   propTypes: {
     chip: React.PropTypes.object,
     moveChip: React.PropTypes.func,
     showMoves: React.PropTypes.func,
+    cleanHighlights: React.PropTypes.func,
     currentPosition: React.PropTypes.object
   },
   getInitialState () {
@@ -51,6 +56,7 @@ const Chip = React.createClass({
       moveChip,
       showMoves,
       currentPosition,
+      cleanHighlights,
       chip
     } = this.props
     showMoves(currentPosition)
@@ -63,7 +69,7 @@ const Chip = React.createClass({
         mousemove.dispose()
         const {translateX, translateY} = this.state
         const movement = calculateTiles(translateX, translateY)
-        if (movement.rows === 0 && movement.cols === 0) { return }
+        if (movement.rows === 0 && movement.cols === 0) { return cleanHighlights() }
         const nextPosition = calculateNextPosition(currentPosition, movement)
         moveChip(chip.chipId, currentPosition, nextPosition)
       })
@@ -82,7 +88,8 @@ const Chip = React.createClass({
 function dispatchToProps (dispatch) {
   return {
     moveChip: bindActionCreators(moveChip, dispatch),
-    showMoves: bindActionCreators(showMoves, dispatch)
+    showMoves: bindActionCreators(showMoves, dispatch),
+    cleanHighlights: bindActionCreators(cleanHighlights, dispatch)
   }
 }
 

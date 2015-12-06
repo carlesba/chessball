@@ -15,8 +15,8 @@ export const calculateTiles = (x, y) => {
   }
 }
 
-const isInBetween = (num, min, max) => {
-  if (min >= max) throw new Error('bad arguments')
+export const isInBetween = (num, min, max) => {
+  if (min >= max) throw new Error('invalid arguments')
   return min <= num && num <= max
 }
 

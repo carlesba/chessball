@@ -10,7 +10,7 @@ const getChipData = (chipId, chips) => {
   })
 }
 
-const renderInnerChip = (chipId, chips, row, col, moveChip) => {
+const renderInnerChip = (chipId, chips, row, col) => {
   const chipData = getChipData(chipId, chips)
   const currentPosition = {row, col}
   return chipData
@@ -18,12 +18,11 @@ const renderInnerChip = (chipId, chips, row, col, moveChip) => {
         key={chipId}
         chip={chipData}
         currentPosition={currentPosition}
-        moveChip={moveChip}
       />)
     : ''
 }
 
-const Tile = ({tile, chips, moveChip}) => {
+const Tile = ({tile, chips}) => {
   const {row, col, kind, chipId} = tile
   const style = {
     background: calcBackground(tile),
@@ -32,7 +31,7 @@ const Tile = ({tile, chips, moveChip}) => {
   const classes = classname('tile', {
     'tile--special': kind === 'special'
   })
-  const chip = renderInnerChip(chipId, chips, row, col, moveChip)
+  const chip = renderInnerChip(chipId, chips, row, col)
 
   return (
     <div

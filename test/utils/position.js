@@ -1,7 +1,8 @@
 /* globals describe, it */
 import expect from 'expect'
 import {
-  calculateTiles
+  calculateTiles,
+  isInBetween
 } from '../../src/utils/position'
 
 describe('calculateTiles', () => {
@@ -21,5 +22,23 @@ describe('calculateTiles', () => {
       const expectedOutput = { cols: 7, rows: 16 }
       expect(input).toEqual(expectedOutput, 'bad diagonal move')
     })
+  })
+})
+
+describe('isInBetween', () => {
+  it('should return true when value is in between', () => {
+    expect(isInBetween(2, -1, 4)).toBe(true)
+  })
+  it('should return true when value is in lower Edge', () => {
+    expect(isInBetween(2, 2, 4)).toBe(true)
+  })
+  it('should return true when value is in higher Edge', () => {
+    expect(isInBetween(4, 2, 4)).toBe(true)
+  })
+  it('should return false when value is out', () => {
+    expect(isInBetween(5, 0, 4)).toBe(false)
+  })
+  it('should throw expection when edges are wrong', () => {
+    expect(() => isInBetween(5, 5, 1)).toThrow(/invalid arguments/)
   })
 })
