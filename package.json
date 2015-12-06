@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "webpack-dev-server",
     "test": "./node_modules/.bin/mocha --recursive --compilers js:babel-core/register",
-    "dev:test": "./node_modules/.bin/mocha --recursive --compilers js:babel-core/register --watch --reporter mocha-osx-reporter"
+    "tester": "./node_modules/.bin/mocha --recursive --compilers js:babel-core/register --watch --reporter mocha-osx-reporter"
   },
   "devDependencies": {
     "babel-core": "^6.1.21",
@@ -42,5 +42,14 @@
   "bugs": {
     "url": "https://github.com/carlesba/chessball/issues"
   },
-  "homepage": "https://github.com/carlesba/chessball#readme"
+  "homepage": "https://github.com/carlesba/chessball#readme",
+  "standard": {
+    "parser": "babel-eslint",
+    "global": [
+      "it",
+      "describe",
+      "expect",
+      "spyOn"
+    ]
+  }
 }
