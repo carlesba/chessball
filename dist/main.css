@@ -41,5 +41,6 @@
 	position: absolute;
   top: 0;
   left: 0;
+  cursor: pointer;
 	transform: translate(5px,5px);
 }
