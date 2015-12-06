@@ -1,4 +1,4 @@
-const isTargetTile = (tile, {row, col}) => {
+export const isTargetTile = (tile, {row, col}) => {
   return tile.row === row && tile.col === col
 }
 
