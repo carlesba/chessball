@@ -36,11 +36,15 @@ const tileIsInList = (tile, list) => {
   return list.findIndex(el => el.row === row && el.col === col) >= 0
 }
 
+const isEmptyTile = (tile) => typeof tile.chipId !== 'number'
+
+const isAllowedTile = (tile, movePositions) => isEmptyTile(tile) && tileIsInList(tile, movePositions)
+
 export const showMovesReducer = (tiles, action) => {
   const {currentPosition} = action
   const movePositions = calculateMovePositionsFrom(currentPosition).filter(positionsInnerBoard)
   return tiles.map((tile) => {
-    if (tileIsInList(tile, movePositions)) {
+    if (isAllowedTile(tile, movePositions)) {
       return Object.assign({}, tile, {highlighted: true})
     } else {
       return tile
