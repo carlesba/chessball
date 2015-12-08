@@ -2,7 +2,7 @@ import { MOVE_CHIP, SHOW_MOVE, CLEAN_HIGHLIGHTS } from '../actions/ChipsActions'
 
 import {moveChipReducer} from './actionsReducers/moveChipReducer'
 import {cleanHighlightsReducer} from './actionsReducers/cleanHighlightsReducer'
-import {showMovesReducer} from './actionsReducers/showMovesReducer'
+import showMovesReducer from './actionsReducers/showMovesReducer'
 
 import boardDataBuilder from '../builders/boardDataBuilder'
 

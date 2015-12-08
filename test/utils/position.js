@@ -1,4 +1,3 @@
-/* globals describe, it */
 import expect from 'expect'
 import {
   calculateTiles,
@@ -6,7 +5,7 @@ import {
 } from '../../src/utils/position'
 
 describe('calculateTiles', () => {
-  describe('should count how many tiles are in some distance', () => {
+  describe('should count how many tiles are given pixels distance', () => {
     it('move vertical', () => {
       const input = calculateTiles(2, 549)
       const expectedOutput = { cols: 0, rows: 11 }

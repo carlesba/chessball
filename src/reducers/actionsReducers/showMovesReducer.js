@@ -16,7 +16,7 @@ const highlight = (tile) => {
 }
 
 // highlight tiles that can receive a chip
-export const showMovesReducer = (tiles, action) => {
+const showMovesReducer = (tiles, action) => {
   const {currentPosition} = action
   const movePositions = calculateAllowedPositions(tiles, currentPosition)
   return tiles.map((tile) => {
@@ -25,3 +25,4 @@ export const showMovesReducer = (tiles, action) => {
       : tile
   })
 }
+export default showMovesReducer
