@@ -61,36 +61,14 @@ describe('positionsInsideBoard', () => {
 })
 
 describe('getTilesInBetween', (origin, target, tiles) => {
-  const list = [
-    buildPoint(1, 1),
-    buildPoint(1, 2),
-    buildPoint(1, 3),
-    buildPoint(1, 4),
-    buildPoint(1, 5),
-    buildPoint(2, 1),
-    buildPoint(2, 2),
-    buildPoint(2, 3),
-    buildPoint(2, 4),
-    buildPoint(2, 5),
-    buildPoint(3, 1),
-    buildPoint(3, 2),
-    buildPoint(3, 3),
-    buildPoint(3, 4),
-    buildPoint(3, 5),
-    buildPoint(4, 1),
-    buildPoint(4, 2),
-    buildPoint(4, 3),
-    buildPoint(4, 4),
-    buildPoint(4, 5),
-    buildPoint(5, 1),
-    buildPoint(5, 2),
-    buildPoint(5, 3),
-    buildPoint(5, 4),
-    buildPoint(5, 5)
-  ]
+  const list = []
+  for (let i = 0; i < 10; i++) {
+    for (let j = 0; j < 10; j++) {
+      list.push(buildPoint(i, j))
+    }
+  }
   it('returns tiles between 2 positions when they\'re straight-aligned', () => {
     const result = getTilesInBetween(buildPoint(2, 2), buildPoint(4, 4), list)
-    console.log(result)
     expect(result.length).toBe(1)
     expect(result[0]).toEqual(buildPoint(3, 3))
   })
