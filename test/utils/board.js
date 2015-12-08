@@ -2,7 +2,8 @@ import expect from 'expect'
 import {
   calculateStraightDistance,
   isAllowedTile,
-  positionsInsideBoard
+  positionsInsideBoard,
+  tilesInBetween
 } from '../../src/utils/board'
 import {BOARD_ROWS, BOARD_COLS} from '../../src/utils/constants'
 
@@ -55,5 +56,21 @@ describe('positionsInsideBoard', () => {
     expect(positionsInsideBoard({row: 0, col: -10})).toBe(false)
     expect(positionsInsideBoard({row: BOARD_ROWS, col: 0})).toBe(false)
     expect(positionsInsideBoard({row: 0, col: BOARD_COLS})).toBe(false)
+  })
+})
+
+describe('tilesInBetween', (origin, target, tiles) => {
+  const list = [
+    buildPoint(2, 2),
+    buildPoint(2, 3),
+    buildPoint(3, 2),
+    buildPoint(3, 3),
+    buildPoint(4, 4),
+    buildPoint(5, 5)
+  ]
+  it('returns tiles between 2 positions when they\'re straight-aligned', () => {
+    const result = tilesInBetween(buildPoint(2, 2), buildPoint(4, 4), list)
+    expect(result.length).toBe(1)
+    expect(result[0]).toEqual(buildPoint(3, 3))
   })
 })

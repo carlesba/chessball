@@ -18,7 +18,7 @@ export const isAllowedTile = (tile, allowedPositions) => {
   return isEmptyTile(tile) && tileIsInList(tile, allowedPositions)
 }
 
-const isStraightDistance = (rowDistance, columnDistance) => {
+const isStraightAligned = (rowDistance, columnDistance) => {
   return (rowDistance !== columnDistance && rowDistance === 0) ||
   (rowDistance !== columnDistance && columnDistance === 0) ||
   (Math.abs(rowDistance) === Math.abs(columnDistance) && rowDistance !== 0)
@@ -28,7 +28,19 @@ const isStraightDistance = (rowDistance, columnDistance) => {
 export const calculateStraightDistance = (source, target) => {
   const rowDistance = source.row - target.row
   const columnDistance = source.col - target.col
-  return isStraightDistance(rowDistance, columnDistance)
+  return isStraightAligned(rowDistance, columnDistance)
     ? Math.max(Math.abs(rowDistance), Math.abs(columnDistance))
     : -1
+}
+
+export const tilesInBetween = (origin, target, tiles) => {
+  const maxDistanceAlowed = calculateStraightDistance(origin, target)
+  if (maxDistanceAlowed < 0) throw new Error('origin and target are not aligned')
+
+  return tiles.filter((tile) => {
+    const distOriginTile = calculateStraightDistance(origin, tile)
+    const distTargetTile = calculateStraightDistance(target, tile)
+    return isInBetween(distOriginTile, 0, maxDistanceAlowed) &&
+    isInBetween(distTargetTile, 0, maxDistanceAlowed)
+  })
 }

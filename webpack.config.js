@@ -7,7 +7,7 @@ module.exports = {
     colors: true
   },
   entry: [
-    'webpack-dev-server/client?http://localhost:8080',
+    'webpack-dev-server/client?http://localhost:8888',
     './src/index'
   ],
   output: {
