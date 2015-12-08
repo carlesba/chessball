@@ -1,7 +1,8 @@
 import {
   calculateStraightDistance,
   isAllowedTile,
-  positionsInsideBoard
+  positionsInsideBoard,
+  isObstacleFree
 } from './../../utils/board'
 
 const calculateAllowedPositions = (tiles, currentPosition) => {
@@ -9,6 +10,7 @@ const calculateAllowedPositions = (tiles, currentPosition) => {
     const distance = calculateStraightDistance(currentPosition, tile)
     return distance > 0 && distance < 4
   }).filter(positionsInsideBoard)
+  .filter(tile => isObstacleFree(tile, currentPosition, tiles))
 }
 
 const highlight = (tile) => {

@@ -33,14 +33,25 @@ export const calculateStraightDistance = (source, target) => {
     : -1
 }
 
-export const tilesInBetween = (origin, target, tiles) => {
+export const getTilesInBetween = (origin, target, tiles) => {
   const maxDistanceAlowed = calculateStraightDistance(origin, target)
   if (maxDistanceAlowed < 0) throw new Error('origin and target are not aligned')
 
   return tiles.filter((tile) => {
     const distOriginTile = calculateStraightDistance(origin, tile)
     const distTargetTile = calculateStraightDistance(target, tile)
-    return isInBetween(distOriginTile, 0, maxDistanceAlowed) &&
+    // TODO: Fix this test. If dist is not fine is not aligned
+    return distOriginTile >= 0 && distTargetTile >= 0 &&
+    isInBetween(distOriginTile, 0, maxDistanceAlowed) &&
     isInBetween(distTargetTile, 0, maxDistanceAlowed)
   })
+}
+
+export const isObstacleFree = (origin, target, tiles) => {
+  const obstacles = getTilesInBetween(origin, target, tiles)
+    .filter(tile => !isEmptyTile(tile))
+  console.log('origin', origin.row, origin.col)
+  // console.log('target', target.row, target.col)
+  // console.log('obstacles', obstacles.length, obstacles)
+  return obstacles.length === 0
 }

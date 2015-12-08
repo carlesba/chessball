@@ -3,7 +3,8 @@ import {
   calculateStraightDistance,
   isAllowedTile,
   positionsInsideBoard,
-  tilesInBetween
+  getTilesInBetween,
+  isObstacleFree
 } from '../../src/utils/board'
 import {BOARD_ROWS, BOARD_COLS} from '../../src/utils/constants'
 
@@ -59,18 +60,66 @@ describe('positionsInsideBoard', () => {
   })
 })
 
-describe('tilesInBetween', (origin, target, tiles) => {
+describe('getTilesInBetween', (origin, target, tiles) => {
   const list = [
+    buildPoint(1, 1),
+    buildPoint(1, 2),
+    buildPoint(1, 3),
+    buildPoint(1, 4),
+    buildPoint(1, 5),
+    buildPoint(2, 1),
     buildPoint(2, 2),
     buildPoint(2, 3),
+    buildPoint(2, 4),
+    buildPoint(2, 5),
+    buildPoint(3, 1),
     buildPoint(3, 2),
     buildPoint(3, 3),
+    buildPoint(3, 4),
+    buildPoint(3, 5),
+    buildPoint(4, 1),
+    buildPoint(4, 2),
+    buildPoint(4, 3),
     buildPoint(4, 4),
+    buildPoint(4, 5),
+    buildPoint(5, 1),
+    buildPoint(5, 2),
+    buildPoint(5, 3),
+    buildPoint(5, 4),
     buildPoint(5, 5)
   ]
   it('returns tiles between 2 positions when they\'re straight-aligned', () => {
-    const result = tilesInBetween(buildPoint(2, 2), buildPoint(4, 4), list)
+    const result = getTilesInBetween(buildPoint(2, 2), buildPoint(4, 4), list)
+    console.log(result)
     expect(result.length).toBe(1)
     expect(result[0]).toEqual(buildPoint(3, 3))
+  })
+})
+describe('isObstacleFree', () => {
+  const buildMockTiles = () => {
+    return [
+      buildPoint(1, 1),
+      buildPoint(2, 1),
+      buildPoint(3, 1),
+      buildPoint(4, 1),
+      buildPoint(5, 1),
+      buildPoint(6, 1)
+    ]
+  }
+  it('returns true when tiles between two positions have no chips', () => {
+    expect(isObstacleFree(
+      buildPoint(1, 1),
+      buildPoint(4, 1),
+      buildMockTiles()
+    )).toBe(true)
+  })
+  it('returns false when some of the tiles between two positions owns a chip', () => {
+    let mockChips = buildMockTiles()
+    mockChips[3].chipId = 'chipdId'
+    expect(isObstacleFree(
+      buildPoint(1, 1),
+      buildPoint(4, 1),
+      mockChips
+    )).toBe(true)
   })
 })
