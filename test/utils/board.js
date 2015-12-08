@@ -9,6 +9,15 @@ import {
 import {BOARD_ROWS, BOARD_COLS} from '../../src/utils/constants'
 
 const buildPoint = (row, col) => { return {row, col} }
+const buildMockList = (rows, cols) => {
+  let list = []
+  for (let i = 0; i < rows; i++) {
+    for (let j = 0; j < cols; j++) {
+      list.push(buildPoint(i, j))
+    }
+  }
+  return list
+}
 
 describe('calculateStraightDistance', () => {
   it('returns distance when a point is the diagonal from the other one', () => {
@@ -59,45 +68,40 @@ describe('positionsInsideBoard', () => {
     expect(positionsInsideBoard({row: 0, col: BOARD_COLS})).toBe(false)
   })
 })
-
 describe('getTilesInBetween', (origin, target, tiles) => {
-  const list = []
-  for (let i = 0; i < 10; i++) {
-    for (let j = 0; j < 10; j++) {
-      list.push(buildPoint(i, j))
-    }
-  }
   it('returns tiles between 2 positions when they\'re straight-aligned', () => {
+    const list = buildMockList(10, 10)
     const result = getTilesInBetween(buildPoint(2, 2), buildPoint(4, 4), list)
     expect(result.length).toBe(1)
     expect(result[0]).toEqual(buildPoint(3, 3))
   })
+  it('vertical case', () => {
+    const list = buildMockList(10, 10)
+    const result = getTilesInBetween(buildPoint(4, 2), buildPoint(7, 2), list)
+    expect(result.length).toBe(2)
+  })
+  it('horizontal case', () => {
+    const list = buildMockList(10, 10)
+    const result = getTilesInBetween(buildPoint(9, 1), buildPoint(9, 9), list)
+    expect(result.length).toBe(8)
+  })
 })
 describe('isObstacleFree', () => {
-  const buildMockTiles = () => {
-    return [
-      buildPoint(1, 1),
-      buildPoint(2, 1),
-      buildPoint(3, 1),
-      buildPoint(4, 1),
-      buildPoint(5, 1),
-      buildPoint(6, 1)
-    ]
-  }
   it('returns true when tiles between two positions have no chips', () => {
     expect(isObstacleFree(
       buildPoint(1, 1),
       buildPoint(4, 1),
-      buildMockTiles()
+      buildMockList(10, 10)
     )).toBe(true)
   })
   it('returns false when some of the tiles between two positions owns a chip', () => {
-    let mockChips = buildMockTiles()
+    // TODO: FIX THIS
+    let mockChips = buildMockList(10, 10)
     mockChips[3].chipId = 'chipdId'
     expect(isObstacleFree(
       buildPoint(1, 1),
       buildPoint(4, 1),
       mockChips
-    )).toBe(true)
+    )).toBe(false)
   })
 })
