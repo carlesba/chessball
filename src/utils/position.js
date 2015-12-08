@@ -20,7 +20,7 @@ export const isInBetween = (num, min, max) => {
   return min <= num && num <= max
 }
 
-export const calculateNextPosition = (currentPosition, movement) => {
+export const applyMoveToPosition = (currentPosition, movement) => {
   const nextRow = currentPosition.row + movement.rows
   const nextCol = currentPosition.col + movement.cols
   if (isInBetween(nextRow, 0, BOARD_ROWS) && isInBetween(nextCol, 0, BOARD_COLS)) {

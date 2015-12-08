@@ -3,7 +3,7 @@ import Rx from 'rx'
 import {
   getReferencePoints,
   calculateTiles,
-  calculateNextPosition
+  applyMoveToPosition
 } from '../utils/position'
 import {getBackground} from '../utils/design'
 import {CHIP_WIDTH} from '../utils/constants'
@@ -70,7 +70,7 @@ const Chip = React.createClass({
         const {translateX, translateY} = this.state
         const movement = calculateTiles(translateX, translateY)
         if (movement.rows === 0 && movement.cols === 0) { return cleanHighlights() }
-        const nextPosition = calculateNextPosition(currentPosition, movement)
+        const nextPosition = applyMoveToPosition(currentPosition, movement)
         moveChip(chip.chipId, currentPosition, nextPosition)
       })
   },

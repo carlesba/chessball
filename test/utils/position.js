@@ -2,7 +2,7 @@ import expect from 'expect'
 import {
   calculateTiles,
   isInBetween,
-  calculateNextPosition
+  applyMoveToPosition
 } from '../../src/utils/position'
 
 describe('calculateTiles', () => {
@@ -43,15 +43,15 @@ describe('isInBetween', () => {
   })
 })
 
-describe('calculateNextPosition', () => {
+describe('applyMoveToPosition', () => {
   const buildPoint = (row, col) => { return {row, col} }
   const buildMovement = (rows, cols) => { return {rows, cols} }
   it('should return a valid position when movement is right', () => {
-    expect(calculateNextPosition(buildPoint(3, 3), buildMovement(6, 6))).toEqual({row: 9, col: 9})
-    expect(calculateNextPosition(buildPoint(3, 3), buildMovement(6, -1))).toEqual({row: 9, col: 2})
-    expect(calculateNextPosition(buildPoint(7, 0), buildMovement(2, 0))).toEqual({row: 9, col: 0})
+    expect(applyMoveToPosition(buildPoint(3, 3), buildMovement(6, 6))).toEqual({row: 9, col: 9})
+    expect(applyMoveToPosition(buildPoint(3, 3), buildMovement(6, -1))).toEqual({row: 9, col: 2})
+    expect(applyMoveToPosition(buildPoint(7, 0), buildMovement(2, 0))).toEqual({row: 9, col: 0})
   })
   it('returns null when next position is outside boundaries', () => {
-    expect(calculateNextPosition(buildPoint(3, 3), buildMovement(-6, -6))).toBe(null)
+    expect(applyMoveToPosition(buildPoint(3, 3), buildMovement(-6, -6))).toBe(null)
   })
 })
