@@ -28,8 +28,6 @@ const defaultState = {
   highlights: []
 }
 
-// TODO: update this to be able to read other parts of the state from any reducer
-// export default combineReducers({ chips, board, highlights })
 const indexReducer = (state = defaultState, action) => {
   const {chips, highlights} = state
   switch (action.type) {

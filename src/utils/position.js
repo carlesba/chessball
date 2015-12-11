@@ -1,4 +1,4 @@
-import { TILE_WIDTH, MAX_MOVE } from './constants'
+import { TILE_WIDTH } from './constants'
 
 export const getReferencePoints = () => {
   const {top, left} = document.getElementById('game').getBoundingClientRect()
