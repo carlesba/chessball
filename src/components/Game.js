@@ -9,7 +9,7 @@ const Game = ({board, highlights, chips}) => {
     <div className='game' id='game'>
       <Board board={board} />
       <Highlights highlights={highlights} />
-      <Chips chips={chips} board={board} />
+      <Chips chips={chips} />
     </div>
   )
 }

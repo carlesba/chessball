@@ -34,21 +34,3 @@ export const pixelsToPosition = ({top, left}) => {
     col: Math.round(top / TILE_WIDTH)
   }
 }
-
-export const calculatePositionsFrom = ({row, col}) => {
-  let positions = []
-  for (let i = MAX_MOVE; i > 0; i--) {
-    // vertical
-    positions.push({row: row - i, col: col})
-    positions.push({row: row + i, col: col})
-    // horizontal
-    positions.push({row: row, col: col - i})
-    positions.push({row: row, col: col + i})
-    // diagonals
-    positions.push({row: row + i, col: col - i})
-    positions.push({row: row + i, col: col + i})
-    positions.push({row: row - i, col: col - i})
-    positions.push({row: row - i, col: col + i})
-  }
-  return positions
-}

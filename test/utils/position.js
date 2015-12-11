@@ -1,5 +1,9 @@
 import expect from 'expect'
 import {
+  buildPoint,
+  buildMovement
+} from '../testUtils'
+import {
   calculateTiles,
   applyMoveToPosition
 } from '../../src/utils/position'
@@ -25,8 +29,6 @@ describe('calculateTiles', () => {
 })
 
 describe('applyMoveToPosition', () => {
-  const buildPoint = (row, col) => { return {row, col} }
-  const buildMovement = (rows, cols) => { return {rows, cols} }
   it('should return a valid position when movement is right', () => {
     expect(applyMoveToPosition(buildPoint(3, 3), buildMovement(6, 6))).toEqual({row: 9, col: 9})
     expect(applyMoveToPosition(buildPoint(3, 3), buildMovement(6, -1))).toEqual({row: 9, col: 2})

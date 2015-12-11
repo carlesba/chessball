@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {PropTypes} from 'react'
 import Rx from 'rx'
 import {
   getReferencePoints,
@@ -18,12 +18,10 @@ import {
 
 const Chip = React.createClass({
   propTypes: {
-    board: React.PropTypes.array.isRequired,
-    chip: React.PropTypes.object.isRequired,
-    moveChip: React.PropTypes.func,
-    showMoves: React.PropTypes.func,
-    cleanHighlights: React.PropTypes.func,
-    currentPosition: React.PropTypes.object
+    chip: PropTypes.object.isRequired,
+    moveChip: PropTypes.func,
+    showMoves: PropTypes.func,
+    cleanHighlights: PropTypes.func
   },
   getInitialState () {
     return {

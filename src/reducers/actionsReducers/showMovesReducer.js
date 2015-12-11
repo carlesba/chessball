@@ -1,28 +1,55 @@
-import {
-  calculateStraightDistance,
-  isAllowedTile,
-  positionsInsideBoard,
-  isObstacleFree
-} from './../../utils/board'
-import {calculatePositionsFrom} from './../../utils/position'
+import {MAX_MOVE, BOARD_ROWS, BOARD_COLS} from '../../utils/constants'
 
-// const calculateAllowedPositions = (tiles, currentPosition) => {
-//   return tiles.filter((tile) => {
-//     const distance = calculateStraightDistance(currentPosition, tile)
-//     return distance > 0 && distance < 4
-//   }).filter(positionsInsideBoard)
-//   .filter(tile => isObstacleFree(tile, currentPosition, tiles))
-// }
+const positionInsideBoard = ({row, col}) => {
+  return row >= 0 && row < BOARD_ROWS && col >= 0 && col < BOARD_COLS
+}
 
-// const highlight = (tile) => {
-//   return Object.assign({}, tile, {highlighted: true})
-// }
+const positionIsAvailable = (position, chips) => {
+  return chips.findIndex(({row, col}) => {
+    return position.row === row && position.col === col
+  }) < 0
+}
 
-// highlight tiles that can receive a chip
-const showMovesReducer = ({tiles}, action) => {
-  const {chip} = action
-  const highlights = calculatePositionsFrom(chip)
-  return {tiles, highlights}
+const positionIsAllowed = (position, chips) => {
+  return positionIsAvailable(position, chips) && positionInsideBoard(position, chips)
+}
+
+const getAvailablePositions = (origin, increment, chips) => {
+  let positions = []
+  let current = {
+    row: origin.row,
+    col: origin.col
+  }
+  for (let i = 0, keep = true; i < MAX_MOVE && keep; i++) {
+    current = {
+      row: current.row + increment.row,
+      col: current.col + increment.col
+    }
+    if (positionIsAllowed(current, chips)) {
+      positions.push(current)
+    } else {
+      keep = false
+    }
+  }
+  return positions
+}
+
+const calculatePositionsFrom = (origin, chips) => {
+  let positions = []
+  return positions.concat(
+    getAvailablePositions(origin, {row: 1, col: 0}, chips),
+    getAvailablePositions(origin, {row: -1, col: 0}, chips),
+    getAvailablePositions(origin, {row: 0, col: 1}, chips),
+    getAvailablePositions(origin, {row: 0, col: -1}, chips),
+    getAvailablePositions(origin, {row: 1, col: 1}, chips),
+    getAvailablePositions(origin, {row: 1, col: -1}, chips),
+    getAvailablePositions(origin, {row: -1, col: -1}, chips),
+    getAvailablePositions(origin, {row: 1, col: -1}, chips)
+  )
+}
+
+const showMovesReducer = (chip, chips = []) => {
+  return calculatePositionsFrom(chip, chips)
 }
 
 export default showMovesReducer
