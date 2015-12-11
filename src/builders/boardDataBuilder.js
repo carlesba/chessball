@@ -25,11 +25,11 @@ const boxes = {
 }
 
 // 'rowcol': chipId
-const chips = {
-  '44': 0,
-  '42': 1,
-  '26': 2
-}
+// const chips = {
+//   '44': 0,
+//   '42': 1,
+//   '26': 2
+// }
 
 function isBoxType (type, position) {
   return boxes[type].indexOf(position) >= 0
@@ -70,18 +70,19 @@ function getField (row, col) {
   return (row < 7) ? 0 : 1
 }
 
-function getChip (row, col) {
-  const key = `${row}${col}`
-  return chips[key]
-}
+// function getChip (row, col) {
+//   const key = `${row}${col}`
+//   return chips[key]
+// }
 
 function buildSquare (row, col) {
   const kind = getType(row, col)
   const area = getArea(row, col)
   const field = getField(row, col)
-  const chipId = getChip(row, col)
+  // const chipId = getChip(row, col)
 
-  return {row, col, kind, area, field, chipId}
+  // return {row, col, kind, area, field, chipId}
+  return {row, col, kind, area, field}
 }
 
 function builder () {

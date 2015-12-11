@@ -1,11 +1,13 @@
 import React from 'react'
 import Board from './Board'
+import Chips from './Chips'
 import { connect } from 'react-redux'
 
 const Game = ({board, chips}) => {
   return (
     <div className='game' id='game'>
-      <Board board={board} chips={chips} />
+      <Board board={board} />
+      <Chips chips={chips} board={board} />
     </div>
   )
 }

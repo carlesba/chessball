@@ -1,7 +1,8 @@
 import { TILE_WIDTH, BOARD_COLS, BOARD_ROWS } from './constants'
 
-export const getReferencePoints = (domNode) => {
-  const {top, left} = domNode.parentNode.getBoundingClientRect()
+export const getReferencePoints = () => {
+  const {top, left} = document.getElementById('game').getBoundingClientRect()
+  // const {top, left} = domNode.getBoundingClientRect()
   return {
     topRef: top,
     leftRef: left
@@ -23,12 +24,18 @@ export const isInBetween = (num, min, max) => {
 export const applyMoveToPosition = (currentPosition, movement) => {
   const nextRow = currentPosition.row + movement.rows
   const nextCol = currentPosition.col + movement.cols
-  if (isInBetween(nextRow, 0, BOARD_ROWS) && isInBetween(nextCol, 0, BOARD_COLS)) {
-    return {
-      col: nextCol,
-      row: nextRow
-    }
-  } else {
-    return null
+  return {
+    col: nextCol,
+    row: nextRow
+  }
+}
+
+export const positionToPixels = ({col, row}) => {
+  return { top: row * TILE_WIDTH, left: col * TILE_WIDTH }
+}
+export const pixelsToPosition = ({top, left}) => {
+  return {
+    row: Math.round(left / TILE_WIDTH),
+    col: Math.round(top / TILE_WIDTH)
   }
 }

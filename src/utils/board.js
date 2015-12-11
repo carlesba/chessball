@@ -25,29 +25,29 @@ const isStraightAligned = (rowDistance, columnDistance) => {
 }
 
 // calculate distance between two positions when they're straight-aligned
-export const calculateStraightDistance = (source, target) => {
-  const rowDistance = source.row - target.row
-  const columnDistance = source.col - target.col
-  return isStraightAligned(rowDistance, columnDistance)
-    ? Math.max(Math.abs(rowDistance), Math.abs(columnDistance))
-    : -1
-}
+// export const calculateStraightDistance = (source, target) => {
+//   const rowDistance = source.row - target.row
+//   const columnDistance = source.col - target.col
+//   return isStraightAligned(rowDistance, columnDistance)
+//     ? Math.max(Math.abs(rowDistance), Math.abs(columnDistance))
+//     : -1
+// }
 
-export const getTilesInBetween = (origin, target, tiles) => {
-  const maxDistanceAlowed = calculateStraightDistance(origin, target)
-  if (maxDistanceAlowed < 0) throw new Error('origin and target are not aligned')
+// export const getTilesInBetween = (origin, target, tiles) => {
+//   const maxDistanceAlowed = calculateStraightDistance(origin, target)
+//   if (maxDistanceAlowed < 0) throw new Error('origin and target are not aligned')
 
-  return tiles.filter((tile) => {
-    const distOriginTile = calculateStraightDistance(origin, tile)
-    const distTargetTile = calculateStraightDistance(target, tile)
-    return distOriginTile >= 0 && distTargetTile >= 0 &&
-    isInBetween(distOriginTile, 0, maxDistanceAlowed - 1) &&
-    isInBetween(distTargetTile, 0, maxDistanceAlowed - 1)
-  })
-}
+//   return tiles.filter((tile) => {
+//     const distOriginTile = calculateStraightDistance(origin, tile)
+//     const distTargetTile = calculateStraightDistance(target, tile)
+//     return distOriginTile >= 0 && distTargetTile >= 0 &&
+//     isInBetween(distOriginTile, 0, maxDistanceAlowed - 1) &&
+//     isInBetween(distTargetTile, 0, maxDistanceAlowed - 1)
+//   })
+// }
 
-export const isObstacleFree = (origin, target, tiles) => {
-  const obstacles = getTilesInBetween(origin, target, tiles)
-    .filter(tile => !isEmptyTile(tile))
-  return obstacles.length === 0
-}
+// export const isObstacleFree = (origin, target, tiles) => {
+//   const obstacles = getTilesInBetween(origin, target, tiles)
+//     .filter(tile => !isEmptyTile(tile))
+//   return obstacles.length === 0
+// }

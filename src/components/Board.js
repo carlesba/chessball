@@ -4,7 +4,7 @@ import Tile from './Tile'
 const Board = ({board, chips}) => {
   return (
   <div className='board'>
-      {board.map((tile, i) => <Tile key={i} tile={tile} chips={chips} />)}
+      {board.map((tile, i) => <Tile key={i} tile={tile} />)}
     </div>
   )
 }
