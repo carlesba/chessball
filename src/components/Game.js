@@ -4,12 +4,12 @@ import Highlights from './Highlights'
 import Chips from './Chips'
 import { connect } from 'react-redux'
 
-const Game = ({board, chips}) => {
+const Game = ({board, highlights, chips}) => {
   return (
     <div className='game' id='game'>
-      <Board board={board.tiles} />
-      <Highlights highlights={board.highlights} />
-      <Chips chips={chips} board={board.tiles} />
+      <Board board={board} />
+      <Highlights highlights={highlights} />
+      <Chips chips={chips} board={board} />
     </div>
   )
 }
@@ -17,7 +17,8 @@ const Game = ({board, chips}) => {
 function mapStateToProps (state) {
   return {
     chips: state.chips,
-    board: state.board
+    board: state.board,
+    highlights: state.highlights
   }
 }
 
