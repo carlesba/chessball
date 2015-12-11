@@ -11,3 +11,8 @@ export const getBackground = (chip) => {
     : `${kind}${team}`
   return colors[colorKey]
 }
+// TODO: make getTunePosition reusable. now it's duplicated from boxColors.js
+const getTuneByPosition = (a, b) => {
+  return (row, col) => (row + col) % 2 ? a : b
+}
+export const getHighlightedTune = getTuneByPosition('#bfb52e', '#FC0')

@@ -1,8 +1,7 @@
-import { TILE_WIDTH, BOARD_COLS, BOARD_ROWS } from './constants'
+import { TILE_WIDTH, BOARD_COLS, BOARD_ROWS, MAX_MOVE } from './constants'
 
 export const getReferencePoints = () => {
   const {top, left} = document.getElementById('game').getBoundingClientRect()
-  // const {top, left} = domNode.getBoundingClientRect()
   return {
     topRef: top,
     leftRef: left
@@ -38,4 +37,21 @@ export const pixelsToPosition = ({top, left}) => {
     row: Math.round(left / TILE_WIDTH),
     col: Math.round(top / TILE_WIDTH)
   }
+}
+export const calculatePositionsFrom = ({row, col}) => {
+  let positions = []
+  for (let i = MAX_MOVE; i > 0; i--) {
+    // vertical
+    positions.push({row: row - i, col: col})
+    positions.push({row: row + i, col: col})
+    // horizontal
+    positions.push({row: row, col: col - i})
+    positions.push({row: row, col: col + i})
+    // diagonals
+    positions.push({row: row + i, col: col - i})
+    positions.push({row: row + i, col: col + i})
+    positions.push({row: row - i, col: col - i})
+    positions.push({row: row - i, col: col + i})
+  }
+  return positions
 }

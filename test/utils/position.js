@@ -51,7 +51,4 @@ describe('applyMoveToPosition', () => {
     expect(applyMoveToPosition(buildPoint(3, 3), buildMovement(6, -1))).toEqual({row: 9, col: 2})
     expect(applyMoveToPosition(buildPoint(7, 0), buildMovement(2, 0))).toEqual({row: 9, col: 0})
   })
-  it('returns null when next position is outside boundaries', () => {
-    expect(applyMoveToPosition(buildPoint(3, 3), buildMovement(-6, -6))).toBe(null)
-  })
 })

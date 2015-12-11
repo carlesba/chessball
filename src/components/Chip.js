@@ -44,8 +44,6 @@ const Chip = React.createClass({
       backgroundColor: getBackground(chip),
       transform: `translate(${translateX}px,${translateY}px) ${transformScale}`
     }, positionToPixels(chip))
-    console.log('chip', chip.chipId, chip.row, chip.col)
-    console.log('chip', chip.chipId, styles.top, styles.left)
     return (
     <div
       ref={(el) => this.el = el }
@@ -58,13 +56,12 @@ const Chip = React.createClass({
   translate () {
     const {
       moveChip,
-      // showMoves,
-      // currentPosition,
+      showMoves,
       cleanHighlights,
       chip
     } = this.props
     const origin = positionToPixels(chip)
-    // showMoves(currentPosition)
+    showMoves(chip)
     const mousemove = Rx.Observable.fromEvent(document, 'mousemove')
       .map((evt) => {
         const mouse = {x: evt.x, y: evt.y}
