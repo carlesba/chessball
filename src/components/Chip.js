@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react'
 import Rx from 'rx'
 import {
   getReferencePoints,
-  calculateTiles,
+  pixelsToMovement,
   applyMoveToPosition,
   positionToPixels
 } from '../utils/position'
@@ -26,8 +26,8 @@ const Chip = React.createClass({
   getInitialState () {
     return {
       moving: false,
-      translateX: 5,
-      translateY: 5
+      x: 5,
+      y: 5
     }
   },
   componentWillReceiveProps () {
@@ -35,12 +35,12 @@ const Chip = React.createClass({
   },
   render () {
     const {chip} = this.props
-    const {moving, translateX, translateY} = this.state
+    const {moving, x, y} = this.state
     const transformScale = moving ? ' scale(1.2)' : ''
     const styles = Object.assign({}, {
       zIndex: moving ? 10 : 0,
       backgroundColor: getBackground(chip),
-      transform: `translate(${translateX}px,${translateY}px) ${transformScale}`
+      transform: `translate(${x}px,${y}px) ${transformScale}`
     }, positionToPixels(chip))
     return (
     <div
@@ -71,8 +71,7 @@ const Chip = React.createClass({
       .first()
       .subscribe(() => {
         mousemove.dispose()
-        const {translateX, translateY} = this.state
-        const movement = calculateTiles(translateX, translateY)
+        const movement = pixelsToMovement(this.state)
         if (movement.rows === 0 && movement.cols === 0) {
           cleanHighlights()
           this.resetComponent()
@@ -92,8 +91,8 @@ const Chip = React.createClass({
     const {topRef, leftRef} = getReferencePoints(this.el)
     this.setState({
       moving: true,
-      translateX: x - leftRef - left - CHIP_WIDTH / 2,
-      translateY: y - topRef - top - CHIP_WIDTH / 2
+      x: x - leftRef - left - CHIP_WIDTH / 2,
+      y: y - topRef - top - CHIP_WIDTH / 2
     })
   }
 })

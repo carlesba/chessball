@@ -8,7 +8,7 @@ export const getReferencePoints = () => {
   }
 }
 
-export const calculateTiles = (x, y) => {
+export const pixelsToMovement = ({x, y}) => {
   return {
     cols: Math.round(x / TILE_WIDTH),
     rows: Math.round(y / TILE_WIDTH)
