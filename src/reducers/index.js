@@ -1,31 +1,21 @@
 import { MOVE_CHIP, SHOW_MOVE } from '../actions/ChipsActions'
-import { moveChipReducer } from './actionsReducers/moveChipReducer'
-import showMovesReducer from './actionsReducers/showMovesReducer'
 import boardDataBuilder from '../builders/boardDataBuilder'
+import defaultChips from '../builders/defaultChips'
+import moveChipReducer from './actionsReducers/moveChipReducer'
+import showMovesReducer from './actionsReducers/showMovesReducer'
+import gameReducer from './actionsReducers/gameReducer'
 
 const defaultBoardData = boardDataBuilder()
-const initialChips = [{
-  chipId: 0,
-  kind: 'ball',
-  row: 3,
-  col: 3
-}, {
-  chipId: 1,
-  kind: 'player',
-  team: 0,
-  row: 6,
-  col: 4
-}, {
-  chipId: 2,
-  kind: 'player',
-  team: 1,
-  row: 5,
-  col: 5
-}]
+const defaultGame = {
+  turnOwner: 0,
+  scoreTeamA: 0,
+  scoreTeamB: 0
+}
 const defaultState = {
   board: defaultBoardData,
-  chips: initialChips,
-  highlights: []
+  chips: defaultChips,
+  highlights: [],
+  game: defaultGame
 }
 
 const indexReducer = (state = defaultState, action) => {
@@ -34,7 +24,8 @@ const indexReducer = (state = defaultState, action) => {
     case MOVE_CHIP:
       return Object.assign({}, state, {
         highlights: [],
-        chips: moveChipReducer(chips, action, highlights)
+        chips: moveChipReducer(chips, action, highlights),
+        game: gameReducer(state, action)
       })
     case SHOW_MOVE:
       return Object.assign({}, state, {

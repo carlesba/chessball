@@ -4,7 +4,7 @@ const isAllowed = ({row, col}, list) => {
   }) >= 0
 }
 
-export const moveChipReducer = (chips, action, highlights = []) => {
+const moveChipReducer = (chips, action, highlights = []) => {
   const {nextPosition, chipId} = action
   if (isAllowed(nextPosition, highlights)) {
     return chips.map((chip) => {
@@ -18,3 +18,4 @@ export const moveChipReducer = (chips, action, highlights = []) => {
     return chips
   }
 }
+export default moveChipReducer
