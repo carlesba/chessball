@@ -78,6 +78,7 @@ const Chip = React.createClass({
         if (movement.rows === 0 && movement.cols === 0) { return cleanHighlights() }
         const nextPosition = applyMoveToPosition(chip, movement)
         moveChip(chip.chipId, nextPosition)
+        cleanHighlights()
       })
   },
   updatePosition ({origin, mouse}) {

@@ -8,6 +8,7 @@ const getStylesForHighlight = (tile) => {
     width: TILE_WIDTH,
     height: TILE_WIDTH,
     position: 'absolute',
+    opacity: 0.8,
     backgroundColor: getHighlightedTune(tile.row, tile.col)
   }, positionToPixels(tile))
 }
