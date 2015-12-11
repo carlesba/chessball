@@ -44,7 +44,7 @@ const calculatePositionsFrom = (origin, chips) => {
     getAvailablePositions(origin, {row: 1, col: 1}, chips),
     getAvailablePositions(origin, {row: 1, col: -1}, chips),
     getAvailablePositions(origin, {row: -1, col: -1}, chips),
-    getAvailablePositions(origin, {row: 1, col: -1}, chips)
+    getAvailablePositions(origin, {row: -1, col: 1}, chips)
   )
 }
 

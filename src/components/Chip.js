@@ -73,11 +73,18 @@ const Chip = React.createClass({
         mousemove.dispose()
         const {translateX, translateY} = this.state
         const movement = calculateTiles(translateX, translateY)
-        if (movement.rows === 0 && movement.cols === 0) { return cleanHighlights() }
-        const nextPosition = applyMoveToPosition(chip, movement)
-        moveChip(chip.chipId, nextPosition)
-        cleanHighlights()
+        if (movement.rows === 0 && movement.cols === 0) {
+          cleanHighlights()
+          this.resetComponent()
+        } else {
+          const nextPosition = applyMoveToPosition(chip, movement)
+          moveChip(chip.chipId, nextPosition)
+          this.resetComponent()
+        }
       })
+  },
+  resetComponent () {
+    this.setState(this.getInitialState())
   },
   updatePosition ({origin, mouse}) {
     const {x, y} = mouse

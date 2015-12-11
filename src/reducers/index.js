@@ -1,7 +1,3 @@
-// import { combineReducers } from 'redux'
-// import chipsReducer from './chipsReducer'
-// import boardReducer from './boardReducer'
-// import highlightsReducer from './highlightsReducer'
 import { MOVE_CHIP, SHOW_MOVE } from '../actions/ChipsActions'
 import { moveChipReducer } from './actionsReducers/moveChipReducer'
 import showMovesReducer from './actionsReducers/showMovesReducer'
@@ -35,12 +31,12 @@ const defaultState = {
 // TODO: update this to be able to read other parts of the state from any reducer
 // export default combineReducers({ chips, board, highlights })
 const indexReducer = (state = defaultState, action) => {
-  const {chips} = state
+  const {chips, highlights} = state
   switch (action.type) {
     case MOVE_CHIP:
       return Object.assign({}, state, {
         highlights: [],
-        chips: moveChipReducer(chips, action)
+        chips: moveChipReducer(chips, action, highlights)
       })
     case SHOW_MOVE:
       return Object.assign({}, state, {
