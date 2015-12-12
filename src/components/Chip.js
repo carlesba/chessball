@@ -9,7 +9,6 @@ import {
 import {getBackground} from '../utils/design'
 import {CHIP_WIDTH} from '../utils/constants'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import {
   moveChip,
   showMoves,
@@ -21,7 +20,8 @@ const Chip = React.createClass({
     chip: PropTypes.object.isRequired,
     moveChip: PropTypes.func,
     showMoves: PropTypes.func,
-    cleanHighlights: PropTypes.func
+    cleanHighlights: PropTypes.func,
+    game: PropTypes.object
   },
   getInitialState () {
     return {
@@ -52,12 +52,8 @@ const Chip = React.createClass({
     )
   },
   translate () {
-    const {
-      moveChip,
-      showMoves,
-      cleanHighlights,
-      chip
-    } = this.props
+    const { moveChip, showMoves, cleanHighlights, chip, game } = this.props
+    if (game.turnOwner !== chip.team) return
     const origin = positionToPixels(chip)
     showMoves(chip)
     const mousemove = Rx.Observable.fromEvent(document, 'mousemove')
@@ -97,12 +93,10 @@ const Chip = React.createClass({
   }
 })
 
-function dispatchToProps (dispatch) {
-  return {
-    moveChip: bindActionCreators(moveChip, dispatch),
-    showMoves: bindActionCreators(showMoves, dispatch),
-    cleanHighlights: bindActionCreators(cleanHighlights, dispatch)
-  }
-}
+function mapStateToProps ({game}) { return { game } }
 
-export default connect(null, dispatchToProps)(Chip)
+export default connect(mapStateToProps, {
+  moveChip,
+  showMoves,
+  cleanHighlights
+})(Chip)
