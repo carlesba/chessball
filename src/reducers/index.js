@@ -1,9 +1,9 @@
 import { MOVE_CHIP, SHOW_MOVE } from '../actions/ChipsActions'
 import boardDataBuilder from '../builders/boardDataBuilder'
 import defaultChips from '../builders/defaultChips'
-import moveChipReducer from './actionsReducers/moveChipReducer'
-import showMovesReducer from './actionsReducers/showMovesReducer'
-import gameReducer from './actionsReducers/gameReducer'
+import moveChipReducer from './moveChipReducer'
+import showMovesReducer from './showMovesReducer'
+import gameReducer from './gameReducer'
 
 const defaultBoardData = boardDataBuilder()
 const defaultGame = {

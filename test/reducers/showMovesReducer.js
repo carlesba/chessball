@@ -1,7 +1,6 @@
 import expect from 'expect'
-import {buildPoint} from '../../testUtils'
-// import buildBoard from '../../../src/builders/boxDataBuilder'
-import showMovesReducer from '../../../src/reducers/actionsReducers/showMovesReducer'
+import {buildPoint} from '../testUtils'
+import showMovesReducer from '../../src/reducers/showMovesReducer'
 
 describe('showMovesReducer', () => {
   it('should return all possible', () => {

@@ -1,4 +1,4 @@
-import { MOVE_CHIP } from '../../actions/ChipsActions'
+import { MOVE_CHIP } from '../actions/ChipsActions'
 
 const gameReducer = (state, action) => {
   const {game} = state

@@ -1,4 +1,4 @@
-import {MAX_MOVE, BOARD_ROWS, BOARD_COLS} from '../../utils/constants'
+import {MAX_MOVE, BOARD_ROWS, BOARD_COLS} from '../utils/constants'
 
 const positionInsideBoard = ({row, col}) => {
   return row >= 0 && row < BOARD_ROWS && col >= 0 && col < BOARD_COLS

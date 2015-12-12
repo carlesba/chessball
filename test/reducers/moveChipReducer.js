@@ -1,6 +1,6 @@
 import expect from 'expect'
-import { buildPoint } from '../../testUtils'
-import moveChipReducer from '../../../src/reducers/actionsReducers/moveChipReducer'
+import { buildPoint } from '../testUtils'
+import moveChipReducer from '../../src/reducers/moveChipReducer'
 
 const mockData = () => {
   const chips = [
