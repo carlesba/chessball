@@ -34,3 +34,8 @@ export const pixelsToPosition = ({top, left}) => {
     col: Math.round(top / TILE_WIDTH)
   }
 }
+export const calculatePositionDistance = (pos1, pos2) => {
+  const rowDistance = Math.abs(pos1.row) - Math.abs(pos2.row)
+  const colDistance = Math.abs(pos1.col) - Math.abs(pos2.col)
+  return Math.max(Math.abs(rowDistance), Math.abs(colDistance))
+}

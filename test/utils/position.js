@@ -7,6 +7,7 @@ import {
   pixelsToMovement,
   pixelsToPosition,
   positionToPixels,
+  calculatePositionDistance,
   applyMoveToPosition
 } from '../../src/utils/position'
 
@@ -61,5 +62,15 @@ describe('pixelsToPosition', () => {
     const input = {top: -3, left: -678}
     const output = {row: -14, col: 0}
     expect(pixelsToPosition(input)).toEqual(output)
+  })
+})
+
+describe('calculatePositionDistance', () => {
+  it('returns number of tiles between two positions', () => {
+    expect(calculatePositionDistance(buildPoint(1, 1), buildPoint(2, 2))).toBe(1)
+    expect(calculatePositionDistance(buildPoint(1, 1), buildPoint(0, 0))).toBe(1)
+    expect(calculatePositionDistance(buildPoint(5, 4), buildPoint(4, 4))).toBe(1)
+    expect(calculatePositionDistance(buildPoint(8, 2), buildPoint(2, 8))).toBe(6)
+    expect(calculatePositionDistance(buildPoint(3, 0), buildPoint(0, 0))).toBe(3)
   })
 })
