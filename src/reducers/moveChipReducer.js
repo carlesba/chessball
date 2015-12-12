@@ -1,27 +1,25 @@
-import {calculatePositionDistance} from '../utils/position'
-const isAllowed = ({row, col}, list) => {
+import { calculatePositionDistance } from '../utils/position'
+export const isPositionInList = ({row, col}, list) => {
   return list.findIndex((p) => {
     return p.row === row && p.col === col
   }) >= 0
 }
-
-// const isBallAround = (position, chips) => {
-//   const ball = chips.find(chip => chip.kind === 'ball')
-//   return calculatePositionDistance(position, ball) === 1
-// }
-const calculateTeamOwner = ([teamA, teamB]) => {
+export const calculateTeamOwner = ([teamA, teamB]) => {
   if (teamA < teamB) return 1
   else if (teamA > teamB) return 0
   else return null
 }
-const updateBall = (chips) => {
-  const ball = chips.find(chip => chip.kind === 'ball')
-  const ballOwners = chips.filter(chip => {
+export const calculateBallOwners = (chips, ball) => {
+  return chips.filter(chip => {
     return calculatePositionDistance(chip, ball) === 1 && chip !== ball
   }).reduce((teams, chip) => {
     teams[chip.team] += 1
     return teams
   }, [0, 0])
+}
+export const updateBallOwner = (chips) => {
+  const ball = chips.find(chip => chip.kind === 'ball')
+  const ballOwners = calculateBallOwners(chips, ball)
   let teamOwner = calculateTeamOwner(ballOwners)
   if (ball.team === teamOwner) {
     return chips
@@ -45,8 +43,8 @@ const updateChipsPositions = (chips, chipId, nextPosition) => {
 
 const moveChipReducer = (chips, action, highlights = []) => {
   const {nextPosition, chipId} = action
-  if (isAllowed(nextPosition, highlights)) {
-    return updateBall(updateChipsPositions(chips, chipId, nextPosition))
+  if (isPositionInList(nextPosition, highlights)) {
+    return updateBallOwner(updateChipsPositions(chips, chipId, nextPosition))
   } else {
     return chips
   }

@@ -1,5 +1,5 @@
 export default [
-  { chipId: 0, kind: 'ball', row: 7, col: 5 },
+  { chipId: 0, kind: 'ball', team: null, row: 7, col: 5 },
   { chipId: 1, kind: 'player', team: 0, row: 2, col: 5 },
   { chipId: 2, kind: 'player', team: 0, row: 4, col: 3 },
   { chipId: 3, kind: 'player', team: 0, row: 4, col: 7 },
