@@ -21,7 +21,7 @@ const Chip = React.createClass({
     moveChip: PropTypes.func,
     showMoves: PropTypes.func,
     cleanHighlights: PropTypes.func,
-    game: PropTypes.object
+    turnOwner: PropTypes.number
   },
   getInitialState () {
     return {
@@ -52,8 +52,8 @@ const Chip = React.createClass({
     )
   },
   translate () {
-    const { moveChip, showMoves, cleanHighlights, chip, game } = this.props
-    if (game.turnOwner !== chip.team) return
+    const { moveChip, showMoves, cleanHighlights, chip, turnOwner } = this.props
+    if (turnOwner !== chip.team) return
     const origin = positionToPixels(chip)
     showMoves(chip)
     const mousemove = Rx.Observable.fromEvent(document, 'mousemove')
@@ -93,7 +93,7 @@ const Chip = React.createClass({
   }
 })
 
-function mapStateToProps ({game}) { return { game } }
+function mapStateToProps ({game}) { return { turnOwner: game.turnOwner } }
 
 export default connect(mapStateToProps, {
   moveChip,

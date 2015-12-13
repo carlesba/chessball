@@ -4,6 +4,7 @@ import moveChipReducer, {
   isPositionInList,
   calculateTeamOwner,
   calculateBallOwners,
+  moveChips,
   updateBallOwner
 } from '../../src/reducers/moveChipReducer'
 
@@ -20,17 +21,17 @@ const mockData = () => {
   return { chips, action }
 }
 
-describe('moveChipReducer', () => {
+describe('moveChips', () => {
   it('should update position for the targetted chip', () => {
     const {chips, action} = mockData()
     const highlights = [buildPoint(4, 4)]
-    const result = moveChipReducer(chips, action, highlights)
+    const result = moveChips(chips, action, highlights)
     expect(result[0].row).toBe(4)
     expect(result[0].col).toBe(4)
   })
   it('should not modify chips when there\'re not highlights', () => {
     const {chips, action} = mockData()
-    expect(moveChipReducer(chips, action)).toEqual(chips)
+    expect(moveChips(chips, action)).toEqual(chips)
   })
 })
 

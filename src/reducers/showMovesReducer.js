@@ -34,7 +34,7 @@ const getAvailablePositions = (origin, increment, chips) => {
   return positions
 }
 
-const calculatePositionsFrom = (origin, chips) => {
+export const calculatePositionsFrom = (origin, chips = []) => {
   let positions = []
   return positions.concat(
     getAvailablePositions(origin, {row: 1, col: 0}, chips),
@@ -47,9 +47,22 @@ const calculatePositionsFrom = (origin, chips) => {
     getAvailablePositions(origin, {row: -1, col: 1}, chips)
   )
 }
-
-const showMovesReducer = (chip, chips = []) => {
-  return calculatePositionsFrom(chip, chips)
+// TODO: remove chip logic to show moves
+const shouldShowMoves = (chip, ballOwner, turnOwner) => {
+  const {team, kind} = chip
+  return team === turnOwner && (
+    ballOwner !== null && team === ballOwner && kind === 'ball' ||
+    ballOwner === null
+  )
+}
+// TODO: test this with game variants
+const showMovesReducer = (chip, chips = [], game) => {
+  const {ballOwner, turnOwner} = game
+  if (shouldShowMoves(chip, ballOwner, turnOwner)) {
+    return calculatePositionsFrom(chip, chips)
+  } else {
+    return []
+  }
 }
 
 export default showMovesReducer

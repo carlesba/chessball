@@ -1,4 +1,6 @@
 import { calculatePositionDistance } from '../utils/position'
+import gameReducer from './gameReducer'
+
 export const isPositionInList = ({row, col}, list) => {
   return list.findIndex((p) => {
     return p.row === row && p.col === col
@@ -41,7 +43,7 @@ const updateChipsPositions = (chips, chipId, nextPosition) => {
   })
 }
 
-const moveChipReducer = (chips, action, highlights = []) => {
+export const moveChips = (chips, action, highlights = []) => {
   const {nextPosition, chipId} = action
   if (isPositionInList(nextPosition, highlights)) {
     return updateBallOwner(updateChipsPositions(chips, chipId, nextPosition))
@@ -49,4 +51,21 @@ const moveChipReducer = (chips, action, highlights = []) => {
     return chips
   }
 }
+
+const moveChipReducer = (state, action) => {
+  const {chips, highlights, game} = state
+  const updatedChips = moveChips(chips, action, highlights)
+  if (updatedChips !== chips) {
+    return Object.assign({}, state, {
+      game: gameReducer(game, updatedChips),
+      highlights: [],
+      chips: updatedChips
+    })
+  } else {
+    return Object.assign({}, state, {highlights: []})
+  }
+  // const updatedChips = moveChips(chips, action, highlights)
+  // return Object.assign({})
+}
+
 export default moveChipReducer
