@@ -6,14 +6,18 @@ import {
   applyMoveToPosition,
   positionToPixels
 } from '../utils/position'
+import classname from 'classname'
 import {getBackground} from '../utils/design'
 import {CHIP_WIDTH} from '../utils/constants'
-import { connect } from 'react-redux'
-import {
-  moveChip,
-  showMoves,
-  cleanHighlights
-} from '../actions/ChipsActions'
+
+const getChipStyles = (chip, {moving, x, y}) => {
+  const transformScale = moving ? ' scale(1.2)' : ''
+  return Object.assign({}, {
+    zIndex: moving ? 10 : 0,
+    backgroundColor: getBackground(chip),
+    transform: `translate(${x}px,${y}px) ${transformScale}`
+  }, positionToPixels(chip))
+}
 
 const Chip = React.createClass({
   propTypes: {
@@ -21,7 +25,7 @@ const Chip = React.createClass({
     moveChip: PropTypes.func,
     showMoves: PropTypes.func,
     cleanHighlights: PropTypes.func,
-    turnOwner: PropTypes.number
+    game: PropTypes.object.isRequired
   },
   getInitialState () {
     return {
@@ -34,26 +38,23 @@ const Chip = React.createClass({
     this.setState(this.getInitialState())
   },
   render () {
-    const {chip} = this.props
-    const {moving, x, y} = this.state
-    const transformScale = moving ? ' scale(1.2)' : ''
-    const styles = Object.assign({}, {
-      zIndex: moving ? 10 : 0,
-      backgroundColor: getBackground(chip),
-      transform: `translate(${x}px,${y}px) ${transformScale}`
-    }, positionToPixels(chip))
+    const {chip, game} = this.props
+    const styles = getChipStyles(chip, this.state)
+    const classes = classname('chip', {
+      'chip--highlight': game.turnOwner === chip.team
+    })
     return (
     <div
       ref={(el) => this.el = el }
-      className='chip'
+      className={classes}
       style={styles}
       onMouseDown={this.translate}
     />
     )
   },
   translate () {
-    const { moveChip, showMoves, cleanHighlights, chip, turnOwner } = this.props
-    if (turnOwner !== chip.team) return
+    const { moveChip, showMoves, cleanHighlights, chip, game } = this.props
+    if (game.turnOwner !== chip.team) return
     const origin = positionToPixels(chip)
     showMoves(chip)
     const mousemove = Rx.Observable.fromEvent(document, 'mousemove')
@@ -93,10 +94,4 @@ const Chip = React.createClass({
   }
 })
 
-function mapStateToProps ({game}) { return { turnOwner: game.turnOwner } }
-
-export default connect(mapStateToProps, {
-  moveChip,
-  showMoves,
-  cleanHighlights
-})(Chip)
+export default Chip

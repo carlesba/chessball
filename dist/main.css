@@ -43,3 +43,6 @@
   cursor: pointer;
   transform: translate(5px,5px);
 }
+.chip--highlight {
+  box-shadow: 0px 0px 8px 4px aquamarine;
+}
