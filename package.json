@@ -4,7 +4,7 @@
   "description": "A football chess",
   "main": "webpack.config.js",
   "scripts": {
-    "dev": "webpack-dev-server",
+    "start": "webpack-dev-server",
     "test": "./node_modules/.bin/mocha --recursive --compilers js:babel-core/register",
     "tester": "./node_modules/.bin/mocha --recursive --compilers js:babel-core/register --watch --reporter mocha-osx-reporter"
   },
