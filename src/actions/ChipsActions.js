@@ -1,6 +1,6 @@
 export const MOVE_CHIP = 'MOVE_CHIP'
 export const SHOW_MOVES = 'SHOW_MOVES'
-export const CLEAN_HIGHLIGHTS = 'CLEAN_HIGHLIGHTS'
+export const CLEAN_MOVEMENTS = 'CLEAN_MOVEMENTS'
 
 export function moveChip (chipId, nextPosition) {
   return {
@@ -19,6 +19,6 @@ export function showMoves (chipId) {
 
 export function cleanMovements () {
   return {
-    type: CLEAN_HIGHLIGHTS
+    type: CLEAN_MOVEMENTS
   }
 }

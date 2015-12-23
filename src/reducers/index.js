@@ -1,4 +1,4 @@
-import { MOVE_CHIP, SHOW_MOVES } from '../actions/ChipsActions'
+import { MOVE_CHIP, SHOW_MOVES, CLEAN_MOVEMENTS } from '../actions/ChipsActions'
 import boardDataBuilder from '../builders/boardDataBuilder'
 import defaultChips from '../builders/defaultChips'
 import moveChipReducer from './moveChipReducer'
@@ -25,6 +25,8 @@ const indexReducer = (state = defaultState, action) => {
       return update(state, moveChipReducer(state, action))
     case SHOW_MOVES:
       return update(state, showMovesReducer(state, action))
+    case CLEAN_MOVEMENTS:
+      return update(state, {movements: []})
     default:
       return state
   }
