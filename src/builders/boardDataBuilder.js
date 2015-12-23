@@ -1,4 +1,3 @@
-// import fill from 'lodash.fill'
 import { BOARD_ROWS, BOARD_COLS } from '../utils/constants'
 
 const bigArea1 = {minRow: 1, minCol: 1, maxRow: 4, maxCol: 9}
@@ -23,13 +22,6 @@ const boxes = {
     '13-3', '13-4', '13-5', '13-6', '13-7'
   ]
 }
-
-// 'rowcol': chipId
-// const chips = {
-//   '44': 0,
-//   '42': 1,
-//   '26': 2
-// }
 
 function isBoxType (type, position) {
   return boxes[type].indexOf(position) >= 0
@@ -70,18 +62,11 @@ function getField (row, col) {
   return (row < 7) ? 0 : 1
 }
 
-// function getChip (row, col) {
-//   const key = `${row}${col}`
-//   return chips[key]
-// }
-
 function buildSquare (row, col) {
   const kind = getType(row, col)
   const area = getArea(row, col)
   const field = getField(row, col)
-  // const chipId = getChip(row, col)
 
-  // return {row, col, kind, area, field, chipId}
   return {row, col, kind, area, field}
 }
 
