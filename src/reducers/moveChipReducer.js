@@ -57,9 +57,9 @@ const updateGameTurn = (game, ballOwner) => {
   })
 }
 const moveChipReducer = (state, action) => {
-  const {chips, highlights, game} = state
+  const {chips, movements, game} = state
   const {nextPosition, chipId} = action
-  if (!isPositionInList(nextPosition, highlights)) return state
+  if (!isPositionInList(nextPosition, movements)) return state
   const updatedMovementChips = moveChip(chipId, nextPosition, chips)
   const ballOwner = calculateBallOwner(updatedMovementChips)
   const nextGame = updateGameTurn(game, ballOwner)
@@ -69,7 +69,7 @@ const moveChipReducer = (state, action) => {
   return update(state, {
     chips: nextChips,
     game: nextGame,
-    highlights: []
+    movements: []
   })
 }
 

@@ -15,4 +15,4 @@ export const getBackground = (chip) => {
 const getTuneByPosition = (a, b) => {
   return (row, col) => (row + col) % 2 ? a : b
 }
-export const getHighlightedTune = getTuneByPosition('#bfb52e', '#FC0')
+export const getMovementTune = getTuneByPosition('#bfb52e', '#FC0')

@@ -1,28 +1,28 @@
 import React from 'react'
 import Board from './Board'
-import Highlights from './Highlights'
+import Movements from './Movements'
 import Chips from './Chips'
 import Status from './Status'
 import { connect } from 'react-redux'
 import {
   moveChip,
   showMoves,
-  cleanHighlights
+  cleanMovements
 } from '../actions/ChipsActions'
 
-const Game = ({board, highlights, chips, game, moveChip, showMoves, cleanHighlights}) => {
+const Game = ({board, movements, chips, game, moveChip, showMoves, cleanMovements}) => {
   return (
     <div>
       <Status game={game} />
       <div className='game' id='game'>
         <Board board={board} />
-        <Highlights highlights={highlights} />
+        <Movements movements={movements} />
         <Chips
           chips={chips}
           game={game}
           moveChip={moveChip}
           showMoves={showMoves}
-          cleanHighlights={cleanHighlights}
+          cleanMovements={cleanMovements}
         />
       </div>
     </div>
@@ -33,7 +33,7 @@ function mapStateToProps (state) {
   return {
     chips: state.chips,
     board: state.board,
-    highlights: state.highlights,
+    movements: state.movements,
     game: state.game
   }
 }
@@ -41,5 +41,5 @@ function mapStateToProps (state) {
 export default connect(mapStateToProps, {
   moveChip,
   showMoves,
-  cleanHighlights
+  cleanMovements
 })(Game)

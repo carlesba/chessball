@@ -17,7 +17,7 @@ export function showMoves (chip) {
   }
 }
 
-export function cleanHighlights () {
+export function cleanMovements () {
   return {
     type: CLEAN_HIGHLIGHTS
   }

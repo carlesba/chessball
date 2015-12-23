@@ -1,7 +1,7 @@
 import React from 'react'
 import {TILE_WIDTH} from '../utils/constants'
 import {positionToPixels} from '../utils/position'
-import {getHighlightedTune} from '../utils/design'
+import {getMovementTune} from '../utils/design'
 
 const getStylesForHighlight = (tile) => {
   return Object.assign({
@@ -9,18 +9,18 @@ const getStylesForHighlight = (tile) => {
     height: TILE_WIDTH,
     position: 'absolute',
     opacity: 0.8,
-    backgroundColor: getHighlightedTune(tile.row, tile.col)
+    backgroundColor: getMovementTune(tile.row, tile.col)
   }, positionToPixels(tile))
 }
 
-const Highlights = ({highlights}) => {
+const Movements = ({movements}) => {
   return (
-    <div className='highlights'>
-      {highlights.map((tile, index) => {
+    <div className='movements'>
+      {movements.map((tile, index) => {
         const styles = getStylesForHighlight(tile)
         return <div
           key={index}
-          className='highlight'
+          className='movement'
           style={styles}
         />
       })}
@@ -28,4 +28,4 @@ const Highlights = ({highlights}) => {
   )
 }
 
-export default Highlights
+export default Movements

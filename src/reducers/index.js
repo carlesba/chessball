@@ -14,7 +14,7 @@ const defaultGame = {
 const defaultState = {
   board: defaultBoardData,
   chips: defaultChips,
-  highlights: [],
+  movements: [],
   game: defaultGame
 }
 
@@ -25,7 +25,7 @@ const indexReducer = (state = defaultState, action) => {
       return Object.assign({}, state, moveChipReducer(state, action))
     case SHOW_MOVES:
       return Object.assign({}, state, {
-        highlights: showMovesReducer(action.chip, chips, game)
+        movements: showMovesReducer(action.chip, chips, game)
       })
     default:
       return state

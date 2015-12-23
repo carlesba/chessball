@@ -24,7 +24,7 @@ const Chip = React.createClass({
     chip: PropTypes.object.isRequired,
     moveChip: PropTypes.func,
     showMoves: PropTypes.func,
-    cleanHighlights: PropTypes.func
+    cleanMovements: PropTypes.func
   },
   getInitialState () {
     return {
@@ -52,7 +52,7 @@ const Chip = React.createClass({
     )
   },
   translate () {
-    const { moveChip, showMoves, cleanHighlights, chip } = this.props
+    const { moveChip, showMoves, cleanMovements, chip } = this.props
     if (!chip.highlighted) return
     const origin = positionToPixels(chip)
     showMoves(chip)
@@ -69,7 +69,7 @@ const Chip = React.createClass({
         mousemove.dispose()
         const movement = pixelsToMovement(this.state)
         if (movement.rows === 0 && movement.cols === 0) {
-          cleanHighlights()
+          cleanMovements()
           this.resetComponent()
         } else {
           const nextPosition = applyMoveToPosition(chip, movement)
