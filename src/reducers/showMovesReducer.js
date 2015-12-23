@@ -1,4 +1,9 @@
-import {MAX_MOVE, BOARD_ROWS, BOARD_COLS} from '../utils/constants'
+import {
+  MAX_BALL_MOVE,
+  MAX_PLAYER_MOVE,
+  BOARD_ROWS,
+  BOARD_COLS
+} from '../utils/constants'
 
 const positionInsideBoard = ({row, col}) => {
   return row >= 0 && row < BOARD_ROWS && col >= 0 && col < BOARD_COLS
@@ -14,13 +19,16 @@ const positionIsAllowed = (position, chips) => {
   return positionIsAvailable(position, chips) && positionInsideBoard(position, chips)
 }
 
-const getAvailablePositions = (origin, increment, chips) => {
+const getAvailablePositions = (origin, increment, chips, isBall) => {
   let positions = []
+  const maxMovements = isBall
+    ? MAX_BALL_MOVE
+    : MAX_PLAYER_MOVE
   let current = {
     row: origin.row,
     col: origin.col
   }
-  for (let i = 0, keep = true; i < MAX_MOVE && keep; i++) {
+  for (let i = 0, keep = true; i < maxMovements && keep; i++) {
     current = {
       row: current.row + increment.row,
       col: current.col + increment.col
@@ -28,48 +36,32 @@ const getAvailablePositions = (origin, increment, chips) => {
     if (positionIsAllowed(current, chips)) {
       positions.push(current)
     } else {
-      keep = false
+      keep = isBall
     }
   }
   return positions
 }
 
-export const calculatePositionsFrom = (origin, chips = []) => {
+export const calculatePositionsFrom = (origin, chips = [], isBall) => {
   let positions = []
   return positions.concat(
-    getAvailablePositions(origin, {row: 1, col: 0}, chips),
-    getAvailablePositions(origin, {row: -1, col: 0}, chips),
-    getAvailablePositions(origin, {row: 0, col: 1}, chips),
-    getAvailablePositions(origin, {row: 0, col: -1}, chips),
-    getAvailablePositions(origin, {row: 1, col: 1}, chips),
-    getAvailablePositions(origin, {row: 1, col: -1}, chips),
-    getAvailablePositions(origin, {row: -1, col: -1}, chips),
-    getAvailablePositions(origin, {row: -1, col: 1}, chips)
+    getAvailablePositions(origin, {row: 1, col: 0}, chips, isBall),
+    getAvailablePositions(origin, {row: -1, col: 0}, chips, isBall),
+    getAvailablePositions(origin, {row: 0, col: 1}, chips, isBall),
+    getAvailablePositions(origin, {row: 0, col: -1}, chips, isBall),
+    getAvailablePositions(origin, {row: 1, col: 1}, chips, isBall),
+    getAvailablePositions(origin, {row: 1, col: -1}, chips, isBall),
+    getAvailablePositions(origin, {row: -1, col: -1}, chips, isBall),
+    getAvailablePositions(origin, {row: -1, col: 1}, chips, isBall)
   )
 }
-// TODO: remove chip logic to show moves
-const shouldShowMoves = (chip, ballOwner, turnOwner) => {
-  const {team, kind} = chip
-  return team === turnOwner && (
-    ballOwner !== null && team === ballOwner && kind === 'ball' ||
-    ballOwner === null
-  )
-}
-// TODO: test this with game variants
-// const showMovesReducer = (chip, chips = [], game) => {
-//   const {ballOwner, turnOwner} = game
-//   if (shouldShowMoves(chip, ballOwner, turnOwner)) {
-//     return calculatePositionsFrom(chip, chips)
-//   } else {
-//     return []
-//   }
-// }
 const showMovesReducer = (state, action) => {
-  const {chips, game} = state
-  const {chip} = action
-  const {ballOwner, turnOwner} = game
-  if (shouldShowMoves(chip, ballOwner, turnOwner)) {
-    return { movements: calculatePositionsFrom(chip, chips) }
+  const {chips} = state
+  const {chipId} = action
+  const chip = chips.find(chip => chip.chipId === chipId)
+  if (chip.highlighted) {
+    const isBall = chip.kind === 'ball'
+    return { movements: calculatePositionsFrom(chip, chips, isBall) }
   } else {
     return { movements: [] }
   }

@@ -55,7 +55,7 @@ const Chip = React.createClass({
     const { moveChip, showMoves, cleanMovements, chip } = this.props
     if (!chip.highlighted) return
     const origin = positionToPixels(chip)
-    showMoves(chip)
+    showMoves(chip.chipId)
     const mousemove = Rx.Observable.fromEvent(document, 'mousemove')
       .map((evt) => {
         const mouse = {x: evt.x, y: evt.y}

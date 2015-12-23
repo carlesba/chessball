@@ -10,10 +10,10 @@ export function moveChip (chipId, nextPosition) {
   }
 }
 
-export function showMoves (chip) {
+export function showMoves (chipId) {
   return {
     type: SHOW_MOVES,
-    chip
+    chipId
   }
 }
 
