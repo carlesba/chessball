@@ -74,7 +74,8 @@ function builder () {
   let board = []
   for (let row = 0; row < BOARD_ROWS; row++) {
     for (let col = 0; col < BOARD_COLS; col++) {
-      board.push(buildSquare(row, col))
+      if (!board[row]) board.push([])
+      board[row].push(buildSquare(row, col))
     }
   }
   return board

@@ -3,8 +3,8 @@ import Tile from './Tile'
 
 const Board = ({board}) => {
   return (
-  <div className='board'>
-      {board.map((tile, i) => <Tile key={i} tile={tile} />)}
+    <div className='board'>
+      {board.map(row => row.map((tile, i) => <Tile key={i} tile={tile} />))}
     </div>
   )
 }
