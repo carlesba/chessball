@@ -1,7 +1,7 @@
 import React from 'react'
 import Chip from './Chip'
 
-const Chips = ({chips, highlights, game, moveChip, showMoves, cleanHighlights}) => {
+const Chips = ({chips, moveChip, showMoves, cleanHighlights}) => {
   return (
     <div className='chips'>
       {chips.map((chip) => {
@@ -9,8 +9,6 @@ const Chips = ({chips, highlights, game, moveChip, showMoves, cleanHighlights}) 
           <Chip
             key={chip.chipId}
             chip={chip}
-            highlights={highlights}
-            game={game}
             moveChip={moveChip}
             showMoves={showMoves}
             cleanHighlights={cleanHighlights}

@@ -24,8 +24,7 @@ const Chip = React.createClass({
     chip: PropTypes.object.isRequired,
     moveChip: PropTypes.func,
     showMoves: PropTypes.func,
-    cleanHighlights: PropTypes.func,
-    game: PropTypes.object.isRequired
+    cleanHighlights: PropTypes.func
   },
   getInitialState () {
     return {
@@ -38,10 +37,10 @@ const Chip = React.createClass({
     this.setState(this.getInitialState())
   },
   render () {
-    const {chip, game} = this.props
+    const {chip} = this.props
     const styles = getChipStyles(chip, this.state)
     const classes = classname('chip', {
-      'chip--highlight': game.turnOwner === chip.team
+      'chip--highlight': chip.highlighted
     })
     return (
     <div
@@ -53,8 +52,8 @@ const Chip = React.createClass({
     )
   },
   translate () {
-    const { moveChip, showMoves, cleanHighlights, chip, game } = this.props
-    if (game.turnOwner !== chip.team) return
+    const { moveChip, showMoves, cleanHighlights, chip } = this.props
+    if (!chip.highlighted) return
     const origin = positionToPixels(chip)
     showMoves(chip)
     const mousemove = Rx.Observable.fromEvent(document, 'mousemove')
