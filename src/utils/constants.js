@@ -6,3 +6,5 @@ export const BOARD_COLS = 11
 
 export const MAX_BALL_MOVE = 4
 export const MAX_PLAYER_MOVE = 2
+
+export const MAX_BALL_PASSES = 4

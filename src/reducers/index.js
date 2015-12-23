@@ -1,4 +1,5 @@
 import { MOVE_CHIP, SHOW_MOVES, CLEAN_MOVEMENTS } from '../actions/ChipsActions'
+import {MAX_BALL_PASSES} from '../utils/constants'
 import boardDataBuilder from '../builders/boardDataBuilder'
 import defaultChips from '../builders/defaultChips'
 import moveChipReducer from './moveChipReducer'
@@ -10,7 +11,8 @@ const defaultGame = {
   turnOwner: 0,
   ballOwner: null,
   scoreTeamA: 0,
-  scoreTeamB: 0
+  scoreTeamB: 0,
+  ballPasses: MAX_BALL_PASSES
 }
 const defaultState = {
   board: defaultBoardData,

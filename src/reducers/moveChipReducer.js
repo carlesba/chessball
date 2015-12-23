@@ -1,5 +1,6 @@
 import { calculatePositionDistance } from '../utils/position'
 import {update} from '../utils/immutable'
+import {MAX_BALL_PASSES} from '../utils/constants'
 
 export const isPositionInList = ({row, col}, list) => {
   return list.findIndex((p) => {
@@ -47,13 +48,18 @@ const shouldFinishTurn = (ballOwner, formerBallOwner) => {
     (ballOwner === null)
   )
 }
-const updateGameTurn = (game, ballOwner) => {
+const updateGameState = (game, ballOwner) => {
   const turnOwner = shouldFinishTurn(ballOwner, game.ballOwner)
     ? (game.turnOwner + 1) % 2
     : game.turnOwner
+  const ballPasses = game.ballOwner === ballOwner
+    ? game.ballPasses - 1
+    : MAX_BALL_PASSES
+  console.log(':::ballPasses', ballPasses)
   return update(game, {
     ballOwner: ballOwner,
-    turnOwner: turnOwner
+    turnOwner: turnOwner,
+    ballPasses: ballPasses
   })
 }
 const moveChipReducer = (state, action) => {
@@ -62,7 +68,7 @@ const moveChipReducer = (state, action) => {
   if (!isPositionInList(nextPosition, movements)) return state
   const updatedMovementChips = moveChip(chipId, nextPosition, chips)
   const ballOwner = calculateBallOwner(updatedMovementChips)
-  const nextGame = updateGameTurn(game, ballOwner)
+  const nextGame = updateGameState(game, ballOwner)
   const nextChips = ballOwner === null
     ? highlightChips(updatedMovementChips, nextGame.turnOwner)
     : highlightBall(updatedMovementChips)
