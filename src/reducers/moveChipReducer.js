@@ -1,4 +1,4 @@
-import { calculatePositionDistance } from '../utils/position'
+import { calculatePositionOwner } from '../utils/position'
 import {update} from '../utils/immutable'
 import {MAX_BALL_PASSES} from '../utils/constants'
 
@@ -28,20 +28,6 @@ const highlightBall = (chips) => {
     else return update(chip, {highlighted: false})
   })
 }
-export const calculateBallOwner = (chips) => {
-  const ball = chips.find(chip => chip.kind === 'ball')
-  const teamsChips = chips
-    .filter(chip => {
-      return calculatePositionDistance(chip, ball) === 1 && chip !== ball
-    })
-    .reduce((teams, chip) => {
-      teams[chip.team] += 1
-      return teams
-    }, [0, 0])
-  if (teamsChips[0] > teamsChips[1]) return 0
-  else if (teamsChips[1] > teamsChips[0]) return 1
-  else return null
-}
 const shouldFinishTurn = (ballOwner, formerBallOwner) => {
   return (
     (ballOwner !== formerBallOwner && formerBallOwner !== null) ||
@@ -67,7 +53,8 @@ const moveChipReducer = (state, action) => {
   const {nextPosition, chipId} = action
   if (!isPositionInList(nextPosition, movements)) return state
   const updatedMovementChips = moveChip(chipId, nextPosition, chips)
-  const ballOwner = calculateBallOwner(updatedMovementChips)
+  const ball = updatedMovementChips.find(chip => chip.kind === 'ball')
+  const ballOwner = calculatePositionOwner(ball, updatedMovementChips)
   const nextGame = updateGameState(game, ballOwner)
   const nextChips = ballOwner === null
     ? highlightChips(updatedMovementChips, nextGame.turnOwner)

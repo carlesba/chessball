@@ -39,3 +39,17 @@ export const calculatePositionDistance = (pos1, pos2) => {
   const colDistance = Math.abs(pos1.col) - Math.abs(pos2.col)
   return Math.max(Math.abs(rowDistance), Math.abs(colDistance))
 }
+
+export const calculatePositionOwner = (position, chips) => {
+  const teamsChips = chips
+    .filter(chip => {
+      return calculatePositionDistance(chip, position) === 1 && chip.kind !== 'ball'
+    })
+    .reduce((teams, chip) => {
+      teams[chip.team] += 1
+      return teams
+    }, [0, 0])
+  if (teamsChips[0] > teamsChips[1]) return 0
+  else if (teamsChips[1] > teamsChips[0]) return 1
+  else return null
+}
