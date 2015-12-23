@@ -56,12 +56,22 @@ const shouldShowMoves = (chip, ballOwner, turnOwner) => {
   )
 }
 // TODO: test this with game variants
-const showMovesReducer = (chip, chips = [], game) => {
+// const showMovesReducer = (chip, chips = [], game) => {
+//   const {ballOwner, turnOwner} = game
+//   if (shouldShowMoves(chip, ballOwner, turnOwner)) {
+//     return calculatePositionsFrom(chip, chips)
+//   } else {
+//     return []
+//   }
+// }
+const showMovesReducer = (state, action) => {
+  const {chips, game} = state
+  const {chip} = action
   const {ballOwner, turnOwner} = game
   if (shouldShowMoves(chip, ballOwner, turnOwner)) {
-    return calculatePositionsFrom(chip, chips)
+    return { movements: calculatePositionsFrom(chip, chips) }
   } else {
-    return []
+    return { movements: [] }
   }
 }
 

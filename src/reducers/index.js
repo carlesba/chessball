@@ -3,6 +3,7 @@ import boardDataBuilder from '../builders/boardDataBuilder'
 import defaultChips from '../builders/defaultChips'
 import moveChipReducer from './moveChipReducer'
 import showMovesReducer from './showMovesReducer'
+import {update} from '../utils/immutable'
 
 const defaultBoardData = boardDataBuilder()
 const defaultGame = {
@@ -19,14 +20,11 @@ const defaultState = {
 }
 
 const indexReducer = (state = defaultState, action) => {
-  const {chips, game} = state
   switch (action.type) {
     case MOVE_CHIP:
-      return Object.assign({}, state, moveChipReducer(state, action))
+      return update(state, moveChipReducer(state, action))
     case SHOW_MOVES:
-      return Object.assign({}, state, {
-        movements: showMovesReducer(action.chip, chips, game)
-      })
+      return update(state, showMovesReducer(state, action))
     default:
       return state
   }
