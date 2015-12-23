@@ -43,8 +43,8 @@ export const calculateBallOwner = (chips) => {
 }
 const shouldFinishTurn = (ballOwner, formerBallOwner) => {
   return (
-    ballOwner !== formerBallOwner ||
-    (ballOwner === formerBallOwner && ballOwner === null)
+    (ballOwner !== formerBallOwner && formerBallOwner !== null) ||
+    (ballOwner === null)
   )
 }
 const updateGameTurn = (game, ballOwner) => {
@@ -64,8 +64,8 @@ const moveChipReducer = (state, action) => {
   const ballOwner = calculateBallOwner(updatedMovementChips)
   const nextGame = updateGameTurn(game, ballOwner)
   const nextChips = ballOwner === null
-  ? highlightChips(updatedMovementChips, nextGame.turnOwner)
-  : highlightBall(updatedMovementChips)
+    ? highlightChips(updatedMovementChips, nextGame.turnOwner)
+    : highlightBall(updatedMovementChips)
   return update(state, {
     chips: nextChips,
     game: nextGame,
