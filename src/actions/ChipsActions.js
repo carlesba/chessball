@@ -1,6 +1,7 @@
 export const MOVE_CHIP = 'MOVE_CHIP'
 export const SHOW_MOVES = 'SHOW_MOVES'
 export const CLEAN_MOVEMENTS = 'CLEAN_MOVEMENTS'
+export const KICK_OFF = 'KICK_OFF'
 
 export function moveChip (chipId, nextPosition) {
   return {
@@ -18,7 +19,9 @@ export function showMoves (chipId) {
 }
 
 export function cleanMovements () {
-  return {
-    type: CLEAN_MOVEMENTS
-  }
+  return { type: CLEAN_MOVEMENTS }
+}
+
+export function kickOff () {
+  return { type: KICK_OFF }
 }

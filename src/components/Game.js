@@ -3,17 +3,22 @@ import Board from './Board'
 import Movements from './Movements'
 import Chips from './Chips'
 import Status from './Status'
+import classname from 'classname'
 import { connect } from 'react-redux'
 import {
   moveChip,
   showMoves,
-  cleanMovements
+  cleanMovements,
+  kickOff
 } from '../actions/ChipsActions'
 
-const Game = ({board, movements, chips, game, moveChip, showMoves, cleanMovements}) => {
+const Game = ({board, movements, chips, game, moveChip, showMoves, cleanMovements, kickOff}) => {
+  const classes = classname({
+    'kickoff': game.isKickOff
+  })
   return (
-    <div>
-      <Status game={game} />
+    <div className={classes}>
+      <Status game={game} kickOff={kickOff} />
       <div className='game' id='game'>
         <Board board={board} />
         <Movements movements={movements} />
@@ -41,5 +46,6 @@ function mapStateToProps (state) {
 export default connect(mapStateToProps, {
   moveChip,
   showMoves,
-  cleanMovements
+  cleanMovements,
+  kickOff
 })(Game)

@@ -49,3 +49,6 @@
 .status {
   position: fixed;
 }
+.kickoff .chip {
+  transition: top 300ms ease-out, left 300ms ease-out;
+}

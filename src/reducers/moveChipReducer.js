@@ -46,7 +46,8 @@ const manageTurn = (game, ballOwner) => {
   return update(game, {
     ballOwner: ballOwner,
     turnOwner: turnOwner,
-    ballPasses: ballPasses
+    ballPasses: ballPasses,
+    isKickOff: false
   })
 }
 const scoreGoal = (ballTile, state) => {
