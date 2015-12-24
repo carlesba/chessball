@@ -2,7 +2,7 @@ import React from 'react'
 
 const Status = ({game, kickOff}) => {
   const {scoreTeamA, scoreTeamB, turnOwner} = game
-  const score = `${scoreTeamA}-${scoreTeamB}`
+  const score = `Reds ${scoreTeamA} - ${scoreTeamB} Blues`
   const playerTurn = turnOwner === 0
     ? 'Red\'s turn'
     : 'Blue\'s turn'
@@ -14,8 +14,8 @@ const Status = ({game, kickOff}) => {
   }
   return (
     <div className='status'>
-        <div>{score}</div>
-        <div>{playerTurn}</div>
+        <div className='status-score'>{score}</div>
+        <div className='status-turn'>{playerTurn}</div>
     </div>
   )
 }

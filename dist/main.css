@@ -48,6 +48,8 @@
 }
 .status {
   position: fixed;
+  font-size: 25px;
+  font-weight: bold;
 }
 .kickoff .chip {
   transition: top 300ms ease-out, left 300ms ease-out;
