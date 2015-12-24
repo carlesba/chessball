@@ -17,7 +17,7 @@ const moveChip = (chipId, nextPosition, chips) => {
     }
   })
 }
-const highlightChips = (chips, turnOwner) => {
+export const highlightChips = (chips, turnOwner) => {
   return chips.map(chip => (chip.team === turnOwner)
     ? highlight(chip)
     : unhighlight(chip)

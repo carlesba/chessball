@@ -9,6 +9,7 @@ import boardDataBuilder from '../builders/boardDataBuilder'
 import defaultChips from '../builders/defaultChips'
 import moveChipReducer from './moveChipReducer'
 import showMovesReducer from './showMovesReducer'
+import kickOffReducer from './kickOffReducer'
 import {update} from '../utils/immutable'
 
 const defaultBoardData = boardDataBuilder()
@@ -27,9 +28,6 @@ const defaultState = {
   movements: [],
   game: defaultGame
 }
-// TODO improve kickoff reducer
-// TODO update highlights when scoring a goal
-// TODO set animations when reseting positions
 const indexReducer = (state = defaultState, action) => {
   switch (action.type) {
     case MOVE_CHIP:
@@ -39,15 +37,7 @@ const indexReducer = (state = defaultState, action) => {
     case CLEAN_MOVEMENTS:
       return update(state, {movements: []})
     case KICK_OFF:
-      return update(state, {
-        chips: defaultChips,
-        game: update(state.game, {
-          isGoal: false,
-          isKickOff: true,
-          ballPasses: MAX_BALL_PASSES,
-          ballOwner: null
-        })
-      })
+      return update(state, kickOffReducer(state, defaultChips, defaultGame))
     default:
       return state
   }
