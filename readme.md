@@ -12,6 +12,10 @@ Install dependencies
 ```
 npm install;
 ```
+For playing
+```
+npm start // and visit http://localhost:8080
+```
 
 For development
 ```
