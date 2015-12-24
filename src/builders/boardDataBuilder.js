@@ -30,13 +30,7 @@ function isBoxType (type, position) {
 function getType (row, col) {
   const position = `${row}-${col}`
   const types = ['special', 'blank', 'goal']
-  let type
-  for (let i = 0; i < types.length && !type; i++) {
-    if (isBoxType(types[i], position)) {
-      type = types[i]
-    }
-  }
-  return type || 'game'
+  return types.find(t => isBoxType(t, position)) || 'game'
 }
 
 function isIn ({minRow, minCol, maxRow, maxCol}) {
@@ -63,11 +57,13 @@ function getField (row, col) {
 }
 
 function buildSquare (row, col) {
-  const kind = getType(row, col)
-  const area = getArea(row, col)
-  const field = getField(row, col)
-
-  return {row, col, kind, area, field}
+  return {
+    row,
+    col,
+    kind: getType(row, col),
+    area: getArea(row, col),
+    field: getField(row, col)
+  }
 }
 
 function builder () {
