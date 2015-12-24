@@ -42,7 +42,6 @@ const manageTurn = (game, ballOwner) => {
   const ballPasses = game.ballOwner === ballOwner
     ? game.ballPasses - 1
     : MAX_BALL_PASSES
-  console.log(':::ballPasses', ballPasses)
   return update(game, {
     ballOwner: ballOwner,
     turnOwner: turnOwner,
@@ -60,7 +59,6 @@ const scoreGoal = (ballTile, state) => {
   }))
 }
 const goalMovement = (ballTile, state, chips) => {
-  console.log('it\'s a GOAL!')
   return update(state, {
     movements: [],
     chips,
