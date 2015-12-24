@@ -1,5 +1,6 @@
 import { calculatePositionOwner } from '../utils/position'
-import {update} from '../utils/immutable'
+import { update } from '../utils/immutable'
+import { findBall, highlight, unhighlight } from '../utils/chips'
 import {MAX_BALL_PASSES} from '../utils/constants'
 
 export const isPositionInList = ({row, col}, list) => {
@@ -17,16 +18,16 @@ const moveChip = (chipId, nextPosition, chips) => {
   })
 }
 const highlightChips = (chips, turnOwner) => {
-  return chips.map(chip => {
-    if (chip.team === turnOwner) return update(chip, {highlighted: true})
-    else return update(chip, {highlighted: false})
-  })
+  return chips.map(chip => (chip.team === turnOwner)
+    ? highlight(chip)
+    : unhighlight(chip)
+  )
 }
 const highlightBall = (chips) => {
-  return chips.map(chip => {
-    if (chip.kind === 'ball') return update(chip, {highlighted: true})
-    else return update(chip, {highlighted: false})
-  })
+  return chips.map(chip => (chip.kind === 'ball')
+    ? highlight(chip)
+    : unhighlight(chip)
+  )
 }
 const shouldFinishTurn = (ballOwner, formerBallOwner) => {
   return (
@@ -34,7 +35,7 @@ const shouldFinishTurn = (ballOwner, formerBallOwner) => {
     (ballOwner === null)
   )
 }
-const updateGameState = (game, ballOwner) => {
+const manageTurn = (game, ballOwner) => {
   const turnOwner = shouldFinishTurn(ballOwner, game.ballOwner)
     ? (game.turnOwner + 1) % 2
     : game.turnOwner
@@ -48,22 +49,47 @@ const updateGameState = (game, ballOwner) => {
     ballPasses: ballPasses
   })
 }
-const moveChipReducer = (state, action) => {
-  const {chips, movements, game} = state
-  const {nextPosition, chipId} = action
-  if (!isPositionInList(nextPosition, movements)) return state
-  const updatedMovementChips = moveChip(chipId, nextPosition, chips)
-  const ball = updatedMovementChips.find(chip => chip.kind === 'ball')
-  const ballOwner = calculatePositionOwner(ball, updatedMovementChips)
-  const nextGame = updateGameState(game, ballOwner)
-  const nextChips = ballOwner === null
-    ? highlightChips(updatedMovementChips, nextGame.turnOwner)
-    : highlightBall(updatedMovementChips)
+const scoreGoal = (ballTile, state) => {
+  const {scoreTeamA, scoreTeamB, turnOwner} = state.game
+  return update(state, update(state.game, {
+    isGoal: true,
+    turnOwner: (turnOwner + 1) % 2,
+    scoreTeamA: ballTile.field === 1 ? scoreTeamA + 1 : scoreTeamA,
+    scoreTeamB: ballTile.field === 0 ? scoreTeamB + 1 : scoreTeamB
+  }))
+}
+const goalMovement = (ballTile, state, chips) => {
+  console.log('it\'s a GOAL!')
   return update(state, {
-    chips: nextChips,
+    movements: [],
+    chips,
+    game: scoreGoal(ballTile, state)
+  })
+}
+const regularMovement = (ball, chips, state) => {
+  const ballOwner = calculatePositionOwner(ball, chips)
+  const nextGame = manageTurn(state.game, ballOwner)
+  const highlightedChips = ballOwner === null
+    ? highlightChips(chips, nextGame.turnOwner)
+    : highlightBall(chips)
+  return update(state, {
+    chips: highlightedChips,
     game: nextGame,
     movements: []
   })
+}
+const moveChipReducer = (state, action) => {
+  const {chips, movements, board} = state
+  const {nextPosition, chipId} = action
+  if (!isPositionInList(nextPosition, movements)) {
+    return update(state, { movements: [] })
+  }
+  const movedChips = moveChip(chipId, nextPosition, chips)
+  const ball = findBall(movedChips)
+  const ballTile = board[ball.row][ball.col]
+  return ballTile.kind === 'goal'
+    ? goalMovement(ballTile, state, movedChips)
+    : regularMovement(ball, movedChips, state)
 }
 
 export default moveChipReducer
