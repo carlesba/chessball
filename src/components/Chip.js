@@ -6,16 +6,20 @@ import {
   applyMoveToPosition,
   positionToPixels
 } from '../utils/position'
-import classname from 'classname'
-import {getBackground} from '../utils/design'
+// import classname from 'classname'
+import {getChipBackground, getChipHighlight} from '../utils/design'
 import {CHIP_WIDTH} from '../utils/constants'
 
 const getChipStyles = (chip, {moving, x, y}) => {
   const transformScale = moving ? ' scale(1.2)' : ''
+  const shadow = chip.highlighted
+    ? `0px 0px 8px 4px ${getChipHighlight()}`
+    : 'initial'
   return Object.assign({}, {
     zIndex: moving ? 10 : 0,
-    backgroundColor: getBackground(chip),
-    transform: `translate(${x}px,${y}px) ${transformScale}`
+    backgroundColor: getChipBackground(chip),
+    transform: `translate(${x}px,${y}px) ${transformScale}`,
+    boxShadow: shadow
   }, positionToPixels(chip))
 }
 
@@ -39,13 +43,10 @@ const Chip = React.createClass({
   render () {
     const {chip} = this.props
     const styles = getChipStyles(chip, this.state)
-    const classes = classname('chip', {
-      'chip--highlight': chip.highlighted
-    })
     return (
     <div
       ref={(el) => this.el = el }
-      className={classes}
+      className='chip'
       style={styles}
       onMouseDown={this.translate}
     />

@@ -1,11 +1,11 @@
 import React from 'react'
 import classname from 'classname'
-import { calcBackground } from '../builders/boxColors'
+import { getTileBackground } from '../utils/design'
 
 const Tile = ({tile}) => {
   const {col, kind} = tile
   const style = {
-    background: calcBackground(tile),
+    background: getTileBackground(tile),
     clear: col === 0 ? 'left' : 'none'
   }
   const classes = classname('tile', {
