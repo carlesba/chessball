@@ -18,7 +18,6 @@
     "expect": "^1.13.0",
     "mocha": "^2.3.4",
     "mocha-osx-reporter": "^0.1.2",
-    "redux": "^3.0.4",
     "standard": "^5.4.1",
     "webpack": "^1.12.6",
     "webpack-dev-server": "^1.12.1"
@@ -26,12 +25,11 @@
   "author": "@carlesba",
   "license": "Apache-2.0",
   "dependencies": {
+    "redux": "^3.0.4",
     "classname": "0.0.0",
-    "flux": "^2.1.1",
     "react": "^0.14.2",
     "react-dom": "^0.14.2",
-    "react-redux": "^4.0.0",
-    "rx": "^4.0.7"
+    "react-redux": "^4.0.0"
   },
   "repository": {
     "type": "git",

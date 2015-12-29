@@ -1,12 +1,11 @@
 import React, {PropTypes} from 'react'
-import Rx from 'rx'
 import {
   getReferencePoints,
   pixelsToMovement,
   applyMoveToPosition,
   positionToPixels
 } from '../utils/position'
-// import classname from 'classname'
+import {observe, once} from '../utils/events'
 import {getChipBackground, getChipHighlight} from '../utils/design'
 import {CHIP_WIDTH} from '../utils/constants'
 
@@ -48,36 +47,32 @@ const Chip = React.createClass({
       ref={(el) => this.el = el }
       className='chip'
       style={styles}
-      onMouseDown={this.translate}
+      onMouseDown={this.bindMouse}
     />
     )
   },
-  translate () {
+  bindMouse () {
     const { moveChip, showMoves, cleanMovements, chip } = this.props
     if (!chip.highlighted) return
     const origin = positionToPixels(chip)
     showMoves(chip.chipId)
-    const mousemove = Rx.Observable.fromEvent(document, 'mousemove')
-      .map((evt) => {
-        const mouse = {x: evt.x, y: evt.y}
-        return {origin, mouse}
-      })
-      .subscribe(this.updatePosition)
+    const mousemoveDispose = observe(document, 'mousemove', (evt) => {
+      const mouse = {x: evt.x, y: evt.y}
+      this.updatePosition({origin, mouse})
+    })
 
-    Rx.Observable.fromEvent(document, 'mouseup')
-      .first()
-      .subscribe(() => {
-        mousemove.dispose()
-        const movement = pixelsToMovement(this.state)
-        if (movement.rows === 0 && movement.cols === 0) {
-          cleanMovements()
-          this.resetComponent()
-        } else {
-          const nextPosition = applyMoveToPosition(chip, movement)
-          moveChip(chip.chipId, nextPosition)
-          this.resetComponent()
-        }
-      })
+    once(document, 'mouseup', () => {
+      mousemoveDispose()
+      const movement = pixelsToMovement(this.state)
+      if (movement.rows === 0 && movement.cols === 0) {
+        cleanMovements()
+        this.resetComponent()
+      } else {
+        const nextPosition = applyMoveToPosition(chip, movement)
+        moveChip(chip.chipId, nextPosition)
+        this.resetComponent()
+      }
+    })
   },
   resetComponent () {
     this.setState(this.getInitialState())
