@@ -41,7 +41,7 @@ const goalMovement = (ballTile, state, chips) => {
 }
 const regularMovement = (ball, chips, state) => {
   const ballOwner = calculatePositionOwner(ball, chips)
-  const nextGame = manageTurn(state.game, ballOwner)
+  const nextGame = changeRegularTurn(state.game, ballOwner)
   const highlightedChips = ballOwner === null
     ? highlightChips(chips, nextGame.turnOwner)
     : highlightBall(chips)
@@ -63,9 +63,9 @@ const highlightBall = (chips) => {
     : unhighlight(chip)
   )
 }
-const manageTurn = (game, ballOwner) => {
+const changeRegularTurn = (game, ballOwner) => {
   const turnOwner = shouldFinishTurn(ballOwner, game.ballOwner)
-    ? (game.turnOwner + 1) % 2
+    ? changeTurnOwner(game.turnOwner)
     : game.turnOwner
   const ballPasses = game.ballOwner === ballOwner
     ? game.ballPasses - 1
@@ -83,11 +83,13 @@ const shouldFinishTurn = (ballOwner, formerBallOwner) => {
     (ballOwner === null)
   )
 }
+const changeTurnOwner = (turnOwner) => (turnOwner + 1) % 2
+
 const scoreGoal = (ballTile, state) => {
-  const {scoreTeamA, scoreTeamB, turnOwner} = state.game
+  const {scoreTeamA, scoreTeamB} = state.game
   return update(state, update(state.game, {
     isGoal: true,
-    turnOwner: (turnOwner + 1) % 2,
+    turnOwner: ballTile.field,
     scoreTeamA: ballTile.field === 1 ? scoreTeamA + 1 : scoreTeamA,
     scoreTeamB: ballTile.field === 0 ? scoreTeamB + 1 : scoreTeamB
   }))
