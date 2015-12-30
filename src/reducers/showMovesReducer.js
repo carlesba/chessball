@@ -25,21 +25,22 @@ const getPositionFilterer = (isBall, ballPasses, board, chips) => {
 
 const neutralPositionFilterer = (board, chips) => (position, stopLooking) => {
   if (
-    isAllowedForBallOnBoard(position, board) &&
-    isChipFree(position, chips) &&
-    isNeutral(position, chips)
+    !isAllowedForBallOnBoard(position, board) ||
+    isOwnedByGoalKeeper(position, chips)
   ) {
-    return true
+    return stopLooking()
   }
+  if (isChipFree(position, chips) && isNeutral(position, chips)) return true
   return false
 }
 const ballPositionFilterer = (board, chips) => (position, stopLooking) => {
   if (
-    isAllowedForBallOnBoard(position, board) &&
-    isChipFree(position, chips)
+    !isAllowedForBallOnBoard(position, board) ||
+    isOwnedByGoalKeeper(position, chips)
   ) {
-    return true
+    return stopLooking()
   }
+  if (isChipFree(position, chips)) return true
   return false
 }
 
@@ -50,8 +51,7 @@ const chipPositionFilterer = (board, chips) => (position, stopLooking) => {
   ) {
     return true
   }
-  stopLooking()
-  return false
+  return stopLooking()
 }
 
 const isAllowedForChipsOnBoard = ({row, col}, board) => {
@@ -74,6 +74,14 @@ const isChipFree = (position, chips) => {
 
 const isNeutral = (position, chips) => {
   return calculatePositionOwner(position, chips) === null
+}
+
+const isOwnedByGoalKeeper = (position, chips) => {
+  return chips.find(({row, col, isGoalKeeper}) => {
+    return isGoalKeeper &&
+      position.row === row &&
+      Math.abs(position.col - col) <= 1
+  })
 }
 
 const incrementals = [
