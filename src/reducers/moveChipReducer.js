@@ -3,6 +3,21 @@ import { update } from '../utils/immutable'
 import { findBall, highlight, unhighlight } from '../utils/chips'
 import {MAX_BALL_PASSES} from '../utils/constants'
 
+const moveChipReducer = (state, action) => {
+  const {chips, movements, board} = state
+  const {nextPosition, chipId} = action
+  if (!isPositionInList(nextPosition, movements)) {
+    return update(state, { movements: [] })
+  }
+  const movedChips = moveChip(chipId, nextPosition, chips)
+  const ball = findBall(movedChips)
+  const ballTile = board[ball.row][ball.col]
+  return ballTile.kind === 'goal'
+    ? goalMovement(ballTile, state, movedChips)
+    : regularMovement(ball, movedChips, state)
+}
+export default moveChipReducer
+
 export const isPositionInList = ({row, col}, list) => {
   return list.findIndex((p) => {
     return p.row === row && p.col === col
@@ -16,47 +31,6 @@ const moveChip = (chipId, nextPosition, chips) => {
       return chip
     }
   })
-}
-export const highlightChips = (chips, turnOwner) => {
-  return chips.map(chip => (chip.team === turnOwner)
-    ? highlight(chip)
-    : unhighlight(chip)
-  )
-}
-const highlightBall = (chips) => {
-  return chips.map(chip => (chip.kind === 'ball')
-    ? highlight(chip)
-    : unhighlight(chip)
-  )
-}
-const shouldFinishTurn = (ballOwner, formerBallOwner) => {
-  return (
-    (ballOwner !== formerBallOwner && formerBallOwner !== null) ||
-    (ballOwner === null)
-  )
-}
-const manageTurn = (game, ballOwner) => {
-  const turnOwner = shouldFinishTurn(ballOwner, game.ballOwner)
-    ? (game.turnOwner + 1) % 2
-    : game.turnOwner
-  const ballPasses = game.ballOwner === ballOwner
-    ? game.ballPasses - 1
-    : MAX_BALL_PASSES
-  return update(game, {
-    ballOwner: ballOwner,
-    turnOwner: turnOwner,
-    ballPasses: ballPasses,
-    isKickOff: false
-  })
-}
-const scoreGoal = (ballTile, state) => {
-  const {scoreTeamA, scoreTeamB, turnOwner} = state.game
-  return update(state, update(state.game, {
-    isGoal: true,
-    turnOwner: (turnOwner + 1) % 2,
-    scoreTeamA: ballTile.field === 1 ? scoreTeamA + 1 : scoreTeamA,
-    scoreTeamB: ballTile.field === 0 ? scoreTeamB + 1 : scoreTeamB
-  }))
 }
 const goalMovement = (ballTile, state, chips) => {
   return update(state, {
@@ -77,18 +51,44 @@ const regularMovement = (ball, chips, state) => {
     movements: []
   })
 }
-const moveChipReducer = (state, action) => {
-  const {chips, movements, board} = state
-  const {nextPosition, chipId} = action
-  if (!isPositionInList(nextPosition, movements)) {
-    return update(state, { movements: [] })
-  }
-  const movedChips = moveChip(chipId, nextPosition, chips)
-  const ball = findBall(movedChips)
-  const ballTile = board[ball.row][ball.col]
-  return ballTile.kind === 'goal'
-    ? goalMovement(ballTile, state, movedChips)
-    : regularMovement(ball, movedChips, state)
+export const highlightChips = (chips, turnOwner) => {
+  return chips.map(chip => (chip.team === turnOwner)
+    ? highlight(chip)
+    : unhighlight(chip)
+  )
 }
-
-export default moveChipReducer
+const highlightBall = (chips) => {
+  return chips.map(chip => (chip.kind === 'ball')
+    ? highlight(chip)
+    : unhighlight(chip)
+  )
+}
+const manageTurn = (game, ballOwner) => {
+  const turnOwner = shouldFinishTurn(ballOwner, game.ballOwner)
+    ? (game.turnOwner + 1) % 2
+    : game.turnOwner
+  const ballPasses = game.ballOwner === ballOwner
+    ? game.ballPasses - 1
+    : MAX_BALL_PASSES
+  return update(game, {
+    ballOwner: ballOwner,
+    turnOwner: turnOwner,
+    ballPasses: ballPasses,
+    isKickOff: false
+  })
+}
+const shouldFinishTurn = (ballOwner, formerBallOwner) => {
+  return (
+    (ballOwner !== formerBallOwner && formerBallOwner !== null) ||
+    (ballOwner === null)
+  )
+}
+const scoreGoal = (ballTile, state) => {
+  const {scoreTeamA, scoreTeamB, turnOwner} = state.game
+  return update(state, update(state.game, {
+    isGoal: true,
+    turnOwner: (turnOwner + 1) % 2,
+    scoreTeamA: ballTile.field === 1 ? scoreTeamA + 1 : scoreTeamA,
+    scoreTeamB: ballTile.field === 0 ? scoreTeamB + 1 : scoreTeamB
+  }))
+}
