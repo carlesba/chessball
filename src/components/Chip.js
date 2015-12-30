@@ -13,7 +13,6 @@ import {CHIP_WIDTH} from '../utils/constants'
 const getChipStyles = (chip, {moving, x, y}) => {
   const transformScale = moving ? ' scale(1.2)' : ''
   return update({
-    zIndex: moving ? 10 : 0,
     transform: `translate(${x}px,${y}px) ${transformScale}`
   }, positionToPixels(chip))
 }
@@ -37,6 +36,7 @@ const Chip = React.createClass({
     <div
       ref={(el) => this.el = el }
       className={classname('chip', {
+        'chip--movement': this.state.moving,
         'chip--ball': chip.kind === 'ball',
         'chip--team-a': chip.kind === 'player' && chip.team === 0,
         'chip--team-b': chip.kind === 'player' && chip.team === 1,
@@ -51,6 +51,7 @@ const Chip = React.createClass({
   bindMouseMovements () {
     const { moveChip, showMoves, cleanMovements, chip } = this.props
     if (!chip.highlighted) return
+
     const origin = positionToPixels(chip)
     showMoves(chip.chipId)
 
