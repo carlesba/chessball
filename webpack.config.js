@@ -29,7 +29,13 @@ module.exports = {
         test: /\.js/,
         exclude: /node_modules/,
         loader: 'babel-loader'
+      }, {
+        test: /\.sass$/,
+        loaders: ['style', 'css?sourceMap', 'sass?sourceMap']
       }
     ]
+  },
+  sassLoader: {
+    indentedSyntax: true
   }
 }

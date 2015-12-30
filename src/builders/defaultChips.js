@@ -19,25 +19,25 @@ const positions = [
   {row: 4, col: 7},
   {row: 6, col: 1},
   {row: 6, col: 9},
-  {row: 10, col: 3}, // team 1
+  {row: 12, col: 5}, // team 1
+  {row: 10, col: 3},
   {row: 10, col: 7},
-  {row: 12, col: 5},
   {row: 8, col: 1},
   {row: 8, col: 9}
 ]
 let chipId = -1
-const chipFactory = (kind, team = null, highlighted = false, goalKeeper = false) => {
+const chipFactory = (kind, team = null, highlighted = false, isGoalKeeper = false) => {
   chipId++
   const {row, col} = positions[chipId]
-  return { chipId, team, highlighted, row, col, kind, goalKeeper }
+  return { chipId, team, highlighted, row, col, kind, isGoalKeeper }
 }
 
 const ballFactory = () => {
   return chipFactory('ball')
 }
 
-const playerFactory = (team, goalKeeper) => {
-  return chipFactory('player', team, team === 0, goalKeeper)
+const playerFactory = (team, isGoalKeeper) => {
+  return chipFactory('player', team, team === 0, isGoalKeeper)
 }
 
 const teamFactory = (team) => {

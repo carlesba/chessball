@@ -1,4 +1,5 @@
 import React, {PropTypes} from 'react'
+import classname from 'classname'
 import {
   getReferencePoints,
   pixelsToMovement,
@@ -6,19 +7,14 @@ import {
   positionToPixels
 } from '../utils/position'
 import {observe, once} from '../utils/events'
-import {getChipBackground, getChipHighlight} from '../utils/design'
+import { update } from '../utils/immutable'
 import {CHIP_WIDTH} from '../utils/constants'
 
 const getChipStyles = (chip, {moving, x, y}) => {
   const transformScale = moving ? ' scale(1.2)' : ''
-  const shadow = chip.highlighted
-    ? `0px 0px 8px 4px ${getChipHighlight()}`
-    : 'initial'
-  return Object.assign({}, {
+  return update({
     zIndex: moving ? 10 : 0,
-    backgroundColor: getChipBackground(chip),
-    transform: `translate(${x}px,${y}px) ${transformScale}`,
-    boxShadow: shadow
+    transform: `translate(${x}px,${y}px) ${transformScale}`
   }, positionToPixels(chip))
 }
 
@@ -30,35 +26,36 @@ const Chip = React.createClass({
     cleanMovements: PropTypes.func
   },
   getInitialState () {
-    return {
-      moving: false,
-      x: 5,
-      y: 5
-    }
+    return { moving: false, x: 5, y: 5 }
   },
   componentWillReceiveProps () {
     this.setState(this.getInitialState())
   },
   render () {
     const {chip} = this.props
-    const styles = getChipStyles(chip, this.state)
     return (
     <div
       ref={(el) => this.el = el }
-      className='chip'
-      style={styles}
-      onMouseDown={this.bindMouse}
+      className={classname('chip', {
+        'chip--ball': chip.kind === 'ball',
+        'chip--team-a': chip.kind === 'player' && chip.team === 0,
+        'chip--team-b': chip.kind === 'player' && chip.team === 1,
+        'chip--goalkeeper': chip.isGoalKeeper,
+        'chip--highlight': chip.highlighted
+      })}
+      style={getChipStyles(chip, this.state)}
+      onMouseDown={this.bindMouseMovements}
     />
     )
   },
-  bindMouse () {
+  bindMouseMovements () {
     const { moveChip, showMoves, cleanMovements, chip } = this.props
     if (!chip.highlighted) return
     const origin = positionToPixels(chip)
     showMoves(chip.chipId)
-    const mousemoveDispose = observe(document, 'mousemove', (evt) => {
-      const mouse = {x: evt.x, y: evt.y}
-      this.updatePosition({origin, mouse})
+
+    const mousemoveDispose = observe(document, 'mousemove', ({x, y}) => {
+      this.updatePosition(origin, {x: x, y: y})
     })
 
     once(document, 'mouseup', () => {
@@ -68,8 +65,10 @@ const Chip = React.createClass({
         cleanMovements()
         this.resetComponent()
       } else {
-        const nextPosition = applyMoveToPosition(chip, movement)
-        moveChip(chip.chipId, nextPosition)
+        moveChip(
+          chip.chipId,
+          applyMoveToPosition(chip, movement)
+        )
         this.resetComponent()
       }
     })
@@ -77,8 +76,7 @@ const Chip = React.createClass({
   resetComponent () {
     this.setState(this.getInitialState())
   },
-  updatePosition ({origin, mouse}) {
-    const {x, y} = mouse
+  updatePosition (origin, {x, y}) {
     const {top, left} = origin
     const {topRef, leftRef} = getReferencePoints(this.el)
     this.setState({

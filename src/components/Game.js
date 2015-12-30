@@ -12,6 +12,8 @@ import {
   kickOff
 } from '../actions/ChipsActions'
 
+require('../styles/main.sass')
+
 const Game = ({board, movements, chips, game, moveChip, showMoves, cleanMovements, kickOff}) => {
   const classes = classname({
     'kickoff': game.isKickOff

@@ -1,27 +1,19 @@
 import React from 'react'
-import {TILE_WIDTH} from '../utils/constants'
 import {positionToPixels} from '../utils/position'
-import {getMovementTune} from '../utils/design'
-
-const getStylesForHighlight = (tile) => {
-  return Object.assign({
-    width: TILE_WIDTH,
-    height: TILE_WIDTH,
-    position: 'absolute',
-    opacity: 0.8,
-    backgroundColor: getMovementTune(tile.row, tile.col)
-  }, positionToPixels(tile))
-}
+import classname from 'classname'
 
 const Movements = ({movements}) => {
   return (
     <div className='movements'>
-      {movements.map((tile, index) => {
-        const styles = getStylesForHighlight(tile)
+      {movements.map((movement, index) => {
+        const {row, col} = movement
+        const classes = classname('movement', {
+          'movement--odd': (row + col) % 2 === 0
+        })
         return <div
           key={index}
-          className='movement'
-          style={styles}
+          className={classes}
+          style={positionToPixels(movement)}
         />
       })}
     </div>

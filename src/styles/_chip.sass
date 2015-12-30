@@ -1,0 +1,63 @@
+$ball: #F1D923
+$teamA: #AB0040
+$teamB: #0072AB
+
+.chip
+  width: 40px
+  height: 40px
+  background: black
+  border-radius: 50%
+  position: absolute
+  top: 0
+  left: 0
+  cursor: pointer
+  transform: translate(5px,5px)
+  transition: 300ms box-shadow ease-out
+
+.chip--ball
+  background-color: $ball
+
+.chip--team-a
+  background-color: $teamA
+
+.chip--team-b
+  background-color: $teamB
+
+.chip--goalkeeper
+  border-radius: 50% 50% 0 0
+  &::before,
+  &::after
+    content: ""
+    display: block
+    width: 20px
+    height: 17px
+    position: absolute
+    top: 15px
+    border-radius: 50%
+
+.chip--goalkeeper::before
+  left: -14px
+  border-radius: 100% 0 0 0
+
+.chip--goalkeeper::after
+  right: -14px
+  border-radius: 0 100% 0 0
+
+.chip--team-a.chip--goalkeeper
+  &::before,
+  &::after
+    background-color: $teamA
+
+.chip--team-b.chip--goalkeeper
+  &::before,
+  &::after
+    background-color: $teamB
+
+.chip--highlight
+  box-shadow: 0px 0px 8px 4px white
+
+.chip--highlight.chip--goalkeeper::before
+    box-shadow: -5px 2px 7px 0px white
+
+.chip--highlight.chip--goalkeeper::after
+    box-shadow: 5px 2px 7px 0px white
