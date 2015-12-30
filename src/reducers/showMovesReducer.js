@@ -5,17 +5,17 @@ import {
 import { calculatePositionOwner } from '../utils/position'
 
 const showMovesReducer = (state, action) => {
-  const {chips, game: {ballPasses}, board} = state
+  const {chips, game: {ballPasses, turnOwner}, board} = state
   const {chipId} = action
   const chip = chips.find(chip => chip.chipId === chipId)
   const isBall = chip.kind === 'ball'
-  const positionFilterer = getPositionFilterer(isBall, ballPasses, board, chips)
+  const positionFilterer = getPositionFilterer(isBall, ballPasses, board, chips, turnOwner)
   return { movements: calculatePositionsFrom(chip, isBall, positionFilterer) }
 }
 
-const getPositionFilterer = (isBall, ballPasses, board, chips) => {
+const getPositionFilterer = (isBall, ballPasses, board, chips, turnOwner) => {
   if (isBall && ballPasses === 0) {
-    return neutralPositionFilterer(board, chips)
+    return neutralPositionFilterer(board, chips, turnOwner)
   } else if (isBall) {
     return ballPositionFilterer(board, chips)
   } else {
@@ -23,14 +23,18 @@ const getPositionFilterer = (isBall, ballPasses, board, chips) => {
   }
 }
 
-const neutralPositionFilterer = (board, chips) => (position, stopLooking) => {
+const neutralPositionFilterer = (board, chips, turnOwner) => (position, stopLooking) => {
   if (
     !isAllowedForBallOnBoard(position, board) ||
     isOwnedByGoalKeeper(position, chips)
   ) {
     return stopLooking()
   }
-  if (isChipFree(position, chips) && isNeutral(position, chips)) return true
+  if (
+    isChipFree(position, chips) &&
+    isNeutral(position, chips) &&
+    !isInsideOwnedArea(position, board, turnOwner)
+  ) { return true }
   return false
 }
 const ballPositionFilterer = (board, chips) => (position, stopLooking) => {
@@ -74,6 +78,12 @@ const isChipFree = (position, chips) => {
 
 const isNeutral = (position, chips) => {
   return calculatePositionOwner(position, chips) === null
+}
+
+const isInsideOwnedArea = ({row, col}, board, turnOwner) => {
+  const tile = board[row] && board[row][col]
+  if (!tile) return false
+  return tile.area && tile.field === turnOwner
 }
 
 const isOwnedByGoalKeeper = (position, chips) => {
