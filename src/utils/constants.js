@@ -8,3 +8,5 @@ export const MAX_BALL_MOVE = 4
 export const MAX_PLAYER_MOVE = 2
 
 export const MAX_BALL_PASSES = 4
+
+export const GOAL_MESSAGE_TIME = 2000
