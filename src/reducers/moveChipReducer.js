@@ -16,7 +16,8 @@ const moveChipReducer = (state, action) => {
   if (ballTile.kind === 'goal') {
     return goalMovement(ballTile, state, newChips)
   } else {
-    const isBonus = ballTile.kind === 'special'
+    const movingChip = newChips.find(chip => chip.chipId === chipId)
+    const isBonus = ballTile.kind === 'special' && movingChip.kind === 'ball'
     return regularMovement(ball, newChips, state, isBonus)
   }
 }
