@@ -45,15 +45,19 @@ const ballPositionFilterer = (board, chips, turnOwner) => (position, stopLooking
   if (
     !tile ||
     isOwnSpecialTile(tile, turnOwner) ||
-    !isAllowedForBallOnBoard(tile) ||
-    isOwnedByGoalKeeper(position, chips)
+    !isAllowedForBallOnBoard(tile)
   ) {
     return stopLooking()
   }
-  if (isChipFree(position, chips)) {
+  const positionIsChipFree = isChipFree(position, chips)
+  if (isOwnedByGoalKeeper(position, chips)) {
+    stopLooking()
+    return positionIsChipFree
+  }
+  if (positionIsChipFree) {
     const inOwnedArea = isInsideOwnedArea(tile, turnOwner)
-    return inOwnedArea && isOwnedPosition(position, chips, turnOwner) ||
-      !inOwnedArea
+    return !inOwnedArea ||
+      inOwnedArea && isOwnedPosition(position, chips, turnOwner)
   }
   return false
 }
