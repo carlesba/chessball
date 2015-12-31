@@ -24,9 +24,11 @@ const getPositionFilterer = (isBall, ballPasses, board, chips, turnOwner) => {
 }
 
 const neutralPositionFilterer = (board, chips, turnOwner) => (position, stopLooking) => {
+  const tile = getTile(position, board)
   if (
-    isOwnSpecialTile(position, board, turnOwner) ||
-    !isAllowedForBallOnBoard(position, board) ||
+    !tile ||
+    isOwnSpecialTile(tile, turnOwner) ||
+    !isAllowedForBallOnBoard(tile) ||
     isOwnedByGoalKeeper(position, chips)
   ) {
     return stopLooking()
@@ -34,20 +36,22 @@ const neutralPositionFilterer = (board, chips, turnOwner) => (position, stopLook
   if (
     isChipFree(position, chips) &&
     isNeutral(position, chips) &&
-    !isInsideOwnedArea(position, board, turnOwner)
+    !isInsideOwnedArea(tile, turnOwner)
   ) { return true }
   return false
 }
 const ballPositionFilterer = (board, chips, turnOwner) => (position, stopLooking) => {
+  const tile = getTile(position, board)
   if (
-    isOwnSpecialTile(position, board, turnOwner) ||
-    !isAllowedForBallOnBoard(position, board) ||
+    !tile ||
+    isOwnSpecialTile(tile, turnOwner) ||
+    !isAllowedForBallOnBoard(tile) ||
     isOwnedByGoalKeeper(position, chips)
   ) {
     return stopLooking()
   }
   if (isChipFree(position, chips)) {
-    const inOwnedArea = isInsideOwnedArea(position, board, turnOwner)
+    const inOwnedArea = isInsideOwnedArea(tile, turnOwner)
     return inOwnedArea && isOwnedPosition(position, chips, turnOwner) ||
       !inOwnedArea
   }
@@ -55,9 +59,11 @@ const ballPositionFilterer = (board, chips, turnOwner) => (position, stopLooking
 }
 
 const chipPositionFilterer = (board, chips, turnOwner) => (position, stopLooking) => {
+  const tile = getTile(position, board)
   if (
-    isAllowedForChipsOnBoard(position, board) &&
-    !isOwnSpecialTile(position, board, turnOwner) &&
+    tile &&
+    isAllowedForChipsOnBoard(tile) &&
+    !isOwnSpecialTile(tile, turnOwner) &&
     isChipFree(position, chips)
   ) {
     return true
@@ -65,23 +71,13 @@ const chipPositionFilterer = (board, chips, turnOwner) => (position, stopLooking
   return stopLooking()
 }
 
-const isAllowedForChipsOnBoard = ({row, col}, board) => {
-  const tile = board[row] && board[row][col]
-  if (!tile) return false
-  return tile.kind !== 'blank' && tile.kind !== 'goal'
-}
+const getTile = ({row, col}, board) => board[row] && board[row][col]
 
-const isAllowedForBallOnBoard = ({row, col}, board) => {
-  const tile = board[row] && board[row][col]
-  if (!tile) return false
-  return tile.kind !== 'blank'
-}
+const isAllowedForChipsOnBoard = ({kind}) => kind !== 'blank' && kind !== 'goal'
 
-const isOwnSpecialTile = ({row, col}, board, turnOwner) => {
-  const tile = board[row] && board[row][col]
-  if (!tile) return false
-  return tile.kind === 'special' && tile.field === turnOwner
-}
+const isAllowedForBallOnBoard = (tile) => tile.kind !== 'blank'
+
+const isOwnSpecialTile = ({kind, field}, turnOwner) => kind === 'special' && field === turnOwner
 
 const isChipFree = (position, chips) => {
   return chips.findIndex(({row, col}) => {
@@ -93,11 +89,7 @@ const isNeutral = (position, chips) => {
   return calculatePositionOwner(position, chips) === null
 }
 
-const isInsideOwnedArea = ({row, col}, board, turnOwner) => {
-  const tile = board[row] && board[row][col]
-  if (!tile) return false
-  return tile.area && tile.field === turnOwner
-}
+const isInsideOwnedArea = ({area, field}, turnOwner) => area && field === turnOwner
 
 const isOwnedByGoalKeeper = (position, chips) => {
   return chips.find(({row, col, isGoalKeeper}) => {
