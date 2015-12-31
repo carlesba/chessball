@@ -8,12 +8,14 @@ const showMovesReducer = (state, action) => {
   const {chips, game: {ballPasses, turnOwner}, board} = state
   const {chipId} = action
   const chip = chips.find(chip => chip.chipId === chipId)
-  const isBall = chip.kind === 'ball'
-  const positionFilterer = getPositionFilterer(isBall, ballPasses, board, chips, turnOwner)
-  return { movements: calculatePositionsFrom(chip, isBall, positionFilterer) }
+  const positionFilterer = getPositionFilterer(
+    chip, ballPasses, board, chips, turnOwner
+  )
+  return { movements: calculatePositionsFrom(chip, positionFilterer) }
 }
 
-const getPositionFilterer = (isBall, ballPasses, board, chips, turnOwner) => {
+const getPositionFilterer = (chip, ballPasses, board, chips, turnOwner) => {
+  const isBall = chip.kind === 'ball'
   if (isBall && ballPasses === 0) {
     return neutralPositionFilterer(board, chips, turnOwner)
   } else if (isBall) {
@@ -67,7 +69,6 @@ const chipPositionFilterer = (board, chips, turnOwner) => (position, stopLooking
   if (
     tile &&
     isAllowedForChipsOnBoard(tile) &&
-    !isOwnSpecialTile(tile, turnOwner) &&
     isChipFree(position, chips)
   ) {
     return true
@@ -117,13 +118,13 @@ const incrementals = [
   {row: -1, col: 1}
 ]
 
-const calculatePositionsFrom = (origin, isBall, filterPositions) => {
-  const times = isBall
+const calculatePositionsFrom = (chip, filterPositions) => {
+  const times = chip.kind === 'ball'
     ? MAX_BALL_MOVE
     : MAX_PLAYER_MOVE
   return incrementals.reduce((positions, increment) => {
     return positions.concat(
-      getAvailablePositions(origin, increment, times, filterPositions)
+      getAvailablePositions(chip, increment, times, filterPositions)
     )
   }, [])
 }
