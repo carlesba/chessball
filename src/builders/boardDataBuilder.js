@@ -29,7 +29,7 @@ function isBoxType (type, position) {
 
 function getType (row, col) {
   const position = `${row}-${col}`
-  const types = ['special', 'blank', 'goal']
+  const types = Object.keys(boxes)
   return types.find(t => isBoxType(t, position)) || 'game'
 }
 
