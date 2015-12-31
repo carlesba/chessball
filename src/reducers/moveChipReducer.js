@@ -9,13 +9,18 @@ const moveChipReducer = (state, action) => {
   if (!isPositionInList(nextPosition, movements)) {
     return update(state, { movements: [] })
   }
-  const movedChips = moveChip(chipId, nextPosition, chips)
-  const ball = findBall(movedChips)
+  const newChips = moveChip(chipId, nextPosition, chips)
+  const ball = findBall(newChips)
   const ballTile = board[ball.row][ball.col]
-  return ballTile.kind === 'goal'
-    ? goalMovement(ballTile, state, movedChips)
-    : regularMovement(ball, movedChips, state)
+
+  if (ballTile.kind === 'goal') {
+    return goalMovement(ballTile, state, newChips)
+  } else {
+    const isBonus = ballTile.kind === 'special'
+    return regularMovement(ball, newChips, state, isBonus)
+  }
 }
+
 export default moveChipReducer
 
 export const isPositionInList = ({row, col}, list) => {
@@ -39,9 +44,11 @@ const goalMovement = (ballTile, state, chips) => {
     game: scoreGoal(ballTile, state)
   })
 }
-const regularMovement = (ball, chips, state) => {
+const regularMovement = (ball, chips, state, isBonus) => {
   const ballOwner = calculatePositionOwner(ball, chips)
-  const nextGame = changeRegularTurn(state.game, ballOwner)
+  const nextGame = isBonus
+    ? changeBonusTurn(state.game, ballOwner)
+    : changeRegularTurn(state.game, ballOwner)
   const highlightedChips = ballOwner === null
     ? highlightChips(chips, nextGame.turnOwner)
     : highlightBall(chips)
@@ -74,6 +81,13 @@ const changeRegularTurn = (game, ballOwner) => {
     ballOwner: ballOwner,
     turnOwner: turnOwner,
     ballPasses: ballPasses,
+    isKickOff: false
+  })
+}
+const changeBonusTurn = (game, ballOwner) => {
+  return update(game, {
+    ballOwner: ballOwner,
+    ballPasses: MAX_BALL_PASSES,
     isKickOff: false
   })
 }

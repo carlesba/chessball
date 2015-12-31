@@ -19,12 +19,13 @@ const getPositionFilterer = (isBall, ballPasses, board, chips, turnOwner) => {
   } else if (isBall) {
     return ballPositionFilterer(board, chips, turnOwner)
   } else {
-    return chipPositionFilterer(board, chips)
+    return chipPositionFilterer(board, chips, turnOwner)
   }
 }
 
 const neutralPositionFilterer = (board, chips, turnOwner) => (position, stopLooking) => {
   if (
+    isOwnSpecialTile(position, board, turnOwner) ||
     !isAllowedForBallOnBoard(position, board) ||
     isOwnedByGoalKeeper(position, chips)
   ) {
@@ -39,6 +40,7 @@ const neutralPositionFilterer = (board, chips, turnOwner) => (position, stopLook
 }
 const ballPositionFilterer = (board, chips, turnOwner) => (position, stopLooking) => {
   if (
+    isOwnSpecialTile(position, board, turnOwner) ||
     !isAllowedForBallOnBoard(position, board) ||
     isOwnedByGoalKeeper(position, chips)
   ) {
@@ -52,9 +54,10 @@ const ballPositionFilterer = (board, chips, turnOwner) => (position, stopLooking
   return false
 }
 
-const chipPositionFilterer = (board, chips) => (position, stopLooking) => {
+const chipPositionFilterer = (board, chips, turnOwner) => (position, stopLooking) => {
   if (
     isAllowedForChipsOnBoard(position, board) &&
+    !isOwnSpecialTile(position, board, turnOwner) &&
     isChipFree(position, chips)
   ) {
     return true
@@ -72,6 +75,12 @@ const isAllowedForBallOnBoard = ({row, col}, board) => {
   const tile = board[row] && board[row][col]
   if (!tile) return false
   return tile.kind !== 'blank'
+}
+
+const isOwnSpecialTile = ({row, col}, board, turnOwner) => {
+  const tile = board[row] && board[row][col]
+  if (!tile) return false
+  return tile.kind === 'special' && tile.field === turnOwner
 }
 
 const isChipFree = (position, chips) => {
