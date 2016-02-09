@@ -5,6 +5,7 @@
   "main": "webpack.config.js",
   "scripts": {
     "start": "webpack-dev-server",
+    "build": "NODE_ENV=production ./node_modules/.bin/webpack",
     "test": "./node_modules/.bin/mocha --recursive --compilers js:babel-core/register",
     "tester": "./node_modules/.bin/mocha --recursive --compilers js:babel-core/register --watch --reporter mocha-osx-reporter"
   },
@@ -29,11 +30,12 @@
   "author": "@carlesba",
   "license": "Apache-2.0",
   "dependencies": {
-    "redux": "^3.0.4",
     "classname": "0.0.0",
     "react": "^0.14.2",
     "react-dom": "^0.14.2",
-    "react-redux": "^4.0.0"
+    "react-redux": "^4.0.0",
+    "redux": "^3.0.4",
+    "rxjs": "^5.0.0-beta.0"
   },
   "repository": {
     "type": "git",
