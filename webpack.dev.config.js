@@ -1,5 +1,3 @@
-// var webpack = require('webpack')
-
 module.exports = {
   devtool: 'inline-source-map',
   debug: true,
@@ -14,7 +12,7 @@ module.exports = {
   ],
   output: {
     path: __dirname + '/dist',
-    filename: 'chessball.js',
+    filename: 'build.js',
     publicPath: '/dist/'
   },
   resolve: {
@@ -25,9 +23,6 @@ module.exports = {
   devServer: {
     contentBase: './dist'
   },
-  plugins: [
-    // new webpack.optimize.UglifyJsPlugin({minimize: true})
-  ],
   module: {
     loaders: [
       {

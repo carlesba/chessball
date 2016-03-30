@@ -9,17 +9,13 @@ module.exports = {
     './src/index'
   ],
   output: {
-    path: __dirname + '/dist',
-    filename: 'chessball.js',
-    publicPath: '/dist/'
+    path: __dirname + '/demo',
+    filename: 'chessball.js'
   },
   resolve: {
     root: './',
     modulesDirectories: ['node_modules'],
     extensions: ['', '.js']
-  },
-  devServer: {
-    contentBase: './dist'
   },
   plugins: [
     new webpack.optimize.UglifyJsPlugin({
