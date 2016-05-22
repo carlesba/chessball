@@ -8,19 +8,19 @@ module.exports = {
   entry: {
     chessball: [
       'webpack-dev-server/client?http://localhost:8080',
-      './src/index'
+      './app/index'
     ]
   },
   resolve: {
-    modulesDirectories: ['node_modules', 'src'],
-    extensions: ['', '.spec.js', '.js', '.css']
+    modulesDirectories: ['node_modules', 'app'],
+    extensions: ['', '.js', '.css']
   },
   output: {
     path: path.resolve(__dirname, './bin'),
     filename: 'bin/[name].js'
   },
   devServer: {
-    contentBase: './src'
+    contentBase: './app'
   },
   module: {
     loaders: [

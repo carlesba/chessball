@@ -6,8 +6,8 @@
   "scripts": {
     "start": "webpack-dev-server",
     "build": "NODE_ENV=production webpack",
-    "test": "./node_modules/.bin/mocha --recursive --compilers js:babel-core/register",
-    "tester": "./node_modules/.bin/mocha --recursive --compilers js:babel-core/register --watch --reporter mocha-osx-reporter"
+    "test": "mocha --recursive --require ./test/setup.js --compilers js:babel-register --colors",
+    "tdd": "npm test -- --watch --reporter mocha-osx-reporter -R min"
   },
   "devDependencies": {
     "babel-core": "^6.9.0",
