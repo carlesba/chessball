@@ -1,37 +1,33 @@
+var path = require('path')
+
 module.exports = {
-  devtool: 'inline-source-map',
-  debug: true,
-  cache: false,
-  process: true,
-  stats: {
-    colors: true
-  },
-  entry: [
-    'webpack-dev-server/client?http://localhost:8080',
-    './src/index'
-  ],
-  output: {
-    path: __dirname + '/dist',
-    filename: 'build.js',
-    publicPath: '/dist/'
+  devtool: 'eval-source-map',
+  historyApiFallback: true,
+  progress: true,
+  stats: 'errors-only',
+  entry: {
+    chessball: [
+      'webpack-dev-server/client?http://localhost:8080',
+      './src/index'
+    ]
   },
   resolve: {
-    root: './',
-    modulesDirectories: ['node_modules'],
-    extensions: ['', '.js']
+    modulesDirectories: ['node_modules', 'src'],
+    extensions: ['', '.spec.js', '.js', '.css']
+  },
+  output: {
+    path: path.resolve(__dirname, './bin'),
+    filename: 'bin/[name].js'
   },
   devServer: {
-    contentBase: './dist'
+    contentBase: './src'
   },
   module: {
     loaders: [
       {
-        test: /\.js/,
-        exclude: /node_modules/,
-        loader: 'babel-loader'
-      }, {
-        test: /\.sass$/,
-        loaders: ['style', 'css?sourceMap', 'sass?sourceMap']
+        test: /\.js$/,
+        exclude: /(node_modules)/,
+        loaders: ['babel?{"presets": ["stage-0", "es2015", "react"]}']
       }
     ]
   },
