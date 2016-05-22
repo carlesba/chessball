@@ -20,9 +20,9 @@ selectableChips (chips, gameStatus)
 
 # Actions
 selectChip(chipId)
-dragSelectedChip(x, y)
 dropSelectedChip()
 
 # Reducers
 chips: [chip…]
+tiles: [tile…]
 score: [0, 0]

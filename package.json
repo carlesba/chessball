@@ -31,6 +31,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "classname": "0.0.0",
+    "freezr": "0.0.9",
     "react": "^15.1.0",
     "react-dom": "^15.1.0",
     "react-redux": "^4.4.5",
@@ -48,6 +49,7 @@
     "parser": "babel-eslint",
     "global": [
       "it",
+      "xit",
       "describe",
       "expect",
       "spyOn"
