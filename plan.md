@@ -4,25 +4,28 @@ Chip ()
  - position
  - owner
  - role
+ - selectable
+ - isSelected
  - ownedPositions: [position…]
 
-Game ()
+<!-- Game ()
  - turn
- - turnOwner
  - players: [player1, player2]
  - score: [score1, score2]
- - passCounter
+ - passCounter -->
 
 
 # Selectors
 calculateMovements (chips, selectedChipId) : selectedTiles
-selectableChips (chips, gameStatus)
+hasBeenGoal(chips): container dispatch score()
+<!-- selectableChips (chips, gameStatus) -->
 
 # Actions
 selectChip(chipId)
-dropSelectedChip()
+moveSelectedChip(position)
+score()
 
 # Reducers
 chips: [chip…]
-tiles: [tile…]
+<!-- tiles: [tile…] -->
 score: [0, 0]
