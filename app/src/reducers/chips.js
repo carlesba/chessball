@@ -1,6 +1,6 @@
 import {createChips} from 'src/models'
 import createReducer from 'src/lib/createReducer'
-import {TEAM_A, TEAM_B} from 'src/constants'
+import {SELECT_CHIP, MOVE_SELECTED_CHIP, TEAM_A, TEAM_B} from 'src/constants'
 
 const initialState = createChips([
   {position: [7, 5], team: null, type: 'ball'},
@@ -17,7 +17,7 @@ const initialState = createChips([
 ])
 
 const reducerMap = {
-  SELECT_CHIP: (state, {chipId}) => {
+  [SELECT_CHIP]: (state, {chipId}) => {
     const prevSelectedChipIndex = state.findIndex(({isSelected}) => isSelected)
     const targetChipIndex = state.findIndex(({id}) => id === chipId)
     return prevSelectedChipIndex < 0
@@ -26,7 +26,7 @@ const reducerMap = {
         .setIn([prevSelectedChipIndex, 'isSelected'], false)
         .setIn([targetChipIndex, 'isSelected'], true)
   },
-  MOVE_SELECTED_CHIP: (state, {deltaPosition}) => {
+  [MOVE_SELECTED_CHIP]: (state, {deltaPosition}) => {
     const selectedPlayerIndex = state.findIndex(({isSelected}) => isSelected)
     return selectedPlayerIndex < 0
       ? state
