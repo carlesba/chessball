@@ -7,9 +7,9 @@ export function selectChip (chipId) {
   }
 }
 
-export function moveSelectedChip (deltaPosition) {
+export function moveSelectedChip (position) {
   return {
     type: MOVE_SELECTED_CHIP,
-    deltaPosition
+    position
   }
 }

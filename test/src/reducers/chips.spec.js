@@ -1,5 +1,6 @@
 import expect from 'expect'
 import chipsReducer from 'src/reducers/chips'
+import {TEAM_A} from 'src/constants/index.js'
 import {selectChip, moveSelectedChip} from 'src/actions/chips'
 
 describe('chipsReducer:\n', () => {
@@ -52,19 +53,16 @@ describe('chipsReducer:\n', () => {
       ).toBe(true)
     })
   })
-  describe('moveSelectedChip\n', () => {
+  describe.only('moveSelectedChip\n', () => {
     it('updates position of selectedChip when position is allowed', () => {
-      const stateWithSelection = createStateWithSelectedChip()
-      const selectedPlayer = stateWithSelection.find(
-        ({isSelected}) => isSelected
-      )
+      const targetPlayerIndex = 2
+      const stateWithSelection = createStateWithSelectedChip(targetPlayerIndex)
       const targetPosition = [1, 1]
       const action = moveSelectedChip(targetPosition)
       const targetState = chipsReducer(stateWithSelection, action)
-      const targetPlayer = targetState.find(({isSelected}) => isSelected)
+      const targetPlayer = targetState[targetPlayerIndex]
       targetPlayer.position.forEach((position, index) => {
-        const originalPosition = selectedPlayer.position[index]
-        expect(position).toBe(originalPosition + targetPosition[index])
+        expect(position).toBe(targetPosition[index])
       })
     })
     it('removes chip selection when position is occupied by another one', () => {
@@ -93,24 +91,28 @@ describe('chipsReducer:\n', () => {
     })
     it('updates ball\'s ownership when ball has been moved', () => {
       const stateWithBallSelected = createStateWithSelectedChip(0)
-      const ownedPosition = stateWithBallSelected[3].position.update(
-        (position) => position.set(0, position[0] + 1)
-      )
-      const moveBallToOwnedPosition = moveSelectedChip(ownedPosition)
-      const targetState = moveSelectedChip(
-        stateWithBallSelected, moveBallToOwnedPosition
+      const ownedPosition = stateWithBallSelected[3].position
+        .set(0, stateWithBallSelected[3].position[0] + 1)
+      const targetState = chipsReducer(
+        stateWithBallSelected,
+        moveSelectedChip(ownedPosition)
       )
       expect(targetState[0].team).toBe(targetState[3].team)
     })
     it('updates owned positions on keepers', () => {})
-    it('changes selectable chips when current ones lose the ball', () => {
-      const teamWithBall = 'teamA'
+    it('changes selectable chips when current ones loose the ball', () => {
+      const teamWithBall = TEAM_A
       const stateWithBallOwnedByTeam1 = createStateWithBallOwnedByTeam(teamWithBall)
+      .setIn([0, 'isSelected'], true)
       const neutralPosition = [7, 5] // initial ball position
-      const targetState = moveSelectedChip(
-        stateWithBallOwnedByTeam1, neutralPosition
+      const targetState = chipsReducer(
+        stateWithBallOwnedByTeam1,
+        moveSelectedChip(neutralPosition)
       )
-      expect(targetState[0].team).toBeFalsy()
+      targetState.forEach((chip) => {
+        if (chip.team === TEAM_A) expect(chip.selectable).toBeFalsy()
+        else expect(chip.selectable).toBe(true)
+      })
     })
   })
 })
