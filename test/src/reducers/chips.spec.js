@@ -109,11 +109,11 @@ describe('chipsReducer:\n', () => {
         stateWithBallOwnedByTeam1,
         moveSelectedChip(neutralPosition)
       )
-      targetState.forEach((chip) => {
-        if (chip.team === TEAM_A) expect(chip.selectable).toBeFalsy()
-        else expect(chip.selectable).toBe(true)
+      targetState.forEach((chip, i) => {
+        expect(chip.selectable).toBeFalsy()
       })
     })
+    it('makes selectable teams that own the ball at the end of the turn', () => {})
   })
 })
 

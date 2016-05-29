@@ -59,17 +59,15 @@ function updateBallOwnership (chips) {
   return chips.setIn([0, 'team'], teamOwningBall)
 }
 
-// TODO
 function getMostRepeatedTeam (chips) {
-  const teamCounts = chips.reduce((teams, {team}) => {
-    if (teams[team] !== undefined) {
-      teams[team] = 1
-    } else {
-      teams[team] += 1
-    }
-    return teams
-  }, {})
-  return Object.keys(teamCounts)[0]
+  let teamA = 0
+  let teamB = 0
+  chips.forEach(({team}) => {
+    if (team === TEAM_A) teamA += 1
+    else teamB += 1
+  })
+  if (teamA === teamB) return null
+  return teamA > teamB ? TEAM_A : TEAM_B
 }
 
 function positionIsInList (position, list) {
