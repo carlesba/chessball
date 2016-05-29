@@ -5,3 +5,5 @@ export const MOVE_SELECTED_CHIP = 'MOVE_SELECTED_CHIP'
 
 export const BOARD_ROWS = 15
 export const BOARD_COLS = 11
+
+export const TILE_SIZE = 50

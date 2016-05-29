@@ -16,11 +16,9 @@ const Board = React.createClass({
   render () {
     return (
       <div>
-      {tiles.map(
-        (row) => row.map(
-          (tile) => <Tile key={`${tile.row}${tile.col}`} tile={tile} />
-        )
-      )}
+      {tiles.map((row, i) => row.map((tile) =>
+        <Tile key={`${tile.row}${tile.col}`} tile={tile} />
+      ))}
       </div>
     )
   }

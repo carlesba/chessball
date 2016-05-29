@@ -1,5 +1,6 @@
 import React from 'react'
 import objectComposer from 'src/lib/objectComposer'
+import {TILE_SIZE} from 'src/constants'
 
 const Tile = ({tile}) => {
   const componentStyles = objectComposer(
@@ -17,8 +18,8 @@ const styles = {
   basic: {
     background: 'green',
     float: 'left',
-    width: '50px',
-    height: '50px',
+    width: `${TILE_SIZE}px`,
+    height: `${TILE_SIZE}px`,
     outline: '1px solid grey'
   },
   firstColumn: {clear: 'left'},
