@@ -52,7 +52,7 @@ describe('chipsReducer:\n', () => {
       ).toBe(true)
     })
   })
-  describe.only('moveSelectedChip\n', () => {
+  describe('moveSelectedChip\n', () => {
     it('updates position of selectedChip when position is allowed', () => {
       const stateWithSelection = createStateWithSelectedChip()
       const selectedPlayer = stateWithSelection.find(
