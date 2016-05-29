@@ -1,9 +1,10 @@
 import React from 'react'
+import Board from 'src/components/Board'
 
 const Game = React.createClass({
   render () {
     return (
-      <div className=''>game</div>
+      <Board />
     )
   }
 })
