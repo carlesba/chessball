@@ -41,25 +41,35 @@ const reducerMap = {
       (chip) => {
         return chip.merge({
           isSelected: false,
-          position: freeze(position)
+          position: position
         })
       })
-    // ball ownership
-    const [ball, ...chips] = stateWithMove
-    const closerChips = chips.filter(
-      (chip) => distance(chip.position, ball.position) === 1
-    )
-    const currentTeam = state[selectedPlayerIndex].team
-    if (closerChips.length < 1) {
-      // change selectable chips
-      return stateWithMove.map((chip) => {
-        return chip.team === currentTeam
-          ? chip.set('selectable', false)
-          : chip.set('selectable', true)
-      })
-    }
-    return stateWithMove
+    return updateBallOwnership(stateWithMove)
   }
+}
+
+function updateBallOwnership (chips) {
+  const [ball, ...players] = chips
+  const closerPlayers = players.filter(
+    (chip) => distance(chip.position, ball.position) === 1
+  )
+  if (closerPlayers.length === 0 && !ball.isSelected) return chips
+  if (ball.isSelected) return chips.setIn([0, 'team'], null)
+  const teamOwningBall = getMostRepeatedTeam(closerPlayers)
+  return chips.setIn([0, 'team'], teamOwningBall)
+}
+
+// TODO
+function getMostRepeatedTeam (chips) {
+  const teamCounts = chips.reduce((teams, {team}) => {
+    if (teams[team] !== undefined) {
+      teams[team] = 1
+    } else {
+      teams[team] += 1
+    }
+    return teams
+  }, {})
+  return Object.keys(teamCounts)[0]
 }
 
 function positionIsInList (position, list) {
