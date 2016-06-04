@@ -1,6 +1,6 @@
 import expect from 'expect'
 import chipsReducer from 'src/reducers/chips'
-import {TEAM_A} from 'src/constants/index.js'
+import {TEAM_A, TEAM_B} from 'src/constants/index.js'
 import {selectChip, moveSelectedChip} from 'src/actions/chips'
 
 describe('chipsReducer:\n', () => {
@@ -53,7 +53,7 @@ describe('chipsReducer:\n', () => {
       ).toBe(true)
     })
   })
-  describe.only('moveSelectedChip\n', () => {
+  describe('moveSelectedChip\n', () => {
     it('updates position of selectedChip when position is allowed', () => {
       const targetPlayerIndex = 2
       const stateWithSelection = createStateWithSelectedChip(targetPlayerIndex)
@@ -100,20 +100,36 @@ describe('chipsReducer:\n', () => {
       expect(targetState[0].team).toBe(targetState[3].team)
     })
     it('updates owned positions on keepers', () => {})
-    it('changes selectable chips when current ones loose the ball', () => {
+    it('switch selectable chips when current ones loose the ball', () => {
       const teamWithBall = TEAM_A
-      const stateWithBallOwnedByTeam1 = createStateWithBallOwnedByTeam(teamWithBall)
+      const stateWithBallOwnedByTeamA = createStateWithBallOwnedByTeam(teamWithBall)
       .setIn([0, 'isSelected'], true)
       const neutralPosition = [7, 5] // initial ball position
       const targetState = chipsReducer(
-        stateWithBallOwnedByTeam1,
+        stateWithBallOwnedByTeamA,
         moveSelectedChip(neutralPosition)
       )
       targetState.forEach((chip, i) => {
-        expect(chip.selectable).toBeFalsy()
+        if (chip.team === TEAM_B) expect(chip.selectable).toBe(true)
+        else expect(chip.selectable).toBe(false)
       })
     })
-    it('makes selectable teams that own the ball at the end of the turn', () => {})
+    it('sets as selectable chips team B and the ball when team B recovers the ball', () => {
+      const stateWithBallOwnedByTeamA = createStateWithBallOwnedByTeam(TEAM_A)
+      .updateIn([0], (chip) => chip.merge({
+        isSelected: true,
+        selectable: true
+      }))
+      const positionOwnedByB = [12, 6]
+      const targetState = chipsReducer(
+        stateWithBallOwnedByTeamA,
+        moveSelectedChip(positionOwnedByB)
+      )
+      targetState.forEach((chip, i) => {
+        if (chip.team === TEAM_A) expect(chip.selectable).toBe(false)
+        else expect(chip.selectable).toBe(true, `chip[${i}] should be selectable`)
+      })
+    })
   })
 })
 

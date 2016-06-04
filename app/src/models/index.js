@@ -1,13 +1,9 @@
 import {freeze, deepFreeze} from 'freezr'
 let index = 0
 export function createChip (props) {
-  const {position, team, type, isKeeper} = props
   return deepFreeze({
+    ...props,
     id: Symbol(index++),
-    position,
-    team,
-    isKeeper,
-    type,
     isSelected: false
   })
 }

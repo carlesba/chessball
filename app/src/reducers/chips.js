@@ -44,8 +44,19 @@ const reducerMap = {
           position: position
         })
       })
-    return updateBallOwnership(stateWithMove)
+    const ballUpdated = updateBallOwnership(stateWithMove)
+    const prevSelectableTeam = getSelectableTeam(state)
+    if (ballUpdated[0].team === prevSelectableTeam) {
+      return ballUpdated
+    } else {
+      const newTeamOwner = switchTeam(prevSelectableTeam)
+      return makeChipsSelectableByTeam(ballUpdated, newTeamOwner)
+    }
   }
+}
+
+function switchTeam (team) {
+  return team !== TEAM_A ? TEAM_A : TEAM_B
 }
 
 function updateBallOwnership (chips) {
@@ -53,8 +64,7 @@ function updateBallOwnership (chips) {
   const closerPlayers = players.filter(
     (chip) => distance(chip.position, ball.position) === 1
   )
-  if (closerPlayers.length === 0 && !ball.isSelected) return chips
-  if (ball.isSelected) return chips.setIn([0, 'team'], null)
+  if (closerPlayers.length === 0) return chips.setIn([0, 'team'], null)
   const teamOwningBall = getMostRepeatedTeam(closerPlayers)
   return chips.setIn([0, 'team'], teamOwningBall)
 }
@@ -68,6 +78,18 @@ function getMostRepeatedTeam (chips) {
   })
   if (teamA === teamB) return null
   return teamA > teamB ? TEAM_A : TEAM_B
+}
+
+function getSelectableTeam (state) {
+  return state[1].selectable
+    ? TEAM_A
+    : TEAM_B
+}
+
+function makeChipsSelectableByTeam (state, selectableTeam) {
+  return state.map((chip) =>
+    chip.set('selectable', chip.team === selectableTeam)
+  )
 }
 
 function positionIsInList (position, list) {
