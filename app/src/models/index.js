@@ -1,9 +1,9 @@
 import {freeze, deepFreeze} from 'freezr'
-let index = 0
+import {v4} from 'node-uuid'
 export function createChip (props) {
   return deepFreeze({
     ...props,
-    id: Symbol(index++),
+    id: v4(),
     isSelected: false
   })
 }

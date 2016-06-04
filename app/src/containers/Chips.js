@@ -6,8 +6,8 @@ const Chips = ({chips}) => {
   console.log('chips', chips)
   return (
     <div style={{position: 'relative'}}>
-    {chips.map((chip, i) =>
-      <Chip key={i} {...chip} />
+    {chips.map((chip) =>
+      <Chip key={chip.id} {...chip} />
     )}
     </div>
   )
