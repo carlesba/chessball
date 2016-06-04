@@ -1,6 +1,7 @@
 import React from 'react'
 import objectComposer from 'src/lib/objectComposer'
 import {TILE_SIZE} from 'src/constants'
+import BonusDot from 'src/components/BonusDot'
 
 const Tile = ({tile}) => {
   const componentStyles = objectComposer(
@@ -11,11 +12,15 @@ const Tile = ({tile}) => {
     [styles.blank, tile.isBlank],
     [styles.bonus, tile.isBonus]
   )
-  return <div style={componentStyles} />
+  const bonus = tile.isBonus
+    ? <BonusDot />
+    : null
+  return <div style={componentStyles}>{bonus}</div>
 }
 
 const styles = {
   basic: {
+    position: 'relative',
     background: 'green',
     float: 'left',
     width: `${TILE_SIZE}px`,
@@ -26,7 +31,7 @@ const styles = {
   area: {background: 'blue'},
   goal: {background: 'black'},
   blank: {background: 'transparent', outline: 'none'},
-  bonus: {background: 'grey'}
+  bonus: {}
 }
 
 export default Tile

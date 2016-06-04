@@ -1,4 +1,3 @@
-import {freeze} from 'freezr'
 import {createChips} from 'src/models'
 import createReducer from 'src/lib/createReducer'
 import distance from 'src/lib/distance'

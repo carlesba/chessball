@@ -1,8 +1,5 @@
 import {combineReducers} from 'redux'
-
-const chips = function chipsReducer (state = [0, 0], action) {
-  return state
-}
+import chips from 'src/reducers/chips'
 
 export default combineReducers({
   chips

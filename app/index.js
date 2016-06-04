@@ -1,16 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-// import { createStore } from 'redux'
-// import { Provider } from 'react-redux'
-import Game from 'src/containers/Game'
-// import reducers from 'reducers'
+import Root from 'src/containers/Root'
+import configureStore from 'src/reducers/configureStore'
 
+const store = configureStore()
 const domNode = document.getElementById('root')
-//
-// ReactDOM.render(
-//   <Provider store={createStore(reducers)}>
-//     <Game />
-//   </Provider>,
-//   domNode
-// )
-ReactDOM.render(<Game />, domNode)
+
+ReactDOM.render(<Root store={store} />, domNode)
