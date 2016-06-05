@@ -27,16 +27,16 @@ const chipStyles = {
     height: '40px',
     margin: '5px 5px',
     borderRadius: '50%',
-    boxShadow: '0 0 2px white'
+    boxShadow: '0 0 2px #676767'
   },
   teamA: {
-    background: '#016DEB'
+    background: '#1568ca'
   },
   teamB: {
-    background: '#E95D09'
+    background: '#a73737'
   },
   ball: {
-    background: '#F2A114'
+    background: '#dea440'
   },
   selectable: {
     boxShadow: '0 0 8px 4px #dadada'
