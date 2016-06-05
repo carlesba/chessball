@@ -30,7 +30,24 @@ describe('calculateMovements:\n', () => {
         expect(move).toBeTruthy(`${[m0, m1]} not found`)
       })
     })
-    it('doesn\'t return positions outside the board', () => {})
+    it('doesn\'t return positions outside the board', () => {
+      const ball = chipsReducer()
+        .filter((_, i) => i === 0)
+        .updateIn([0],
+          (chip) => chip.merge({position: [1, 0], isSelected: true})
+        )
+      const target = calculateMovements(ball)
+      expect(target.length).toBe(12, 'bad length on edges')
+      const expectedMovements = [
+        [2, 0], [3, 0], [4, 0], [5, 0],
+        [1, 1], [1, 2], [1, 3], [1, 4],
+        [2, 1], [3, 2], [4, 3], [5, 4]
+      ]
+      expectedMovements.forEach(([m0, m1]) => {
+        const move = target.find(([a, b]) => m0 === a && m1 === b)
+        expect(move).toBeTruthy(`${[m0, m1]} not found`)
+      })
+    })
     it('can return goal positions', () => {})
     it('doesn\'t return positions where another chip is placed', () => {})
   })
