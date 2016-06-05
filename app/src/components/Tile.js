@@ -21,15 +21,18 @@ const Tile = ({tile}) => {
 const styles = {
   basic: {
     position: 'relative',
-    background: 'green',
+    background: '#5EB654',
     float: 'left',
     width: `${TILE_SIZE}px`,
     height: `${TILE_SIZE}px`,
-    outline: '1px solid grey'
+    outline: '1px solid #2f8e13'
   },
   firstColumn: {clear: 'left'},
-  area: {background: 'blue'},
-  goal: {background: 'black'},
+  area: {background: '#2CA11F'},
+  goal: {
+    background: '#1E3D15',
+    outline: 'none'
+  },
   blank: {background: 'transparent', outline: 'none'},
   bonus: {}
 }

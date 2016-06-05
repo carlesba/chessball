@@ -2,16 +2,20 @@ import React from 'react'
 import {connect} from 'react-redux'
 import Chip from 'src/components/Chip'
 
-const Chips = ({chips}) => {
-  console.log('chips', chips)
-  return (
-    <div style={{position: 'relative'}}>
+const Chips = ({chips}) =>
+  <div style={{position: 'relative'}}>
     {chips.map((chip) =>
-      <Chip key={chip.id} {...chip} />
+      <Chip
+        key={chip.id}
+        {...chip}
+        onClick={() => {
+          if (chip.selectable) {
+            console.log('click')
+          }
+        }}
+        />
     )}
-    </div>
-  )
-}
+  </div>
 
 const mapStateToProps = (state) => ({
   chips: state.chips
