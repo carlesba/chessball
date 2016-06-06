@@ -33,6 +33,9 @@ export const isBlank = (row, col) => {
   (col < 3 || col > 7)
 }
 
+export const isInside = (row, col) =>
+  (row >= 0 && row < BOARD_ROWS && col >= 0 && col < BOARD_COLS && !isBlank(row, col))
+
 export const distance = (a, b) => {
   const d0 = Math.abs(a[0] - b[0])
   const d1 = Math.abs(a[1] - b[1])

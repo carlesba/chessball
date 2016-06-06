@@ -1,3 +1,4 @@
+import {isInside} from 'src/models/Position'
 export default function calculateMovements (chips) {
   const selectedChip = chips.find(({isSelected}) => isSelected)
   if (!selectedChip) return []
@@ -18,6 +19,7 @@ const calculateBallMovements = ([ball, ...players]) => {
   return DIRECTIONS.reduce((positions, increment) => {
     return positions.concat(getPositions(source, increment, BALL_DISTANCE))
   }, [])
+  .filter(([a, b]) => isInside(a, b))
 }
 
 const calculatePlayerMovements = (chips, selectedChip) => {

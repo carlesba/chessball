@@ -37,7 +37,8 @@ describe('calculateMovements:\n', () => {
           (chip) => chip.merge({position: [1, 0], isSelected: true})
         )
       const target = calculateMovements(ball)
-      expect(target.length).toBe(12, 'bad length on edges')
+      expect(target.length)
+        .toBe(12, `bad length on edges. ${target.length} when it should be 12`)
       const expectedMovements = [
         [2, 0], [3, 0], [4, 0], [5, 0],
         [1, 1], [1, 2], [1, 3], [1, 4],
