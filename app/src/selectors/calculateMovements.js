@@ -16,10 +16,11 @@ const PLAYER_DISTANCE = 2
 
 const calculateBallMovements = ([ball, ...players]) => {
   const source = ball.position
+  const forbiddenPositions = players.map(({position}) => position)
   return DIRECTIONS.reduce((positions, increment) => {
     return positions.concat(getPositions(source, increment, BALL_DISTANCE))
   }, [])
-  .filter(([a, b]) => isInside(a, b))
+  .filter((pos) => isInside(pos[0], pos[1]))
 }
 
 const calculatePlayerMovements = (chips, selectedChip) => {
@@ -42,3 +43,7 @@ const getPositions = (source, increment, distance) => {
 }
 
 const applyIncrement = ([a, b], [incr0, incr1]) => ([a + incr0, b + incr1])
+
+const notIn = ([a, b], forbidden) => !forbidden.every(
+  ([c, d]) => a === c && b === d
+)
