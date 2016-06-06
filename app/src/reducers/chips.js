@@ -1,6 +1,6 @@
 import {createChips} from 'src/models/Chip'
 import createReducer from 'src/lib/createReducer'
-import distance from 'src/lib/distance'
+import {distance} from 'src/models/Position'
 import {SELECT_CHIP, MOVE_SELECTED_CHIP, TEAM_A, TEAM_B} from 'src/constants'
 
 const initialState = createChips([
