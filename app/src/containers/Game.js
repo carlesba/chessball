@@ -13,6 +13,7 @@ const Game = () => {
   )
 }
 const styles = {
+  position: 'relative',
   margin: 'auto',
   width: `${11 * 50}px`
 }

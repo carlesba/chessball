@@ -6,8 +6,9 @@ import calculateMovements from 'src/selectors/calculateMovements'
 const Movements = ({movements}) => {
   return (
     <div>
-      {movements.map((movement) =>
+      {movements.map((movement, i) =>
         <Movement
+          key={i}
           position={movement}
         />
       )}

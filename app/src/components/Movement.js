@@ -4,8 +4,8 @@ import {positionToPixels} from 'src/models/Position'
 const Movement = ({position}) => {
   const positionInPixels = positionToPixels(position)
   const styles = Object.assign({}, movementStyle, {
-    top: `${positionInPixels[0]}px`,
-    left: `${positionInPixels[1]}px`
+    top: positionInPixels[0],
+    left: positionInPixels[1]
   })
   return (
     <div style={styles} />

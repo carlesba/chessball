@@ -1,8 +1,9 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import Chip from 'src/components/Chip'
+import {selectChip} from 'src/actions/chips'
 
-const Chips = ({chips}) =>
+const Chips = ({chips, selectChip}) =>
   <div style={{position: 'relative'}}>
     {chips.map((chip) =>
       <Chip
@@ -10,7 +11,7 @@ const Chips = ({chips}) =>
         {...chip}
         onClick={() => {
           if (chip.selectable) {
-            console.log('click')
+            selectChip(chip.id)
           }
         }}
         />
@@ -21,4 +22,4 @@ const mapStateToProps = (state) => ({
   chips: state.chips
 })
 
-export default connect(mapStateToProps)(Chips)
+export default connect(mapStateToProps, {selectChip})(Chips)
