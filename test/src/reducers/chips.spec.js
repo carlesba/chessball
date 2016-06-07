@@ -90,28 +90,65 @@ describe('chipsReducer:\n', () => {
       })
     })
     it('updates ball\'s ownership when ball has been moved', () => {
-      const stateWithBallSelected = createStateWithSelectedChip(0)
-      const ownedPosition = stateWithBallSelected[3].position
-        .set(0, stateWithBallSelected[3].position[0] + 1)
+      const initialState = chipsReducer()
+      const stateWithBallSelected = initialState
+        .updateIn([0], (chip) => chip.merge({
+          isSelected: true,
+          selectable: true
+        }))
+      const teamBplayer = initialState.find(
+        ({type, team}) => type === 'player' && team === TEAM_B
+      )
+      const ownedPositionByB = teamBplayer.position.update(0, (p) => p + 1)
       const targetState = chipsReducer(
         stateWithBallSelected,
-        moveSelectedChip(ownedPosition)
+        moveSelectedChip(ownedPositionByB)
       )
-      expect(targetState[0].team).toBe(targetState[3].team)
+      expect(targetState[0].team).toBe(teamBplayer.team)
     })
     it('updates owned positions on keepers', () => {})
     it('switch selectable chips when current ones loose the ball', () => {
-      const teamWithBall = TEAM_A
-      const stateWithBallOwnedByTeamA = createStateWithBallOwnedByTeam(teamWithBall)
-      .setIn([0, 'isSelected'], true)
-      const neutralPosition = [7, 5] // initial ball position
+      const initialState = chipsReducer()
+      const stateWithTeamAOwningBall = initialState
+        .updateIn([0], (chip) => chip.merge({
+          selectable: true,
+          isSelected: true,
+          team: TEAM_A,
+          position: chip.position.set(0, chip.position[0] + 1)
+        }))
+      const neutralPosition = initialState[0].position
       const targetState = chipsReducer(
-        stateWithBallOwnedByTeamA,
+        stateWithTeamAOwningBall,
         moveSelectedChip(neutralPosition)
       )
-      targetState.forEach((chip, i) => {
-        if (chip.team === TEAM_B) expect(chip.selectable).toBe(true)
-        else expect(chip.selectable).toBe(false)
+      targetState.forEach((chip, index) => {
+        if (index === 0) {
+          expect(chip.selectable).toBe(false, 'ball is not selected')
+          expect(chip.team).toBeFalsy('ball team is not updated')
+        } else {
+          expect(chip.selectable).toBe(chip.team !== TEAM_A)
+        }
+      })
+    })
+    it('sets ball as selectable when a chip is moved next to it', () => {
+      const initialState = chipsReducer()
+      const stateWithTeamAOwningBall = initialState
+        .updateIn([1], (chip) => chip.merge({
+          selectable: true,
+          isSelected: true
+        }))
+      const nextToBallPosition = initialState[0].position.update(0, (p) => p + 1)
+      const targetState = chipsReducer(
+        stateWithTeamAOwningBall,
+        moveSelectedChip(nextToBallPosition)
+      )
+      targetState.forEach((chip, index) => {
+        if (index === 0) {
+          expect(chip.selectable).toBe(true, 'ball should be selectable')
+          expect(chip.team).toBe(TEAM_A, 'ball\'s team is not updated')
+        } else {
+          expect(chip.selectable).toBe(chip.team === TEAM_A)
+        }
       })
     })
     it('sets as selectable chips team B and the ball when team B recovers the ball', () => {

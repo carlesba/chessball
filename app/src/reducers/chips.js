@@ -44,12 +44,15 @@ const reducerMap = {
         })
       })
     const ballUpdated = updateBallOwnership(stateWithMove)
+    const newBallOwner = ballUpdated[0].team
+    const ballSelection = ballUpdated.setIn([0, 'selectable'], !!newBallOwner)
     const prevSelectableTeam = getSelectableTeam(state)
-    if (ballUpdated[0].team === prevSelectableTeam) {
-      return ballUpdated
-    } else {
+
+    if (newBallOwner !== prevSelectableTeam) {
       const newTeamOwner = switchTeam(prevSelectableTeam)
-      return makeChipsSelectableByTeam(ballUpdated, newTeamOwner)
+      return selectPlayersByTeam(ballSelection, newTeamOwner)
+    } else {
+      return ballSelection
     }
   }
 }
@@ -85,9 +88,10 @@ function getSelectableTeam (state) {
     : TEAM_B
 }
 
-function makeChipsSelectableByTeam (state, selectableTeam) {
-  return state.map((chip) =>
-    chip.set('selectable', chip.team === selectableTeam)
+function selectPlayersByTeam (state, selectableTeam) {
+  return state.map((chip) => chip.type === 'player'
+    ? chip.set('selectable', chip.team === selectableTeam)
+    : chip
   )
 }
 
