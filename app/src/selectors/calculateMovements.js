@@ -1,4 +1,4 @@
-import {isInside} from 'src/models/Position'
+import {insideBoard, contains} from 'src/models/Position'
 export default function calculateMovements (chips) {
   const selectedChip = chips.find(({isSelected}) => isSelected)
   if (!selectedChip) return []
@@ -20,14 +20,16 @@ const calculateBallMovements = ([ball, ...players]) => {
   return DIRECTIONS.reduce((positions, increment) => {
     return positions.concat(getPositions(source, increment, BALL_DISTANCE))
   }, [])
-  .filter((pos) => isInside(pos[0], pos[1]))
+  .filter((pos) => insideBoard(pos[0], pos[1]) && !contains(pos, forbiddenPositions))
 }
 
 const calculatePlayerMovements = (chips, selectedChip) => {
   const source = selectedChip.position
+  const forbiddenPositions = chips.map(({position}) => position)
   return DIRECTIONS.reduce((positions, increment) => {
     return positions.concat(getPositions(source, increment, PLAYER_DISTANCE))
   }, [])
+  .filter((pos) => insideBoard(pos[0], pos[1]) && !contains(pos, forbiddenPositions))
 }
 
 const getPositions = (source, increment, distance) => {
@@ -43,7 +45,3 @@ const getPositions = (source, increment, distance) => {
 }
 
 const applyIncrement = ([a, b], [incr0, incr1]) => ([a + incr0, b + incr1])
-
-const notIn = ([a, b], forbidden) => !forbidden.every(
-  ([c, d]) => a === c && b === d
-)

@@ -33,7 +33,7 @@ export const isBlank = (row, col) => {
   (col < 3 || col > 7)
 }
 
-export const isInside = (row, col) =>
+export const insideBoard = (row, col) =>
   (row >= 0 && row < BOARD_ROWS && col >= 0 && col < BOARD_COLS && !isBlank(row, col))
 
 export const distance = (a, b) => {
@@ -43,3 +43,8 @@ export const distance = (a, b) => {
     ? Math.max(d0, d1)
     : -1
 }
+
+export const isEqual = ([a, b], [c, d]) => a === c && b === d
+
+export const contains = (position, list) =>
+  !!list.find((p) => isEqual(p, position))
