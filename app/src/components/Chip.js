@@ -27,7 +27,8 @@ const chipStyles = {
     height: '40px',
     margin: '5px 5px',
     borderRadius: '50%',
-    boxShadow: '0 0 2px #676767'
+    boxShadow: '0 0 2px #676767',
+    transition: '.3s top ease-out, .3s left ease-out'
   },
   teamA: {
     background: '#1568ca'
