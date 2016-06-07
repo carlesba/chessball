@@ -1,14 +1,14 @@
 import React from 'react'
 import {positionToPixels} from 'src/models/Position'
 
-const Movement = ({position}) => {
+const Movement = ({position, onClick}) => {
   const positionInPixels = positionToPixels(position)
   const styles = Object.assign({}, movementStyle, {
     top: positionInPixels[0],
     left: positionInPixels[1]
   })
   return (
-    <div style={styles} />
+    <div style={styles} onClick={onClick} />
   )
 }
 
