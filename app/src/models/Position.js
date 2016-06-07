@@ -46,5 +46,8 @@ export const distance = (a, b) => {
 
 export const isEqual = ([a, b], [c, d]) => a === c && b === d
 
-export const contains = (position, list) =>
+export const containedIn = (position, list) =>
   !!list.find((p) => isEqual(p, position))
+
+export const positionInBetween = ([a, b], [c, d]) =>
+  ([(a + c) / 2, (b + d) / 2])

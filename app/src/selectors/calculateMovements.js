@@ -1,9 +1,15 @@
-import {insideBoard, contains} from 'src/models/Position'
+import {
+  insideBoard,
+  containedIn,
+  isGoal,
+  distance as distancePosition,
+  positionInBetween
+} from 'src/models/Position'
 export default function calculateMovements (chips) {
   const selectedChip = chips.find(({isSelected}) => isSelected)
   if (!selectedChip) return []
   if (selectedChip.type === 'ball') return calculateBallMovements(chips)
-  else calculatePlayerMovements(chips, selectedChip)
+  else return calculatePlayerMovements(chips, selectedChip)
 }
 
 const DIRECTIONS = [
@@ -20,16 +26,29 @@ const calculateBallMovements = ([ball, ...players]) => {
   return DIRECTIONS.reduce((positions, increment) => {
     return positions.concat(getPositions(source, increment, BALL_DISTANCE))
   }, [])
-  .filter((pos) => insideBoard(pos[0], pos[1]) && !contains(pos, forbiddenPositions))
+  .filter((pos) => insideBoard(pos[0], pos[1]) && !containedIn(pos, forbiddenPositions))
 }
 
 const calculatePlayerMovements = (chips, selectedChip) => {
   const source = selectedChip.position
-  const forbiddenPositions = chips.map(({position}) => position)
+  const usedPositions = chips.map(({position}) => position)
+  const playerPositions = chips.filter(({type}) => type === 'player').map(({position}) => position)
   return DIRECTIONS.reduce((positions, increment) => {
     return positions.concat(getPositions(source, increment, PLAYER_DISTANCE))
   }, [])
-  .filter((pos) => insideBoard(pos[0], pos[1]) && !contains(pos, forbiddenPositions))
+  .filter((pos) => insideBoard(pos[0], pos[1]) && !isGoal(pos[0], pos[1]) && !containedIn(pos, usedPositions))
+  .filter((pos) => {
+    const distance = distancePosition(source, pos)
+    return (
+      distance === 1 ||
+      (
+        distance === 2 && !containedIn(
+          positionInBetween(pos, source),
+          playerPositions
+        )
+      )
+    )
+  })
 }
 
 const getPositions = (source, increment, distance) => {

@@ -1,4 +1,5 @@
 import expect from 'expect'
+import {freeze} from 'freezr'
 import calculateMovements from 'src/selectors/calculateMovements'
 import chipsReducer from 'src/reducers/chips'
 import {BOARD_ROWS, BOARD_COLS} from 'src/constants'
@@ -85,8 +86,46 @@ describe('calculateMovements:\n', () => {
     })
   })
   describe('when a player chip is selected', () => {
-    it('returns all positions in a distance of 2', () => {})
-    it('doesn\'t positions outside the board', () => {})
-    it('doesn\'t positions after finding an obstacle', () => {})
+    it('returns all positions in a distance of 2', () => {
+      const chipSelected = chipsReducer()[3].set('isSelected', true)
+      const target = calculateMovements([chipSelected])
+      expect(target.length).toBe(16, 'bad length: %s instead of 16')
+    })
+    it('doesn\'t return positions outside the board', () => {
+      const chipSelected = chipsReducer()[3].merge({
+        isSelected: true,
+        position: freeze([1, 0])
+      })
+      const target = calculateMovements([chipSelected])
+      expect(target.length).toBe(6, 'bad length: %s instead of 6')
+    })
+    it('doesn\'t return goal positions', () => {
+      const chipSelected = chipsReducer()[3].merge({
+        isSelected: true,
+        position: freeze([1, 6])
+      })
+      const target = calculateMovements([chipSelected])
+      expect(target.length).toBe(10, 'bad length: %s instead of 10')
+    })
+    it('doesn\'t occupied positions or behind another player', () => {
+      const initialState = chipsReducer()
+      const chipSelected = initialState[3].merge({
+        'isSelected': true,
+        position: freeze([7, 6])
+      })
+      const chip = initialState[2].set('position', freeze([7, 7]))
+      const target = calculateMovements([chipSelected, chip])
+      expect(target.length).toBe(14, 'bad length: %s instead of 14')
+    })
+    it('can return positions behind the ball', () => {
+      const initialState = chipsReducer()
+      const chipSelected = initialState[3].merge({
+        'isSelected': true,
+        position: freeze([7, 6])
+      })
+      const ball = initialState[0].set('position', freeze([7, 7]))
+      const target = calculateMovements([chipSelected, ball])
+      expect(target.length).toBe(15, 'bad length: %s instead of 15')
+    })
   })
 })
