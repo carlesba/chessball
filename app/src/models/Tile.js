@@ -5,10 +5,11 @@ import {
   isArea,
   isGoal,
   isBlank
-} from ''
-
+} from 'src/models/Position'
+let index = 0
 export default function createTile (row, col) {
   return freeze({
+    id: index++,
     row, col,
     team: calcTeam(row, col),
     isArea: isArea(row, col),

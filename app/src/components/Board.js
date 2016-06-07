@@ -7,8 +7,7 @@ let tiles = []
 
 for (var i = 0; i < BOARD_ROWS; i++) {
   for (var j = 0; j < BOARD_COLS; j++) {
-    if (j === 0) tiles[i] = []
-    tiles[i][j] = createTile(i, j)
+    tiles.push(createTile(i, j))
   }
 }
 
@@ -16,9 +15,9 @@ const Board = React.createClass({
   render () {
     return (
       <div>
-      {tiles.map((row, i) => row.map((tile) =>
-        <Tile key={`${tile.row}${tile.col}`} tile={tile} />
-      ))}
+      {tiles.map((tile) =>
+        <Tile key={tile.id} tile={tile} />
+      )}
       </div>
     )
   }

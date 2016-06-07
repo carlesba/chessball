@@ -2,7 +2,8 @@ import {
   BOARD_ROWS,
   BOARD_COLS,
   TEAM_A,
-  TEAM_B
+  TEAM_B,
+  TILE_SIZE
 } from 'src/constants'
 
 export const isBonus = (row, col) => {
@@ -51,3 +52,6 @@ export const containedIn = (position, list) =>
 
 export const positionInBetween = ([a, b], [c, d]) =>
   ([(a + c) / 2, (b + d) / 2])
+
+export const positionToPixels = ([a, b]) =>
+  ([a * TILE_SIZE + 'px', b * TILE_SIZE + 'px'])

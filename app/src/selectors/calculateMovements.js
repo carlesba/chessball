@@ -5,6 +5,7 @@ import {
   distance as distancePosition,
   positionInBetween
 } from 'src/models/Position'
+
 export default function calculateMovements (chips) {
   const selectedChip = chips.find(({isSelected}) => isSelected)
   if (!selectedChip) return []
