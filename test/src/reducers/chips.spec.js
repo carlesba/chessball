@@ -52,6 +52,13 @@ describe('chipsReducer:\n', () => {
         targetState.find(({id}) => id === secondPlayerId).isSelected
       ).toBe(true)
     })
+    it('unselects all chips when no chipId is passed', () => {
+      const state = chipsReducer().setIn([1, 'isSelected'], true)
+      const target = chipsReducer(state, selectChip())
+      target.forEach((chip) => {
+        expect(chip.isSelected).toBeFalsy('this chip shouldn\'t be selected', chip)
+      })
+    })
   })
   describe('moveSelectedChip\n', () => {
     it('updates position of selectedChip when position is allowed', () => {

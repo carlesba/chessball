@@ -21,11 +21,13 @@ const reducerMap = {
   [SELECT_CHIP]: (state, {chipId}) => {
     const prevSelectedChipIndex = state.findIndex(({isSelected}) => isSelected)
     const targetChipIndex = state.findIndex(({id}) => id === chipId)
-    return prevSelectedChipIndex < 0
-      ? state.setIn([targetChipIndex, 'isSelected'], true)
-      : state
-        .setIn([prevSelectedChipIndex, 'isSelected'], false)
-        .setIn([targetChipIndex, 'isSelected'], true)
+    const unselected = prevSelectedChipIndex < 0
+      ? state
+      : state.setIn([prevSelectedChipIndex, 'isSelected'], false)
+    const selected = targetChipIndex < 0
+      ? unselected
+      : unselected.setIn([targetChipIndex, 'isSelected'], true)
+    return selected
   },
   [MOVE_SELECTED_CHIP]: (state, {position}) => {
     const selectedPlayerIndex = state.findIndex(({isSelected}) => isSelected)

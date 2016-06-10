@@ -10,7 +10,9 @@ const Chips = ({chips, selectChip}) =>
         key={chip.id}
         {...chip}
         onClick={() => {
-          if (chip.selectable) {
+          if (chips.isSelected) {
+            selectChip()
+          } else if (chip.selectable) {
             selectChip(chip.id)
           }
         }}
