@@ -1,20 +1,23 @@
 import {createChips} from 'src/models/Chip'
 import createReducer from 'src/lib/createReducer'
 import {distance} from 'src/models/Position'
-import {SELECT_CHIP, MOVE_SELECTED_CHIP, TEAM_A, TEAM_B} from 'src/constants'
+import {freeze} from 'freezr'
+import {
+  SELECT_CHIP, MOVE_SELECTED_CHIP, TEAM_A, TEAM_B, PLAYER, BALL
+} from 'src/constants'
 
 const initialState = createChips([
-  {position: [7, 5], team: null, selectable: false, type: 'ball'},
-  {position: [2, 5], team: TEAM_A, selectable: true, type: 'player', isKeeper: true},
-  {position: [4, 3], team: TEAM_A, selectable: true, type: 'player'},
-  {position: [4, 7], team: TEAM_A, selectable: true, type: 'player'},
-  {position: [6, 1], team: TEAM_A, selectable: true, type: 'player'},
-  {position: [6, 9], team: TEAM_A, selectable: true, type: 'player'},
-  {position: [12, 5], team: TEAM_B, selectable: false, type: 'player', isKeeper: true},
-  {position: [10, 3], team: TEAM_B, selectable: false, type: 'player'},
-  {position: [10, 7], team: TEAM_B, selectable: false, type: 'player'},
-  {position: [8, 1], team: TEAM_B, selectable: false, type: 'player'},
-  {position: [8, 9], team: TEAM_B, selectable: false, type: 'player'}
+  {position: [7, 5], team: null, selectable: false, type: BALL},
+  {position: [2, 5], team: TEAM_A, selectable: true, type: PLAYER, isKeeper: true},
+  {position: [4, 3], team: TEAM_A, selectable: true, type: PLAYER},
+  {position: [4, 7], team: TEAM_A, selectable: true, type: PLAYER},
+  {position: [6, 1], team: TEAM_A, selectable: true, type: PLAYER},
+  {position: [6, 9], team: TEAM_A, selectable: true, type: PLAYER},
+  {position: [12, 5], team: TEAM_B, selectable: false, type: PLAYER, isKeeper: true},
+  {position: [10, 3], team: TEAM_B, selectable: false, type: PLAYER},
+  {position: [10, 7], team: TEAM_B, selectable: false, type: PLAYER},
+  {position: [8, 1], team: TEAM_B, selectable: false, type: PLAYER},
+  {position: [8, 9], team: TEAM_B, selectable: false, type: PLAYER}
 ])
 
 const reducerMap = {
@@ -29,7 +32,7 @@ const reducerMap = {
       : unselected.setIn([targetChipIndex, 'isSelected'], true)
     return selected
   },
-  [MOVE_SELECTED_CHIP]: (state, {position}) => {
+  [MOVE_SELECTED_CHIP]: (state, {position, team}) => {
     const selectedPlayerIndex = state.findIndex(({isSelected}) => isSelected)
     if (selectedPlayerIndex < 0) return state
 
@@ -37,24 +40,33 @@ const reducerMap = {
     if (positionIsInList(position, forbiddenPositions)) {
       return state.setIn([selectedPlayerIndex, 'isSelected'], false)
     }
+    /* Apply Movement */
     const stateWithMove = state.updateIn(
       [selectedPlayerIndex],
-      (chip) => {
-        return chip.merge({
-          isSelected: false,
-          position: position
-        })
+      (chip) => chip.merge({
+        isSelected: false,
+        position: freeze(position)
       })
-    const ballUpdated = updateBallOwnership(stateWithMove)
-    const newBallOwner = ballUpdated[0].team
-    const ballSelection = ballUpdated.setIn([0, 'selectable'], !!newBallOwner)
-    const prevSelectableTeam = getSelectableTeam(state)
-
-    if (newBallOwner !== prevSelectableTeam) {
-      const newTeamOwner = switchTeam(prevSelectableTeam)
-      return selectPlayersByTeam(ballSelection, newTeamOwner)
+      )
+    /* Set state after Movement */
+    const nextBallOwner = getBallOwner(stateWithMove)
+    if (nextBallOwner) {
+      return stateWithMove.map((chip) =>
+        chip.type === PLAYER
+          ? chip.set('selectable', false)
+          : chip.merge({
+            team: nextBallOwner,
+            isSelected: false,
+            selectable: true
+          })
+      )
     } else {
-      return ballSelection
+      const nextTurnOwner = switchTeam(team)
+      return stateWithMove.map((chip) =>
+        chip.type === BALL
+        ? chip.merge({'selectable': false, team: null})
+        : chip.set('selectable', chip.team === nextTurnOwner)
+      )
     }
   }
 }
@@ -63,14 +75,14 @@ function switchTeam (team) {
   return team !== TEAM_A ? TEAM_A : TEAM_B
 }
 
-function updateBallOwnership (chips) {
+function getBallOwner (chips) {
   const [ball, ...players] = chips
   const closerPlayers = players.filter(
     (chip) => distance(chip.position, ball.position) === 1
   )
-  if (closerPlayers.length === 0) return chips.setIn([0, 'team'], null)
-  const teamOwningBall = getMostRepeatedTeam(closerPlayers)
-  return chips.setIn([0, 'team'], teamOwningBall)
+  return closerPlayers.length === 0
+    ? null
+    : getMostRepeatedTeam(closerPlayers)
 }
 
 function getMostRepeatedTeam (chips) {
@@ -82,19 +94,6 @@ function getMostRepeatedTeam (chips) {
   })
   if (teamA === teamB) return null
   return teamA > teamB ? TEAM_A : TEAM_B
-}
-
-function getSelectableTeam (state) {
-  return state[1].selectable
-    ? TEAM_A
-    : TEAM_B
-}
-
-function selectPlayersByTeam (state, selectableTeam) {
-  return state.map((chip) => chip.type === 'player'
-    ? chip.set('selectable', chip.team === selectableTeam)
-    : chip
-  )
 }
 
 function positionIsInList (position, list) {

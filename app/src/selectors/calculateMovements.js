@@ -5,11 +5,12 @@ import {
   distance as distancePosition,
   positionInBetween
 } from 'src/models/Position'
+import {PLAYER, BALL} from 'src/constants'
 
 export default function calculateMovements (chips) {
   const selectedChip = chips.find(({isSelected}) => isSelected)
   if (!selectedChip) return []
-  if (selectedChip.type === 'ball') return calculateBallMovements(chips)
+  if (selectedChip.type === BALL) return calculateBallMovements(chips)
   else return calculatePlayerMovements(chips, selectedChip)
 }
 
@@ -33,7 +34,7 @@ const calculateBallMovements = ([ball, ...players]) => {
 const calculatePlayerMovements = (chips, selectedChip) => {
   const source = selectedChip.position
   const usedPositions = chips.map(({position}) => position)
-  const playerPositions = chips.filter(({type}) => type === 'player').map(({position}) => position)
+  const playerPositions = chips.filter(({type}) => type === PLAYER).map(({position}) => position)
   return DIRECTIONS.reduce((positions, increment) => {
     return positions.concat(getPositions(source, increment, PLAYER_DISTANCE))
   }, [])

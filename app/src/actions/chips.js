@@ -7,9 +7,9 @@ export function selectChip (chipId) {
   }
 }
 
-export function moveSelectedChip (position) {
+export function moveSelectedChip (position, team) {
   return {
     type: MOVE_SELECTED_CHIP,
-    position
+    position, team
   }
 }
