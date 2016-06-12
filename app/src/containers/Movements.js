@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import Movement from 'src/components/Movement'
 import calculateMovements from 'src/selectors/calculateMovements'
-import getSelectedChip from 'src/selectors/getSelectedChip'
+import selectedChipSelector from 'src/selectors/selectedChipSelector'
 import {moveSelectedChip} from 'src/actions/chips'
 
 const Movements = ({movements, moveSelectedChip, turnOwner}) => {
@@ -22,7 +22,7 @@ const Movements = ({movements, moveSelectedChip, turnOwner}) => {
 }
 
 const mapStateToProps = (state) => {
-  const selectedChip = getSelectedChip(state)
+  const selectedChip = selectedChipSelector(state)
   return {
     movements: calculateMovements(state.chips),
     turnOwner: selectedChip && selectedChip.team
