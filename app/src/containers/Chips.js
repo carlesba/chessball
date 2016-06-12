@@ -3,10 +3,8 @@ import {connect} from 'react-redux'
 import Chip from 'src/components/Chip'
 import {selectChip} from 'src/actions/chips'
 import chipSelector from 'src/selectors/chipSelector'
-import isGoalSelector from 'src/selectors/isGoalSelector'
 
-const Chips = ({chips, isGoal}) => {
-  console.log('isGoal', isGoal)
+const Chips = ({chips}) => {
   return (
     <div style={{position: 'relative'}}>
       {chips.map((chip) =>
@@ -27,8 +25,7 @@ const Chips = ({chips, isGoal}) => {
 
 const mergeProps = (state, actions) => {
   return {
-    chips: chipSelector(state, actions),
-    isGoal: isGoalSelector(state, actions)
+    chips: chipSelector(state, actions)
   }
 }
 
