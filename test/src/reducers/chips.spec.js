@@ -147,6 +147,10 @@ describe('chipsReducer:\n', () => {
       })
     })
   })
+  describe('score', () => {
+    it('sets chips position like the beginning of the game', () => {})
+    it('sets as selectable team that received goal\'s chips', () => {})
+  })
 })
 
 function moveChipInReducer (state, moveChipArgs) {

@@ -14,8 +14,9 @@ export function moveSelectedChip (position, team) {
   }
 }
 
-export const score = () => {
+export const score = (team) => {
   return {
-    type: SCORE
+    type: SCORE,
+    team
   }
 }

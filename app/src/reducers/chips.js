@@ -1,6 +1,6 @@
 import {createChips} from 'src/models/Chip'
 import createReducer from 'src/lib/createReducer'
-import {distance, calcTeam} from 'src/models/Position'
+import {distance, switchTeam} from 'src/models/Position'
 import {freeze} from 'freezr'
 import {
   SELECT_CHIP, MOVE_SELECTED_CHIP, SCORE, TEAM_A, TEAM_B, PLAYER, BALL
@@ -70,14 +70,12 @@ const reducerMap = {
     }
   },
   [SCORE]: (state, action) => {
-    const {position: [row, col]} = state.find(({type}) => type === BALL)
-    const teamScored = calcTeam(row, col)
-    return initialState.map((chip) => chip.set('selectable', chip.team === teamScored))
+    const {team} = action
+    const teamReceivesGoal = switchTeam(team)
+    return initialState.map(
+      (chip) => chip.set('selectable', chip.team === teamReceivesGoal)
+    )
   }
-}
-
-function switchTeam (team) {
-  return team !== TEAM_A ? TEAM_A : TEAM_B
 }
 
 function getBallOwner (chips) {

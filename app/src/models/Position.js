@@ -19,6 +19,10 @@ export const calcTeam = (row, col) => {
     : TEAM_B
 }
 
+export const switchTeam = (team) => {
+  return team !== TEAM_A ? TEAM_A : TEAM_B
+}
+
 export const isArea = (row, col) => {
   return ((row > 0 && row < 5) || (row > 9 && row < BOARD_ROWS)) &&
   (col > 0 && col < BOARD_COLS - 1)
