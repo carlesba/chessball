@@ -7,14 +7,15 @@ import {
   isBlank
 } from 'src/models/Position'
 let index = 0
-export default function createTile (row, col) {
+export default function createTile (position) {
   return freeze({
     id: index++,
-    row, col,
-    team: calcTeam(row, col),
-    isArea: isArea(row, col),
-    isBonus: isBonus(row, col),
-    isGoal: isGoal(row, col),
-    isBlank: isBlank(row, col)
+    row: position[0],
+    col: position[1],
+    team: calcTeam(position),
+    isArea: isArea(position),
+    isBonus: isBonus(position),
+    isGoal: isGoal(position),
+    isBlank: isBlank(position)
   })
 }

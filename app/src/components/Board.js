@@ -7,7 +7,7 @@ let tiles = []
 
 for (var i = 0; i < BOARD_ROWS; i++) {
   for (var j = 0; j < BOARD_COLS; j++) {
-    tiles.push(createTile(i, j))
+    tiles.push(createTile([i, j]))
   }
 }
 

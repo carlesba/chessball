@@ -28,7 +28,7 @@ const calculateBallMovements = ([ball, ...players]) => {
   return DIRECTIONS.reduce((positions, increment) => {
     return positions.concat(getPositions(source, increment, BALL_DISTANCE))
   }, [])
-  .filter((pos) => insideBoard(pos[0], pos[1]) && !containedIn(pos, forbiddenPositions))
+  .filter((pos) => insideBoard(pos) && !containedIn(pos, forbiddenPositions))
 }
 
 const calculatePlayerMovements = (chips, selectedChip) => {
@@ -38,7 +38,7 @@ const calculatePlayerMovements = (chips, selectedChip) => {
   return DIRECTIONS.reduce((positions, increment) => {
     return positions.concat(getPositions(source, increment, PLAYER_DISTANCE))
   }, [])
-  .filter((pos) => insideBoard(pos[0], pos[1]) && !isGoal(pos[0], pos[1]) && !containedIn(pos, usedPositions))
+  .filter((pos) => insideBoard(pos) && !isGoal(pos) && !containedIn(pos, usedPositions))
   .filter((pos) => {
     const distance = distancePosition(source, pos)
     return (

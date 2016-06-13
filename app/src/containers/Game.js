@@ -28,7 +28,7 @@ const mergeProps = (state, actions) => {
     onClick: () => {
       if (isGoalSelector(state)) {
         const {position: [row, col]} = ballSelector(state)
-        const teamScored = calcTeam(row, col)
+        const teamScored = calcTeam([row, col])
         actions.score(switchTeam(teamScored))
       }
     }

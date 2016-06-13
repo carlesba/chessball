@@ -3,5 +3,5 @@ import {isGoal} from 'src/models/Position'
 
 export default function isGoalSelector (state) {
   const {position: [row, col]} = ballSelector(state)
-  return isGoal(row, col)
+  return isGoal([row, col])
 }
