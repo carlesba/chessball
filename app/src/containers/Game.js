@@ -1,6 +1,7 @@
 import React from 'react'
 import Board from 'src/components/Board'
 import Movements from 'src/containers/Movements'
+import NotificationRoot from 'src/containers/NotificationRoot'
 import Chips from 'src/containers/Chips'
 import {connect} from 'react-redux'
 import isGoalSelector from 'src/selectors/isGoalSelector'
@@ -14,6 +15,7 @@ const Game = ({onClick}) => {
       <Board />
       <Movements />
       <Chips />
+      <NotificationRoot />
     </div>
   )
 }
