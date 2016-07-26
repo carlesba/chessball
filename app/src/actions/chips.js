@@ -14,9 +14,37 @@ export function moveSelectedChip (position, team) {
   }
 }
 
-export const score = (team) => {
+export function score (team) {
   return {
     type: SCORE,
     team
+  }
+}
+
+export function movePlayer () {
+  return {
+    type: 'MOVE_PLAYER',
+    payload: {}
+  }
+}
+
+export function passBall () {
+  return {
+    type: 'PASS_BALL',
+    payload: {}
+  }
+}
+
+export function moveBallToBonus () {
+  return {
+    type: 'MOVE_BALL_TO_BONUS',
+    payload: {}
+  }
+}
+
+export function moveBall () {
+  return {
+    type: 'MOVE_BALL',
+    payload: {}
   }
 }

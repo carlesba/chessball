@@ -1,8 +1,13 @@
 import reducers from 'src/reducers'
-import {createStore} from 'redux'
+import {createStore, applyMiddleware} from 'redux'
+import createLogger from 'redux-logger'
 
 const configureStore = () => {
-  return createStore(reducers)
+  const logger = createLogger()
+  return createStore(
+    reducers,
+    applyMiddleware(logger)
+  )
 }
 
 export default configureStore

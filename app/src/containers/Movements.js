@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import Movement from 'src/components/Movement'
 import calculateMovements from 'src/selectors/calculateMovements'
 import selectedChipSelector from 'src/selectors/selectedChipSelector'
-import {moveSelectedChip} from 'src/actions/chips'
+import * as chipActions from 'src/actions/chips'
 
 const Movements = ({movements, moveSelectedChip, turnOwner}) => {
   return (
@@ -11,22 +11,24 @@ const Movements = ({movements, moveSelectedChip, turnOwner}) => {
       {movements.map((movement, i) =>
         <Movement
           key={i}
-          position={movement}
-          onClick={() => {
-            moveSelectedChip(movement, turnOwner)
-          }}
+          position={movement.position}
+          onClick={movement.onClick}
         />
       )}
     </div>
   )
 }
 
-const mapStateToProps = (state) => {
+const mergeProps = (state, actions) => {
   const selectedChip = selectedChipSelector(state)
   return {
-    movements: calculateMovements(state.chips),
+    movements: calculateMovements(state.chips, actions),
     turnOwner: selectedChip && selectedChip.team
   }
 }
 
-export default connect(mapStateToProps, {moveSelectedChip})(Movements)
+export default connect(
+  ({chips}) => ({chips}),
+  chipActions,
+  mergeProps
+)(Movements)

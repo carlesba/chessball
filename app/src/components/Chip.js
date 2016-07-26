@@ -3,21 +3,17 @@ import {TEAM_A, TEAM_B, PLAYER, BALL} from 'src/constants'
 import objectComposer from 'src/lib/objectComposer'
 
 const Chip = ({position, type, team, selectable, onClick}) => {
+  const [top, left] = position.toPixels()
   const styles = objectComposer(chipStyles.default, {
-    top: `${position[0] * 50}px`,
-    left: `${position[1] * 50}px`
+    top,
+    left
   },
     [chipStyles.teamA, type === PLAYER && team === TEAM_A],
     [chipStyles.teamB, type === PLAYER && team === TEAM_B],
     [chipStyles.ball, type === BALL],
     [chipStyles.selectable, selectable]
   )
-  return (
-    <div
-      style={styles}
-      onClick={onClick}
-    />
-  )
+  return (<div style={styles} onClick={onClick} />)
 }
 
 const chipStyles = {

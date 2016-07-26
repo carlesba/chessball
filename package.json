@@ -21,6 +21,7 @@
     "mocha": "^2.3.4",
     "mocha-osx-reporter": "^0.1.2",
     "node-sass": "^3.7.0",
+    "redux-logger": "^2.6.1",
     "sass-loader": "^3.1.2",
     "standard": "^7.1.0",
     "style-loader": "^0.13.0",
@@ -31,7 +32,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "classname": "0.0.0",
-    "freezr": "0.0.9",
+    "freezr": "0.0.12",
     "node-uuid": "^1.4.7",
     "react": "^15.1.0",
     "react-dom": "^15.1.0",

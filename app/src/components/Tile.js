@@ -7,12 +7,12 @@ const Tile = ({tile}) => {
   const componentStyles = objectComposer(
     styles.basic,
     [[styles.firstColumn], tile.col === 0],
-    [styles.area, tile.isArea],
-    [styles.goal, tile.isGoal],
-    [styles.blank, tile.isBlank],
-    [styles.bonus, tile.isBonus]
+    [styles.area, tile.isArea()],
+    [styles.goal, tile.isGoal()],
+    [styles.blank, tile.isBlank()],
+    [styles.bonus, tile.isBonus()]
   )
-  const bonus = tile.isBonus
+  const bonus = tile.isBonus()
     ? <BonusDot />
     : null
   return <div style={componentStyles}>{bonus}</div>
