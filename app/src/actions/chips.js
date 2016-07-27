@@ -29,10 +29,10 @@ export function score (team) {
   }
 }
 
-export function movePlayer () {
+export function movePlayer (position) {
   return {
     type: MOVE_PLAYER,
-    payload: {}
+    payload: {position}
   }
 }
 

@@ -9,32 +9,32 @@ function getAction (position, actions, context) {
   const others = context.filter((chip) => chip !== caller)
   const movementTypes = [
     {
-      action: () => actions.movePlayer(),
+      action: () => actions.movePlayer(position),
       validation: () => caller.isPlayer()
     },
     {
-      action: () => actions.passBall(),
+      action: () => actions.passBall(position),
       validation: () => (
         caller.isBall() &&
         position.owner(others) === caller.team
       )
     },
     {
-      action: () => actions.moveBallToBonus(),
+      action: () => actions.moveBallToBonus(position),
       validation: () => (
         caller.isBall() &&
         position.isBonus()
       )
     },
     {
-      action: () => actions.score(),
+      action: () => actions.score(position),
       validation: () => (
         caller.isBall() &&
         position.isGoal()
       )
     },
     {
-      action: () => actions.moveBall(),
+      action: () => actions.moveBall(position),
       validation: () => (
         caller.isBall() &&
         position.isArea() &&

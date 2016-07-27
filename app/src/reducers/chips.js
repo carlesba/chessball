@@ -3,7 +3,14 @@ import createReducer from 'src/lib/createReducer'
 import {distance, switchTeam} from 'src/models/Position'
 import {freeze} from 'freezr'
 import {
-  SELECT_CHIP, MOVE_SELECTED_CHIP, SCORE, TEAM_A, TEAM_B, PLAYER, BALL
+  SELECT_CHIP,
+  MOVE_SELECTED_CHIP,
+  SCORE,
+  TEAM_A,
+  TEAM_B,
+  PLAYER,
+  MOVE_PLAYER,
+  BALL
 } from 'src/constants'
 
 const initialState = createChips([
@@ -74,6 +81,13 @@ const reducerMap = {
     const teamReceivesGoal = switchTeam(team)
     return initialState.map(
       (chip) => chip.set('selectable', chip.team === teamReceivesGoal)
+    )
+  },
+  [MOVE_PLAYER]: (state, {payload: {position}}) => {
+    const selectedPlayerIndex = state.findIndex(({isSelected}) => isSelected)
+    return state.updateIn(
+      [selectedPlayerIndex],
+      (chip) => chip.set('position', position).set('isSelected', false)
     )
   }
 }
