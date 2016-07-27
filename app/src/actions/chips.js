@@ -1,4 +1,12 @@
-import {SELECT_CHIP, MOVE_SELECTED_CHIP, SCORE} from 'src/constants'
+import {
+  SELECT_CHIP,
+  MOVE_SELECTED_CHIP,
+  SCORE,
+  MOVE_PLAYER,
+  MOVE_BALL,
+  MOVE_BALL_TO_BONUS,
+  PASS_BALL
+} from 'src/constants'
 
 export function selectChip (chipId) {
   return {
@@ -23,28 +31,28 @@ export function score (team) {
 
 export function movePlayer () {
   return {
-    type: 'MOVE_PLAYER',
+    type: MOVE_PLAYER,
     payload: {}
   }
 }
 
 export function passBall () {
   return {
-    type: 'PASS_BALL',
+    type: PASS_BALL,
     payload: {}
   }
 }
 
 export function moveBallToBonus () {
   return {
-    type: 'MOVE_BALL_TO_BONUS',
+    type: MOVE_BALL_TO_BONUS,
     payload: {}
   }
 }
 
 export function moveBall () {
   return {
-    type: 'MOVE_BALL',
+    type: MOVE_BALL,
     payload: {}
   }
 }
