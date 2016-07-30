@@ -61,12 +61,15 @@ export const createPosition = ([row, col]) => ({
     return ([(a + c) / 2, (b + d) / 2])
   },
   owner (chips) {
-    const closerPlayers = chips.list
-      .filter((chip) => chip.isPlayer())
-      .filter((chip) => this.distanceTo(chip.position) === 1)
+    const closerPlayers = this.around(chips)
     return closerPlayers.length === 0
       ? null
       : getMostRepeatedTeam(closerPlayers)
+  },
+  around (chips) {
+    return chips.list
+      .filter((chip) => chip.isPlayer())
+      .filter((chip) => this.distanceTo(chip.position) === 1)
   },
   increase ([a, b]) {
     const row = this.row + a

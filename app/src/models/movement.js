@@ -14,6 +14,18 @@ function getAction (position, actions, chips) {
       validation: () => caller.isPlayer()
     },
     {
+      // selfpass
+      action: null,
+      validation: () => {
+        const chipsAroundPosition = position.around(chips)
+        const chipsAroundBall = caller.position.around(chips)
+        return caller.isBall() &&
+          chipsAroundBall.length === 1 &&
+          chipsAroundPosition.length === 1 &&
+          chipsAroundPosition[0] === chipsAroundBall[0]
+      }
+    },
+    {
       action: () => actions.passBall(position),
       validation: () => (
         caller.isBall() &&
