@@ -19,7 +19,7 @@ const chipPrototype = {
   unselect () {
     return this.set('isSelected', false)
   },
-  moveChip (position) {
+  move (position) {
     return this.set('position', position)
   }
 }

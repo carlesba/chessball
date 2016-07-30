@@ -1,6 +1,7 @@
 import {createChips} from 'src/models/chips'
 import createReducer from 'src/lib/createReducer'
-import {distance, switchTeam} from 'src/models/position'
+import {distance} from 'src/models/position'
+import switchTeam from 'src/lib/switchTeam'
 import {freeze} from 'freezr'
 import {
   SELECT_CHIP,
@@ -80,7 +81,11 @@ const reducerMap = {
   },
   [MOVE_PLAYER]: (state, {payload: {position}}) => {
     const selectedChip = state.getSelectedChip()
-    return state.moveChip(selectedChip.id, position)
+    const selectableTeam = switchTeam(selectedChip.team)
+    return state
+      .moveChip(selectedChip.id, position)
+      .unselectChip()
+      .setTeamSelectable(selectableTeam)
   }
 }
 

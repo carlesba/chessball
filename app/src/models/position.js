@@ -99,10 +99,6 @@ export const createPosition = ([row, col]) => ({
   }
 })
 
-// export const switchTeam = (team) => {
-//   return team !== TEAM_A ? TEAM_A : TEAM_B
-// }
-
 function getMostRepeatedTeam (chips) {
   let teamA = 0
   let teamB = 0
