@@ -14,6 +14,16 @@ function getAction (position, actions, chips) {
       validation: () => caller.isPlayer()
     },
     {
+      // leave it on own area
+      action: null,
+      validation: () => (
+        caller.isBall() &&
+        position.isArea() &&
+        position.field() === caller.team &&
+        !position.owner(chips)
+      )
+    },
+    {
       // selfpass
       action: null,
       validation: () => {
