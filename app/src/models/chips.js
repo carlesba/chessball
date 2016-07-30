@@ -31,8 +31,7 @@ const chipsPrototype = {
   },
 
   getSelectableTeam () {
-    return this.list
-      .find(({selectable}) => selectable).team
+    return this.list.find(({selectable}) => selectable).team
   },
 
   setChip (chipId, callback) {
@@ -44,6 +43,10 @@ const chipsPrototype = {
     return this.set('list', newChips)
   },
 
+  setBallOwner (team) {
+    return this.setChip(this.getBall().id, (ball) => ball.set('team', team))
+  },
+
   setTeamSelectable (team) {
     const newChips = this.list.map((chip) => {
       if (chip.isBall()) return chip
@@ -53,10 +56,9 @@ const chipsPrototype = {
   },
 
   setBallSelectable () {
-    const newChips = this.list.map((chip) => {
-      if (chip.isBall) return chip.setSelectable(true)
-      else return chip
-    })
+    const newChips = this.list.map(
+      (chip) => chip.setSelectable(chip.isBall())
+    )
     return this.set('list', newChips)
   },
 

@@ -6,7 +6,6 @@ export const createMovement = (position, actions, chips) => ({
 
 function getAction (position, actions, chips) {
   const caller = chips.getSelectedChip()
-  const others = chips.list.filter((chip) => chip !== caller)
   const movementTypes = [
     {
       action: () => actions.movePlayer(position, caller.team),
@@ -16,7 +15,7 @@ function getAction (position, actions, chips) {
       action: () => actions.passBall(position),
       validation: () => (
         caller.isBall() &&
-        position.owner(others) === caller.team
+        position.owner(chips) === caller.team
       )
     },
     {

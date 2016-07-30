@@ -81,33 +81,21 @@ const reducerMap = {
   },
   [MOVE_PLAYER]: (state, {payload: {position}}) => {
     const selectedChip = state.getSelectedChip()
-    const selectableTeam = switchTeam(selectedChip.team)
-    return state
+    const stateWithMovement = state
       .moveChip(selectedChip.id, position)
       .unselectChip()
-      .setTeamSelectable(selectableTeam)
+    const newBallOwner = stateWithMovement.getBall()
+      .position.owner(stateWithMovement)
+    if (newBallOwner) {
+      return stateWithMovement
+        .setBallOwner(newBallOwner)
+        .setBallSelectable()
+    } else {
+      const selectableTeam = switchTeam(selectedChip.team)
+      return stateWithMovement
+        .setTeamSelectable(selectableTeam)
+    }
   }
-}
-
-function getBallOwner (chips) {
-  const [ball, ...players] = chips
-  const closerPlayers = players.filter(
-    (chip) => distance(chip.position, ball.position) === 1
-  )
-  return closerPlayers.length === 0
-    ? null
-    : getMostRepeatedTeam(closerPlayers)
-}
-
-function getMostRepeatedTeam (chips) {
-  let teamA = 0
-  let teamB = 0
-  chips.forEach(({team}) => {
-    if (team === TEAM_A) teamA += 1
-    else teamB += 1
-  })
-  if (teamA === teamB) return null
-  return teamA > teamB ? TEAM_A : TEAM_B
 }
 
 function positionIsInList (position, list) {
