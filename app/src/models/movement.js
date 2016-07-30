@@ -1,12 +1,13 @@
 export const createMovement = (position, actions, chips) => {
-  const action = getAction(position, actions, chips)
+  const movement = getMovement(position, actions, chips)
   return {
     position,
-    onClick: action
+    onClick: movement.action,
+    error: movement.forbidden
   }
 }
 
-function getAction (position, actions, chips) {
+function getMovement (position, actions, chips) {
   const caller = chips.getSelectedChip()
   const movementTypes = [
     {
@@ -15,7 +16,7 @@ function getAction (position, actions, chips) {
     },
     {
       // leave it on own area
-      action: null,
+      forbidden: 'defensive movement: leave ball in own area',
       validation: () => (
         caller.isBall() &&
         position.isArea() &&
@@ -25,7 +26,7 @@ function getAction (position, actions, chips) {
     },
     {
       // selfpass
-      action: null,
+      forbidden: 'selfpass',
       validation: () => {
         const chipsAroundPosition = position.around(chips)
         const chipsAroundBall = caller.position.around(chips)
@@ -64,12 +65,12 @@ function getAction (position, actions, chips) {
       )
     },
     {
-      action: null,
+      forbidden: 'not action attached',
       validation: () => true
     }
   ]
-  const {action} = movementTypes.find(
+  const {action, forbidden} = movementTypes.find(
     (attempt) => attempt.validation()
   )
-  return action
+  return {action, forbidden}
 }
