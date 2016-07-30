@@ -79,11 +79,8 @@ const reducerMap = {
     )
   },
   [MOVE_PLAYER]: (state, {payload: {position}}) => {
-    const selectedPlayerIndex = state.findIndex(({isSelected}) => isSelected)
-    return state.updateIn(
-      [selectedPlayerIndex],
-      (chip) => chip.set('position', position).set('isSelected', false)
-    )
+    const selectedChip = state.getSelectedChip()
+    return state.moveChip(selectedChip.id, position)
   }
 }
 
