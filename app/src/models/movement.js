@@ -36,12 +36,11 @@ function getAction (position, actions, chips) {
       action: () => actions.moveBall(position),
       validation: () => (
         caller.isBall() &&
-        position.isArea() &&
-        position.field() !== caller.team
+        !position.owner(chips)
       )
     },
     {
-      action: null,
+      action: () => console.log('no action attached'),
       validation: () => true
     }
   ]
