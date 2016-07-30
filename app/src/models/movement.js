@@ -1,12 +1,12 @@
 
-export const createMovement = (position, actions, context) => ({
+export const createMovement = (position, actions, chips) => ({
   position,
-  onClick: getAction(position, actions, context)
+  onClick: getAction(position, actions, chips)
 })
 
-function getAction (position, actions, context) {
-  const caller = context.find((chip) => chip.isSelected)
-  const others = context.filter((chip) => chip !== caller)
+function getAction (position, actions, chips) {
+  const caller = chips.getSelectedChip()
+  const others = chips.list.filter((chip) => chip !== caller)
   const movementTypes = [
     {
       action: () => actions.movePlayer(position, caller.team),

@@ -76,6 +76,23 @@ export const createPosition = ([row, col]) => ({
   isIn (list) {
     return list.findIndex((position) => position.isEqual(this)) >= 0
   },
+  isValidBallPosition (usedPositions) {
+    return this.isInsideBoard() && !this.isIn(usedPositions)
+  },
+  isValidPlayerPosition (usedPositions) {
+    return this.isInsideBoard() &&
+      !this.isGoal() &&
+      !this.isIn(usedPositions)
+  },
+  isObstacleFreeFrom (position, obstacles) {
+    const distance = this.distanceTo(position)
+    return (
+      distance === 1 ||
+      (
+        distance === 2 && !this.getInBetween(position).isIn(obstacles)
+      )
+    )
+  },
   toPixels () {
     const [a, b] = this.value
     return ([a * TILE_SIZE + 'px', b * TILE_SIZE + 'px'])

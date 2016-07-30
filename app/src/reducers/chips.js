@@ -32,7 +32,7 @@ const reducerMap = {
     const selectedChip = state.getSelectedChip()
     if (!selectedChip) return state.selectChip(chipId)
     if (selectedChip.id === chipId) return state.unselectChip()
-    else state.unselectChip().selectChip(chipId)
+    else return state.unselectChip().selectChip(chipId)
   },
   [MOVE_SELECTED_CHIP]: (state, {position, team}) => {
     const selectedPlayerIndex = state.findIndex(({isSelected}) => isSelected)

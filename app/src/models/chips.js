@@ -14,6 +14,14 @@ const chipsPrototype = {
     return this.list.find((chip) => chip.isBall())
   },
 
+  getPlayers () {
+    return this.list.filter((chip) => chip.isBall())
+  },
+
+  getPositions () {
+    return this.list.map(({position}) => position)
+  },
+
   getBallOwner () {
     return this.getBall().team
   },
