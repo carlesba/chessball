@@ -4,7 +4,7 @@ import Movements from 'src/containers/Movements'
 import NotificationRoot from 'src/containers/NotificationRoot'
 import Chips from 'src/containers/Chips'
 import {connect} from 'react-redux'
-import {calcTeam, switchTeam} from 'src/models/Position'
+import {calcTeam, switchTeam} from 'src/models/position'
 import {score} from 'src/actions/chips'
 
 const Game = ({onClick}) => {

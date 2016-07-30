@@ -3,7 +3,7 @@ import {deepFreeze} from 'freezr'
 import chipsReducer from 'src/reducers/chips'
 import {TEAM_A, TEAM_B, BALL, PLAYER} from 'src/constants'
 import {selectChip, moveSelectedChip} from 'src/actions/chips'
-import {isEqual} from 'src/models/Position'
+import {isEqual} from 'src/models/position'
 
 describe('chipsReducer:\n', () => {
   describe('initialState:\n', () => {

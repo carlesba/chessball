@@ -1,5 +1,5 @@
 import calculateMovementsPositions from 'src/selectors/calculateMovementsPositions'
-import {createMovement} from 'src/models/Movement'
+import {createMovement} from 'src/models/movement'
 
 export default function calculateMovements (chips, actions) {
   return calculateMovementsPositions(chips)

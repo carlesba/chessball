@@ -1,6 +1,6 @@
 import {createChips} from 'src/models/chips'
 import createReducer from 'src/lib/createReducer'
-import {distance, switchTeam} from 'src/models/Position'
+import {distance, switchTeam} from 'src/models/position'
 import {freeze} from 'freezr'
 import {
   SELECT_CHIP,

@@ -1,5 +1,5 @@
 import {freeze} from 'freezr'
-import {createChip} from './Chip'
+import {createChip} from './chip'
 
 const chipsPrototype = {
   getChip (id) {

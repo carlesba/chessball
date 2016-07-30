@@ -1,5 +1,5 @@
 import expect from 'expect'
-import {distance} from 'src/models/Position'
+import {distance} from 'src/models/position'
 
 describe('distance', () => {
   it('returns -1 when elements are not ortogonal', () => {

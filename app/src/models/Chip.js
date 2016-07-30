@@ -1,6 +1,6 @@
 import {v4} from 'node-uuid'
 import {freeze} from 'freezr'
-import {createPosition} from 'src/models/Position'
+import {createPosition} from 'src/models/position'
 import {PLAYER, BALL} from 'src/constants'
 
 const chipPrototype = {

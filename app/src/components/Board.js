@@ -1,6 +1,6 @@
 import React from 'react'
 import Tile from 'src/components/Tile'
-import {createPosition} from 'src/models/Position'
+import {createPosition} from 'src/models/position'
 import {BOARD_ROWS, BOARD_COLS} from 'src/constants'
 
 let tiles = []
