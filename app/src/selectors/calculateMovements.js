@@ -19,6 +19,7 @@ function calculateBallMovements (chips, actions) {
   return positionsFromTo(ballPosition, BALL_DISTANCE)
     .filter((pos) => pos.isValidBallPosition(usedPositions))
     .map((pos) => createMovement(pos, actions, chips))
+    .filter((movement) => !!movement.onClick)
 }
 
 function calculatePlayerMovements (chips, actions) {
@@ -28,6 +29,7 @@ function calculatePlayerMovements (chips, actions) {
     .filter((pos) => pos.isValidPlayerPosition(usedPositions))
     .filter((pos) => pos.isObstacleFreeFrom(origin, usedPositions))
     .map((pos) => createMovement(pos, actions, chips))
+    .filter((movement) => !!movement.onClick)
 }
 
 const DIRECTIONS = [

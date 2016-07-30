@@ -1,8 +1,10 @@
-
-export const createMovement = (position, actions, chips) => ({
-  position,
-  onClick: getAction(position, actions, chips)
-})
+export const createMovement = (position, actions, chips) => {
+  const action = getAction(position, actions, chips)
+  return {
+    position,
+    onClick: action
+  }
+}
 
 function getAction (position, actions, chips) {
   const caller = chips.getSelectedChip()
@@ -40,7 +42,7 @@ function getAction (position, actions, chips) {
       )
     },
     {
-      action: () => console.log('no action attached'),
+      action: null,
       validation: () => true
     }
   ]
