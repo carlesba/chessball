@@ -15,12 +15,12 @@ export function selectChip (chipId) {
   }
 }
 
-export function moveSelectedChip (position, team) {
-  return {
-    type: MOVE_SELECTED_CHIP,
-    position, team
-  }
-}
+// export function moveSelectedChip (position, team) {
+//   return {
+//     type: MOVE_SELECTED_CHIP,
+//     position, team
+//   }
+// }
 
 export function score (team) {
   return {
@@ -29,10 +29,10 @@ export function score (team) {
   }
 }
 
-export function movePlayer (position) {
+export function movePlayer (position, team) {
   return {
     type: MOVE_PLAYER,
-    payload: {position}
+    payload: {position, team}
   }
 }
 

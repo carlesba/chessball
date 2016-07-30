@@ -9,7 +9,7 @@ function getAction (position, actions, context) {
   const others = context.filter((chip) => chip !== caller)
   const movementTypes = [
     {
-      action: () => actions.movePlayer(position),
+      action: () => actions.movePlayer(position, caller.team),
       validation: () => caller.isPlayer()
     },
     {
@@ -46,6 +46,8 @@ function getAction (position, actions, context) {
       validation: () => true
     }
   ]
-  const {action} = movementTypes.find((attempt) => attempt.validation())
+  const {action} = movementTypes.find(
+    (attempt) => attempt.validation()
+  )
   return action
 }

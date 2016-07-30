@@ -1,6 +1,5 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import isGoalSelector from 'src/selectors/isGoalSelector'
 
 const NotificationRoot = React.createClass({
   render () {
@@ -27,5 +26,5 @@ const goalNotificationStyles = {
 }
 
 export default connect((state) => {
-  return {isGoal: isGoalSelector(state)}
+  return {isGoal: false}
 })(NotificationRoot)

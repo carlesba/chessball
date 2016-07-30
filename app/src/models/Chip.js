@@ -3,26 +3,47 @@ import {freeze} from 'freezr'
 import {createPosition} from 'src/models/Position'
 import {PLAYER, BALL} from 'src/constants'
 
-export const createChip = ({
-  position,
-  team,
-  selectable,
-  type,
-  isKeeper
-}) => {
-  return freeze({
-    id: v4(),
-    position: createPosition(position),
-    team,
-    selectable,
-    type,
-    isBall () { return type === BALL },
-    isPlayer () { return type === PLAYER },
-    isKeeper,
-    isSelected: false
-  })
+const chipPrototype = {
+  isBall () {
+    return this.type === BALL
+  },
+  isPlayer () {
+    return this.type === PLAYER
+  },
+  setSelectable (value) {
+    return this.set('selectable', value)
+  },
+  select () {
+    return this.set('isSelected', true)
+  },
+  unselect () {
+    return this.set('isSelected', false)
+  },
+  moveChip (position) {
+    return this.set('position', position)
+  }
 }
 
-export function createChips (listOfChips) {
-  return freeze(listOfChips).map((chip) => createChip(chip))
+export const createChip = (props) => {
+  const {
+    id,
+    position,
+    team,
+    type,
+    selectable,
+    isSelected,
+    isKeeper
+  } = props
+  return freeze({
+    id: id || v4(),
+    position: Array.isArray(position)
+      ? createPosition(position)
+      : props.position,
+    team,
+    type,
+    selectable,
+    isSelected,
+    isKeeper,
+    ...chipPrototype
+  })
 }

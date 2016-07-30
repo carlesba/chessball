@@ -1,5 +1,5 @@
 export default function calculateMovementsPositions (chips) {
-  const selectedChip = chips.find(({isSelected}) => isSelected)
+  const selectedChip = chips.getSelectedChip()
   if (!selectedChip) return []
   return selectedChip.isBall()
     ? ballPositions(chips)

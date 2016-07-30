@@ -4,8 +4,6 @@ import Movements from 'src/containers/Movements'
 import NotificationRoot from 'src/containers/NotificationRoot'
 import Chips from 'src/containers/Chips'
 import {connect} from 'react-redux'
-import isGoalSelector from 'src/selectors/isGoalSelector'
-import ballSelector from 'src/selectors/ballSelector'
 import {calcTeam, switchTeam} from 'src/models/Position'
 import {score} from 'src/actions/chips'
 
@@ -27,13 +25,7 @@ const styles = {
 
 const mergeProps = (state, actions) => {
   return {
-    onClick: () => {
-      if (isGoalSelector(state)) {
-        const {position} = ballSelector(state)
-        // const teamScored = calcTeam([row, col])
-        // actions.score(switchTeam(teamScored))
-      }
-    }
+    onClick: () => { }
   }
 }
 
