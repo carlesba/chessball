@@ -50,9 +50,9 @@ export function moveBall (position) {
   }
 }
 
-export function kickOff () {
+export function kickOff (team) {
   return {
     type: KICK_OFF,
-    payload: {}
+    payload: {team}
   }
 }

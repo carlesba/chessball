@@ -77,8 +77,8 @@ const reducerMap = {
       .setTeamSelectable(state.getBallOwner())
       .setBallOwner(null)
   },
-  [KICK_OFF]: (state) => {
-    return initialState
+  [KICK_OFF]: (state, {payload: {team}}) => {
+    return initialState.setTeamSelectable(team)
   }
 }
 

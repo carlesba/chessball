@@ -7,7 +7,7 @@ const GoalNotification = React.createClass({
     return (
       <div
         style={dialogWrapperStyles}
-        onClick={() => this.props.kickOff()}
+        onClick={this.props.onClick}
       >
         <div style={goalNotificationStyles}>Goal!!</div>
       </div>
@@ -32,4 +32,13 @@ const goalNotificationStyles = {
   fontWeigth: 'bold'
 }
 
-export default connect(null, {kickOff})(GoalNotification)
+export default connect(
+  (state) => state,
+  {kickOff},
+  ({chips}, {kickOff}) => {
+    const kickOffTeam = chips.getBallPosition().field()
+    return {
+      onClick: () => kickOff(kickOffTeam)
+    }
+  }
+)(GoalNotification)
