@@ -26,6 +26,10 @@ const chipsPrototype = {
     return this.getBall().team
   },
 
+  getBallPositionOwner (chips) {
+    return this.getBall().position.owner(chips)
+  },
+
   getSelectedChip () {
     return this.list.find((chip) => chip.isSelected)
   },
@@ -64,6 +68,11 @@ const chipsPrototype = {
 
   moveChip (chipId, position) {
     return this.setChip(chipId, (chip) => chip.move(position))
+  },
+
+  moveBall (position) {
+    const chipId = this.getBall().id
+    return this.moveChip(chipId, position)
   },
 
   unselectChip () {

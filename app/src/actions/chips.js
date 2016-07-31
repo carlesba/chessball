@@ -36,23 +36,23 @@ export function movePlayer (position, team) {
   }
 }
 
-export function passBall () {
+export function passBall (position) {
   return {
     type: PASS_BALL,
-    payload: {}
+    payload: {position}
   }
 }
 
-export function moveBallToBonus () {
+export function moveBallToBonus (position) {
   return {
     type: MOVE_BALL_TO_BONUS,
-    payload: {}
+    payload: {position}
   }
 }
 
-export function moveBall () {
+export function moveBall (position) {
   return {
     type: MOVE_BALL,
-    payload: {}
+    payload: {position}
   }
 }
