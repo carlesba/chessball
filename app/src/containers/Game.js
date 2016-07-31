@@ -3,6 +3,7 @@ import Board from 'src/components/Board'
 import Movements from 'src/containers/Movements'
 import NotificationRoot from 'src/containers/NotificationRoot'
 import Chips from 'src/containers/Chips'
+import Score from 'src/containers/score'
 
 const Game = () => {
   return (
@@ -11,6 +12,7 @@ const Game = () => {
       <Movements />
       <Chips />
       <NotificationRoot />
+      <Score />
     </div>
   )
 }

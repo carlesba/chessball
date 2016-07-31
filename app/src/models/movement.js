@@ -1,3 +1,4 @@
+import switchTeam from 'src/lib/switchTeam'
 export const createMovement = (position, actions, state) => {
   const movement = getMovement(position, actions, state)
   return {
@@ -72,7 +73,7 @@ function getMovement (position, actions, {chips, passCount}) {
       )
     },
     {
-      action: () => actions.score(position),
+      action: () => actions.score(position, switchTeam(position.field())),
       validation: () => (
         caller.isBall() &&
         position.isGoal()
