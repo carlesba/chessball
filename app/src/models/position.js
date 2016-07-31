@@ -21,7 +21,9 @@ export const createPosition = ([row, col]) => ({
       : TEAM_B
   },
   isArea () {
-    return ((row > 0 && row < 5) || (row > 9 && row < BOARD_ROWS)) &&
+    return (
+      (row > 0 && row < 5) || (row > 9 && row < BOARD_ROWS - 1)
+    ) &&
     (col > 0 && col < BOARD_COLS - 1)
   },
   isGoal () {
