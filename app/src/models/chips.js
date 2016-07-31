@@ -53,7 +53,7 @@ const chipsPrototype = {
 
   setTeamSelectable (team) {
     const newChips = this.list.map((chip) => {
-      if (chip.isBall()) return chip
+      if (chip.isBall()) return chip.setSelectable(false)
       else return chip.setSelectable(chip.team === team)
     })
     return this.set('list', newChips)
