@@ -10,11 +10,8 @@ export default function chipSelector (state, {selectChip}) {
       isSelected: chip.isSelected,
       position: chip.position,
       onClick: () => {
-        if (chip.isSelected) {
-          selectChip()
-        } else if (chip.selectable) {
-          selectChip(chip.id)
-        }
+        if (chip.isSelected) return chip.isBall() ? null : selectChip()
+        if (chip.selectable) return selectChip(chip.id)
       }
     })
   )
