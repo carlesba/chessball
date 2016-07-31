@@ -21,13 +21,13 @@ const Movements = ({movements, moveSelectedChip, turnOwner}) => {
 const mergeProps = (state, actions) => {
   const selectedChip = state.chips.getSelectedChip()
   return {
-    movements: calculateMovements(state.chips, actions),
+    movements: calculateMovements(state, actions),
     turnOwner: selectedChip && selectedChip.team
   }
 }
 
 export default connect(
-  ({chips}) => ({chips}),
+  (state) => state,
   chipActions,
   mergeProps
 )(Movements)

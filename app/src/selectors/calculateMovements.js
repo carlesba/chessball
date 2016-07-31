@@ -1,34 +1,36 @@
 import {createMovement} from 'src/models/movement'
 
-export default function calculateMovements (chips, actions) {
-  const selectedChip = chips.getSelectedChip()
+export default function calculateMovements (state, actions) {
+  const selectedChip = state.chips.getSelectedChip()
   if (!selectedChip) return []
   if (selectedChip.isBall()) {
-    return calculateBallMovements(chips, actions)
+    return calculateBallMovements(state, actions)
   } else {
-    return calculatePlayerMovements(chips, actions)
+    return calculatePlayerMovements(state, actions)
   }
 }
 
 const BALL_DISTANCE = 4
 const PLAYER_DISTANCE = 2
 
-function calculateBallMovements (chips, actions) {
+function calculateBallMovements (state, actions) {
+  const {chips} = state
   const ballPosition = chips.getBall().position
   const usedPositions = chips.getPositions()
   return positionsFromTo(ballPosition, BALL_DISTANCE)
     .filter((pos) => pos.isValidBallPosition(usedPositions))
-    .map((pos) => createMovement(pos, actions, chips))
+    .map((pos) => createMovement(pos, actions, state))
     .filter((movement) => !!movement.onClick)
 }
 
-function calculatePlayerMovements (chips, actions) {
+function calculatePlayerMovements (state, actions) {
+  const {chips} = state
   const origin = chips.getSelectedChip().position
   const usedPositions = chips.getPositions()
   return positionsFromTo(origin, PLAYER_DISTANCE)
     .filter((pos) => pos.isValidPlayerPosition(usedPositions))
     .filter((pos) => pos.isObstacleFreeFrom(origin, usedPositions))
-    .map((pos) => createMovement(pos, actions, chips))
+    .map((pos) => createMovement(pos, actions, state))
     .filter((movement) => !!movement.onClick)
 }
 

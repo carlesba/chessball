@@ -1,6 +1,6 @@
 # Next
 
-- [ ] Handle max passes allowed
+- [x] Handle max passes allowed
 - [ ] Goal rutine
 - [ ] Goal Keeper hands
 - [ ] Removing Goal Keeper Hands

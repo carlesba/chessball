@@ -1,5 +1,5 @@
-export const createMovement = (position, actions, chips) => {
-  const movement = getMovement(position, actions, chips)
+export const createMovement = (position, actions, state) => {
+  const movement = getMovement(position, actions, state)
   return {
     position,
     onClick: movement.action,
@@ -7,7 +7,7 @@ export const createMovement = (position, actions, chips) => {
   }
 }
 
-function getMovement (position, actions, chips) {
+function getMovement (position, actions, {chips, passCount}) {
   const caller = chips.getSelectedChip()
   const movementTypes = [
     {
@@ -38,6 +38,15 @@ function getMovement (position, actions, chips) {
           chipsAroundPosition.length === 1 &&
           chipsAroundPosition[0] === chipsAroundBall[0]
       }
+    },
+    {
+      // maxpass
+      forbidden: 'max passes reached',
+      validation: () => (
+        passCount === 3 &&
+        caller.isBall() &&
+        position.owner(chips) === caller.team
+      )
     },
     {
       action: () => actions.passBall(position),
