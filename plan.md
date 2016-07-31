@@ -2,8 +2,9 @@
 
 - [x] Handle max passes allowed
 - [x] Goal rutine
-- [ ] Goal Keeper hands
-- [ ] Removing Goal Keeper Hands
+- [x] Goal Keeper hands
+- [x] Removing Goal Keeper Hands
+- [ ] Fixing when to stop ball/removing keeper hands
 - [ ] Fixing styles arquitecture
 - [ ] Show score
 - [ ] Set a winner (first rising 2 goals?)

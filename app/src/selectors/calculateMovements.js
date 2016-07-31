@@ -17,22 +17,50 @@ function calculateBallMovements (state, actions) {
   const {chips} = state
   const ballPosition = chips.getBall().position
   const usedPositions = chips.getPositions()
+  const keeperSaves = chips.getKeepersSaves()
   return positionsFromTo(ballPosition, BALL_DISTANCE)
-    .filter((pos) => pos.isValidBallPosition(usedPositions))
-    .map((pos) => createMovement(pos, actions, state))
-    .filter((movement) => !!movement.onClick)
+    .filter(isValidBallPosition(usedPositions))
+    .filter(keeperSavePosition(ballPosition, keeperSaves))
+    .map(createMovementWithActions(actions, state))
+    .filter(movementsWithoutAction)
 }
 
 function calculatePlayerMovements (state, actions) {
   const {chips} = state
-  const origin = chips.getSelectedChip().position
+  const selectedChip = chips.getSelectedChip()
+  const origin = selectedChip.position
   const usedPositions = chips.getPositions()
+  const keeperHands = chips.getKeepersHandsPositions()
   return positionsFromTo(origin, PLAYER_DISTANCE)
-    .filter((pos) => pos.isValidPlayerPosition(usedPositions))
-    .filter((pos) => pos.isObstacleFreeFrom(origin, usedPositions))
-    .map((pos) => createMovement(pos, actions, state))
-    .filter((movement) => !!movement.onClick)
+    .filter(isValidPlayerPosition(usedPositions))
+    .filter(isObstacleFreeFrom(origin, usedPositions))
+    .filter(isObstacleFreeFrom(origin, keeperHands))
+    .filter(notKeeperHandsPosition(selectedChip, keeperHands))
+    .map(createMovementWithActions(actions, state))
+    .filter(movementsWithoutAction)
 }
+
+const isValidBallPosition = (usedPositions) => (pos) =>
+  pos.isValidBallPosition(usedPositions)
+
+const isValidPlayerPosition = (usedPositions) => (pos) =>
+  pos.isValidPlayerPosition(usedPositions)
+
+const keeperSavePosition = (origin, saves) => (pos) => pos
+
+const isObstacleFreeFrom = (origin, obstacles) => (pos) =>
+  pos.isPathFreeUntil(origin, obstacles)
+
+const createMovementWithActions = (actions, state) => (pos) =>
+  createMovement(pos, actions, state)
+
+const notKeeperHandsPosition = (caller, keeperHands) => (pos) => {
+  if (caller.isKeeper) return pos
+  // TODO: filter positions when keeper would be next to other chip inside area
+  return !pos.isIn(keeperHands)
+}
+
+const movementsWithoutAction = (movement) => !!movement.onClick
 
 const DIRECTIONS = [
   [0, 1], [1, 0], [1, 1],

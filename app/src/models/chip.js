@@ -21,6 +21,22 @@ const chipPrototype = {
   },
   move (position) {
     return this.set('position', position)
+  },
+  keeperHands () {
+    if (
+      this.isKeeper &&
+      this.position.isArea() &&
+      this.position.field() === this.team
+    ) {
+      const left = this.position.increase([0, -1])
+      const right = this.position.increase([0, 1])
+      let hands = []
+      if (left.isArea()) hands.push(left)
+      if (right.isArea()) hands.push(right)
+      return hands
+    } else {
+      return []
+    }
   }
 }
 

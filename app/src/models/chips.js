@@ -34,6 +34,26 @@ const chipsPrototype = {
     return this.getBall().position.owner(chips)
   },
 
+  getKeepersInArea () {
+    return this.list
+      .filter((chip) => chip.isKeeper)
+      .filter((chip) => chip.position.isArea() && chip.position.field() === chip.team)
+  },
+
+  getKeepersHandsPositions () {
+    return this.getKeepersInArea()
+      .reduce(
+        (hands, keeper) => hands.concat(keeper.keeperHands()),
+        []
+      )
+  },
+
+  getKeepersSaves () {
+    const keeperPos = this.getKeepersInArea().map(({position}) => position)
+    const handsPos = this.getKeepersHandsPositions()
+    return [...keeperPos, ...handsPos]
+  },
+
   getSelectedChip () {
     return this.list.find((chip) => chip.isSelected)
   },

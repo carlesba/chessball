@@ -98,6 +98,49 @@ export const createPosition = ([row, col]) => ({
       )
     )
   },
+  isPathFreeUntil (position, obstacles) {
+    return obstacles
+      .findIndex((obstacle) => obstacle.isInBetween(this, position)) < 0
+  },
+  isHorizontallyAligned (target) {
+    return this.row === target.row
+  },
+  isVerticallyAligned (target) {
+    return this.col === target.col
+  },
+  isDiagonallyAligned (target) {
+    return target.row - this.row === target.col - this.col
+  },
+  isInBetween (beginning, end) {
+    const toBeginning = this.distanceTo(beginning)
+    const toEnd = this.distanceTo(end)
+    const beginningToEnd = beginning.distanceTo(end)
+
+    return (
+      // distances matches
+      beginningToEnd === (toEnd + toBeginning) &&
+      // all valid distances, avoid -1 matches
+      toBeginning > 0 && toEnd > 0 &&
+      (
+        (
+          // all of them aligned diagonally
+          beginning.isDiagonallyAligned(end) &&
+          this.isDiagonallyAligned(beginning) &&
+          this.isDiagonallyAligned(end)
+        ) ||
+        (
+          beginning.isHorizontallyAligned(end) &&
+          this.isHorizontallyAligned(beginning) &&
+          this.isHorizontallyAligned(end)
+        ) ||
+        (
+          beginning.isVerticallyAligned(end) &&
+          this.isVerticallyAligned(beginning) &&
+          this.isVerticallyAligned(end)
+        )
+      )
+    )
+  },
   toPixels () {
     const [a, b] = this.value
     return ([a * TILE_SIZE + 'px', b * TILE_SIZE + 'px'])
