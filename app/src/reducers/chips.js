@@ -20,13 +20,13 @@ const initialState = createChips([
   {position: [2, 5], team: TEAM_A, selectable: true, type: PLAYER, isKeeper: true},
   {position: [4, 3], team: TEAM_A, selectable: true, type: PLAYER},
   {position: [4, 7], team: TEAM_A, selectable: true, type: PLAYER},
-  {position: [6, 1], team: TEAM_A, selectable: true, type: PLAYER},
-  {position: [6, 9], team: TEAM_A, selectable: true, type: PLAYER},
+  {position: [6, 2], team: TEAM_A, selectable: true, type: PLAYER},
+  {position: [6, 8], team: TEAM_A, selectable: true, type: PLAYER},
   {position: [12, 5], team: TEAM_B, selectable: false, type: PLAYER, isKeeper: true},
   {position: [10, 3], team: TEAM_B, selectable: false, type: PLAYER},
   {position: [10, 7], team: TEAM_B, selectable: false, type: PLAYER},
-  {position: [8, 1], team: TEAM_B, selectable: false, type: PLAYER},
-  {position: [8, 9], team: TEAM_B, selectable: false, type: PLAYER}
+  {position: [8, 2], team: TEAM_B, selectable: false, type: PLAYER},
+  {position: [8, 8], team: TEAM_B, selectable: false, type: PLAYER}
 ])
 
 const reducerMap = {
