@@ -104,6 +104,12 @@ const reducerMap = {
   },
   [PASS_BALL]: (state, {payload: {position}}) => {
     return state.moveBall(position)
+  },
+  [SCORE]: (state, {payload: {position}}) => {
+    return state
+      .moveBall(position)
+      .unselectChip()
+      .setTeamSelectable()
   }
 }
 
