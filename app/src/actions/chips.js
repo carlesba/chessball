@@ -1,6 +1,5 @@
 import {
   SELECT_CHIP,
-  MOVE_SELECTED_CHIP,
   SCORE,
   MOVE_PLAYER,
   MOVE_BALL,
@@ -11,7 +10,7 @@ import {
 export function selectChip (chipId) {
   return {
     type: SELECT_CHIP,
-    chipId
+    payload: {chipId}
   }
 }
 
