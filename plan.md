@@ -1,31 +1,10 @@
-# Models
-Chip ()
- - chipId
- - position
- - owner
- - role
- - selectable
- - isSelected
- - ownedPositions: [position…]
+# Next
 
-<!-- Game ()
- - turn
- - players: [player1, player2]
- - score: [score1, score2]
- - passCounter -->
-
-
-# Selectors
-calculateMovements (chips, selectedChipId) : selectedTiles
-hasBeenGoal(chips): container dispatch score()
-<!-- selectableChips (chips, gameStatus) -->
-
-# Actions
-selectChip(chipId)
-moveSelectedChip(position)
-score()
-
-# Reducers
-chips: [chip…]
-<!-- tiles: [tile…] -->
-score: [0, 0]
+- [ ] Handle max passes allowed
+- [ ] Goal rutine
+- [ ] Goal Keeper hands
+- [ ] Removing Goal Keeper Hands
+- [ ] Fixing styles arquitecture
+- [ ] Show score
+- [ ] Set a winner (first rising 2 goals?)
+- [ ] merge to master!
