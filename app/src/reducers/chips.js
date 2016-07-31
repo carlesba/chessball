@@ -88,6 +88,7 @@ const reducerMap = {
       return afterMovement
         .setBallOwner(newBallOwner)
         .setBallSelectable()
+        .selectChip(state.getBall().id)
     } else {
       const selectableTeam = switchTeam(selectedChip.team)
       return afterMovement
