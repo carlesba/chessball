@@ -10,6 +10,7 @@ import {
   MOVE_PLAYER,
   MOVE_BALL,
   PASS_BALL,
+  MOVE_BALL_TO_BONUS,
   BALL
 } from 'src/constants'
 
@@ -111,6 +112,13 @@ const reducerMap = {
       .moveBall(position)
       .unselectChip()
       .setTeamSelectable()
+  },
+  [MOVE_BALL_TO_BONUS]: (state, {payload: {position}}) => {
+    return state
+      .moveBall(position)
+      .unselectChip()
+      .setTeamSelectable(state.getBallOwner())
+      .setBallOwner(null)
   }
 }
 
