@@ -3,13 +3,10 @@ import Board from 'src/components/Board'
 import Movements from 'src/containers/Movements'
 import NotificationRoot from 'src/containers/NotificationRoot'
 import Chips from 'src/containers/Chips'
-import {connect} from 'react-redux'
-import {calcTeam, switchTeam} from 'src/models/position'
-import {score} from 'src/actions/chips'
 
-const Game = ({onClick}) => {
+const Game = () => {
   return (
-    <div style={styles} onClick={onClick}>
+    <div style={styles}>
       <Board />
       <Movements />
       <Chips />
@@ -23,14 +20,4 @@ const styles = {
   width: `${11 * 50}px`
 }
 
-const mergeProps = (state, actions) => {
-  return {
-    onClick: () => { }
-  }
-}
-
-export default connect(
-  (state) => state,
-  {score},
-  mergeProps
-)(Game)
+export default Game

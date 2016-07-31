@@ -4,7 +4,8 @@ import {
   MOVE_PLAYER,
   MOVE_BALL,
   MOVE_BALL_TO_BONUS,
-  PASS_BALL
+  PASS_BALL,
+  KICK_OFF
 } from 'src/constants'
 
 export function selectChip (chipId) {
@@ -46,5 +47,12 @@ export function moveBall (position) {
   return {
     type: MOVE_BALL,
     payload: {position}
+  }
+}
+
+export function kickOff () {
+  return {
+    type: KICK_OFF,
+    payload: {}
   }
 }

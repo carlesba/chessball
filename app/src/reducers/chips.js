@@ -11,7 +11,8 @@ import {
   MOVE_BALL,
   PASS_BALL,
   MOVE_BALL_TO_BONUS,
-  BALL
+  BALL,
+  KICK_OFF
 } from 'src/constants'
 
 const initialState = createChips([
@@ -75,6 +76,9 @@ const reducerMap = {
       .unselectChip()
       .setTeamSelectable(state.getBallOwner())
       .setBallOwner(null)
+  },
+  [KICK_OFF]: (state) => {
+    return initialState
   }
 }
 

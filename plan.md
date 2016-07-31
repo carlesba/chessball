@@ -1,7 +1,7 @@
 # Next
 
 - [x] Handle max passes allowed
-- [ ] Goal rutine
+- [x] Goal rutine
 - [ ] Goal Keeper hands
 - [ ] Removing Goal Keeper Hands
 - [ ] Fixing styles arquitecture

@@ -26,6 +26,10 @@ const chipsPrototype = {
     return this.getBall().team
   },
 
+  getBallPosition () {
+    return this.getBall().position
+  },
+
   getBallPositionOwner (chips) {
     return this.getBall().position.owner(chips)
   },
@@ -86,6 +90,10 @@ const chipsPrototype = {
 
   selectChip (chipId) {
     return this.setChip(chipId, (chip) => chip.select())
+  },
+
+  isGoal () {
+    return this.getBallPosition().isGoal()
   }
 }
 

@@ -1,30 +1,23 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import GoalNotification from 'src/containers/goal-notification'
 
 const NotificationRoot = React.createClass({
   render () {
-    const goal = this.props.isGoal
-      ? (<div style={goalNotificationStyles}>Goal!!</div>)
-      : null
+    if (!this.props.isGoal) return null
     return (
-      <div style={notificationStyles}>
-        {goal}
-      </div>
+      <div style={notificationStyles}><GoalNotification /></div>
     )
   }
 })
 
 const notificationStyles = {
-  position: 'absolute',
-  top: '50vh'
-}
-const goalNotificationStyles = {
-  background: 'yellow',
-  fontSize: '40px',
-  fontFamily: 'Helvetica, Arial, sans-serif',
-  fontWeigth: 'bold'
+  position: 'relative',
+  height: '100vh'
 }
 
-export default connect((state) => {
-  return {isGoal: false}
-})(NotificationRoot)
+export default connect(
+  (state) => ({
+    isGoal: state.chips.isGoal()
+  }),
+)(NotificationRoot)

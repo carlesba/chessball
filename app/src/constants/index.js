@@ -6,6 +6,7 @@ export const MOVE_PLAYER = 'MOVE_PLAYER'
 export const MOVE_BALL = 'MOVE_BALL'
 export const MOVE_BALL_TO_BONUS = 'MOVE_BALL_TO_BONUS'
 export const PASS_BALL = 'PASS_BALL'
+export const KICK_OFF = 'KICK_OFF'
 
 export const BALL = 'BALL'
 export const PLAYER = 'PLAYER'
