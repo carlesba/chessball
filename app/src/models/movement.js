@@ -28,8 +28,11 @@ function getMovement (position, actions, chips) {
       // selfpass
       forbidden: 'selfpass',
       validation: () => {
+        const callerTeam = caller.team
         const chipsAroundPosition = position.around(chips)
+          .filter(({team}) => callerTeam === team)
         const chipsAroundBall = caller.position.around(chips)
+          .filter(({team}) => callerTeam === team)
         return caller.isBall() &&
           chipsAroundBall.length === 1 &&
           chipsAroundPosition.length === 1 &&
