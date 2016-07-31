@@ -44,10 +44,19 @@ function getMovement (position, actions, chips) {
       )
     },
     {
+      action: () => actions.moveBall(position),
+      validation: () => (
+        caller.isBall() &&
+        position.isBonus() &&
+        position.field() === caller.team
+      )
+    },
+    {
       action: () => actions.moveBallToBonus(position),
       validation: () => (
         caller.isBall() &&
-        position.isBonus()
+        position.isBonus() &&
+        position.field() !== caller.team
       )
     },
     {
