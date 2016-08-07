@@ -5,7 +5,11 @@
 - [x] Goal Keeper hands
 - [x] Removing Goal Keeper Hands
 - [x] Fixing when to stop ball/removing keeper hands
-- [ ] Fixing styles arquitecture
 - [x] Show score
+- [ ] Fixing styles arquitecture
+- [ ] Build a proper score
+- [ ] Redesign game
+- [ ] Add Keeper hands
+- [ ] Add tooltips to show why can't do a movement
 - [ ] Set a winner (first rising 2 goals?)
-- [ ] merge to master!
+- [ ] Reset game when there's a winner
