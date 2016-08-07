@@ -6,6 +6,7 @@
 - [x] Removing Goal Keeper Hands
 - [x] Fixing when to stop ball/removing keeper hands
 - [x] Show score
+- [ ] Bug Keeper can move throuh itself
 - [ ] Avoid ball to pass through chips on bonus position
 - [ ] Remove hands saves when keeper is on bonus position
 - [ ] Fixing styles arquitecture
