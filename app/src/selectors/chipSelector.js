@@ -8,6 +8,7 @@ export default function chipSelector (state, {selectChip}) {
       team: chip.team,
       selectable: chip.selectable,
       isSelected: chip.isSelected,
+      isKeeper: chip.isKeeper,
       position: chip.position,
       onClick: () => {
         if (chip.isSelected) return chip.isBall() ? null : selectChip()

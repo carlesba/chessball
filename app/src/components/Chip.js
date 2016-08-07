@@ -2,7 +2,7 @@ import React from 'react'
 import {TEAM_A, TEAM_B, PLAYER, BALL} from 'src/constants'
 import objectComposer from 'src/lib/objectComposer'
 
-const Chip = ({position, type, team, selectable, onClick}) => {
+const Chip = ({position, isKeeper, type, team, selectable, onClick}) => {
   const [top, left] = position.toPixels()
   const styles = objectComposer(chipStyles.default, {
     top,
@@ -13,7 +13,8 @@ const Chip = ({position, type, team, selectable, onClick}) => {
     [chipStyles.ball, type === BALL],
     [chipStyles.selectable, selectable]
   )
-  return (<div style={styles} onClick={onClick} />)
+  const keeper = isKeeper ? '<:::::>' : ''
+  return (<div style={styles} onClick={onClick}>{keeper}</div>)
 }
 
 const chipStyles = {

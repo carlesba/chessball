@@ -15,6 +15,7 @@ const Chips = ({chips}) => {
           team={chip.team}
           isSelected={chip.isSelected}
           selectable={chip.selectable}
+          isKeeper={chip.isKeeper}
           type={chip.type}
           onClick={chip.onClick}
           />
