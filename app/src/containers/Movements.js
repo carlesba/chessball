@@ -12,6 +12,7 @@ const Movements = ({movements, moveSelectedChip, turnOwner}) => {
           key={i}
           position={movement.position}
           onClick={movement.onClick}
+          message={movement.error}
         />
       )}
     </div>

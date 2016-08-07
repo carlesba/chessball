@@ -17,10 +17,17 @@ describe('position', () => {
       expect(obstacle.isInBetween(source, target)).toBe(true)
       expect(obstacle.isInBetween(target, source)).toBe(true)
     })
-    it('returns true when it\'s between 2 diaonal positions', () => {
+    it('returns true when it\'s between 2 diagonal positions', () => {
       const source = createPosition([3, 3])
       const obstacle = createPosition([4, 4])
       const target = createPosition([5, 5])
+      expect(obstacle.isInBetween(source, target)).toBe(true)
+      expect(obstacle.isInBetween(target, source)).toBe(true)
+    })
+    it('returns true when position (10,2) is between (9,3) and (11,1)', () => {
+      const source = createPosition([9, 3])
+      const obstacle = createPosition([10, 2])
+      const target = createPosition([11, 1])
       expect(obstacle.isInBetween(source, target)).toBe(true)
       expect(obstacle.isInBetween(target, source)).toBe(true)
     })

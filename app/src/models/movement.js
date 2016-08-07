@@ -1,6 +1,7 @@
 import switchTeam from 'src/lib/switchTeam'
 export const createMovement = (position, actions, state) => {
   const movement = getMovement(position, actions, state)
+  if (movement.forbidden) console.log(position, movement.forbidden)
   return {
     position,
     onClick: movement.action,
@@ -11,6 +12,42 @@ export const createMovement = (position, actions, state) => {
 function getMovement (position, actions, {chips, passCount}) {
   const caller = chips.getSelectedChip()
   const movementTypes = [
+    {
+      forbidden: 'cannot move through other team player',
+      validation: () => {
+        if (caller.isBall()) return false
+        const chipsInBetween = chips
+          .getChipsInBetween(caller.position, position)
+          .filter((chip) => chip.team !== caller.team)
+        return chipsInBetween.length > 0
+      }
+    },
+    {
+      forbidden: 'keeper hand position',
+      validation: () => {
+        if (caller.isBall()) return false
+        if (caller.isKeeper && position.distanceTo(caller.position) === 1) return false
+        return position.isIn(chips.getKeepersHandsPositions())
+      }
+    },
+    {
+      forbidden: 'player can\'t go behind other team\'s keeper',
+      validation: () => {
+        if (caller.isBall()) return false
+        return chips
+          .getKeepersSaves(switchTeam(caller.team))
+          .filter((p) => p.isInBetween(caller.position, position)).length > 0
+      }
+    },
+    {
+      forbidden: 'ball can\'t go through keeper',
+      validation: () => {
+        if (caller.isPlayer()) return false
+        return chips
+          .getKeepersSaves()
+          .filter((p) => p.isInBetween(caller.position, position)).length > 0
+      }
+    },
     {
       action: () => actions.movePlayer(position, caller.team),
       validation: () => caller.isPlayer()
@@ -44,7 +81,7 @@ function getMovement (position, actions, {chips, passCount}) {
       // maxpass
       forbidden: 'max passes reached',
       validation: () => (
-        passCount === 3 &&
+        passCount === 4 &&
         caller.isBall() &&
         position.owner(chips) === caller.team
       )

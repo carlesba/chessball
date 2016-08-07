@@ -34,23 +34,24 @@ const chipsPrototype = {
     return this.getBall().position.owner(chips)
   },
 
-  getKeepersInArea () {
+  getKeepersInArea (team) {
     return this.list
       .filter((chip) => chip.isKeeper)
+      .filter((chip) => team ? chip.team === team : chip)
       .filter((chip) => chip.position.isArea() && chip.position.field() === chip.team)
   },
 
-  getKeepersHandsPositions () {
-    return this.getKeepersInArea()
+  getKeepersHandsPositions (team) {
+    return this.getKeepersInArea(team)
       .reduce(
         (hands, keeper) => hands.concat(keeper.keeperHands()),
         []
       )
   },
 
-  getKeepersSaves () {
-    const keeperPos = this.getKeepersInArea().map(({position}) => position)
-    const handsPos = this.getKeepersHandsPositions()
+  getKeepersSaves (team) {
+    const keeperPos = this.getKeepersInArea(team).map(({position}) => position)
+    const handsPos = this.getKeepersHandsPositions(team)
     return [...keeperPos, ...handsPos]
   },
 
@@ -60,6 +61,10 @@ const chipsPrototype = {
 
   getSelectableTeam () {
     return this.list.find(({selectable}) => selectable).team
+  },
+
+  getChipsInBetween (a, b) {
+    return this.list.filter((chip) => chip.position.isInBetween(a, b))
   },
 
   setChip (chipId, callback) {
