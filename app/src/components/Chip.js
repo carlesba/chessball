@@ -36,7 +36,8 @@ const chipStyles = {
     background: '#dea440'
   },
   selectable: {
-    boxShadow: '0 0 8px 4px #dadada'
+    boxShadow: '0 0 8px 4px #dadada',
+    cursor: 'pointer'
   }
 }
 

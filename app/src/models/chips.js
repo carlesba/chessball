@@ -67,6 +67,10 @@ const chipsPrototype = {
     return this.list.filter((chip) => chip.position.isInBetween(a, b))
   },
 
+  getTeamOwner () {
+    return this.list.find((chip) => chip.selectable).team
+  },
+
   setChip (chipId, callback) {
     const index = this.getChipIndex(chipId)
     const newChips = this.list.updateIn(
