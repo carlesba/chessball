@@ -20,8 +20,6 @@ npm start // and visit http://localhost:8080
 For development
 ```
 npm start // will start webpack watcher
-npm run test // run tests
-npm run tester // will start tester watching and notifying for changes
 ```
 
 ...
