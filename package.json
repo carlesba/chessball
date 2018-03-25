@@ -1,60 +1,27 @@
 {
   "name": "chessball",
-  "version": "0.0.1",
-  "description": "A football chess",
-  "main": "webpack.config.js",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:carlesba/chessball.git",
+  "author": "carlesba <carlesba.mail@gmail.com>",
+  "license": "MIT",
   "scripts": {
-    "start": "webpack-dev-server",
-    "build": "NODE_ENV=production webpack",
-    "test": "mocha --recursive --require ./test/setup.js --compilers js:babel-register --colors",
-    "tdd": "npm test -- --watch --reporter mocha-osx-reporter -R min"
+    "start": "parcel ./index.html"
   },
   "devDependencies": {
-    "babel-core": "^6.9.0",
-    "babel-eslint": "^6.0.4",
-    "babel-loader": "^6.1.0",
-    "babel-preset-es2015": "^6.9.0",
-    "babel-preset-react": "^6.1.18",
-    "babel-preset-stage-0": "^6.1.18",
-    "css-loader": "^0.23.1",
-    "expect": "^1.20.1",
-    "mocha": "^2.3.4",
-    "mocha-osx-reporter": "^0.1.2",
-    "node-sass": "^3.7.0",
-    "redux-logger": "^2.6.1",
-    "sass-loader": "^3.1.2",
-    "standard": "^7.1.0",
-    "style-loader": "^0.13.0",
-    "webpack": "^1.13.1",
-    "webpack-dev-server": "^1.12.1"
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react-app": "^3.1.1",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-config-standard-react": "^6.0.0",
+    "parcel-bundler": "^1.6.2",
+    "prettier-standard": "^8.0.0",
+    "standard": "^11.0.1"
   },
-  "author": "@carlesba",
-  "license": "Apache-2.0",
   "dependencies": {
-    "classname": "0.0.0",
-    "freezr": "0.0.12",
-    "node-uuid": "^1.4.7",
-    "react": "^15.1.0",
-    "react-dom": "^15.1.0",
-    "react-redux": "^4.4.5",
-    "redux": "^3.5.2"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/carlesba/chessball.git"
-  },
-  "bugs": {
-    "url": "https://github.com/carlesba/chessball/issues"
-  },
-  "homepage": "https://github.com/carlesba/chessball#readme",
-  "standard": {
-    "parser": "babel-eslint",
-    "global": [
-      "it",
-      "xit",
-      "describe",
-      "expect",
-      "spyOn"
-    ]
+    "immootable": "^0.4.0",
+    "monet": "^0.8.10",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "styled-components": "^3.2.3"
   }
 }
