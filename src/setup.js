@@ -81,6 +81,7 @@ const tileFromIndex = index => ({
   goal: goalFromIndex(index).some(),
   outside: outsideFromIndex(index).some(),
   bonus: bonusFromIndex(index).some(),
+  enabled: false,
   selection: false
 })
 
@@ -90,5 +91,6 @@ const createIndexArray = size =>
 const createTiles = _ => createIndexArray(165).map(tileFromIndex)
 
 export const createGame = _ => ({
+  currentPlayer: RED,
   tiles: createTiles()
 })

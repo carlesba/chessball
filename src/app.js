@@ -21,7 +21,11 @@ class App extends Component {
       <Board
         tiles={game.tiles}
         onSelect={index =>
-          this.update(Game(game).selectTile(index))
+          Game(game).selectTile(index)
+            .cata(
+              e => console.error(e),
+              this.update
+            )
         }
       />
     )
