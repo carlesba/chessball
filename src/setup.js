@@ -8,16 +8,16 @@ import { Either, Left, Right } from 'monet'
 import {log} from 'immootable'
 
 const INITIAL_CHIPS = [
-  {index: 27, team: RED, keeper: true},
-  {index: 47, team: RED},
-  {index: 51, team: RED},
-  {index: 68, team: RED},
-  {index: 74, team: RED},
-  {index: 137, team: BLUE, keeper: true},
-  {index: 124, team: BLUE},
-  {index: 128, team: BLUE},
-  {index: 101, team: BLUE},
-  {index: 107, team: BLUE}
+  {id: 'r1', index: 27, team: RED, keeper: true},
+  {id: 'r2', index: 47, team: RED},
+  {id: 'r3', index: 51, team: RED},
+  {id: 'r4', index: 68, team: RED},
+  {id: 'r5', index: 74, team: RED},
+  {id: 'b1', index: 137, team: BLUE, keeper: true},
+  {id: 'b2', index: 124, team: BLUE},
+  {id: 'b3', index: 128, team: BLUE},
+  {id: 'b4', index: 101, team: BLUE},
+  {id: 'b5', index: 107, team: BLUE}
 ]
 
 const chipFromIndex = index => INITIAL_CHIPS.find(x => index === x.index)
@@ -92,5 +92,9 @@ const createTiles = _ => createIndexArray(165).map(tileFromIndex)
 
 export const createGame = _ => ({
   currentPlayer: RED,
+  chips: INITIAL_CHIPS,
+  movements: [],
+  highlights: [],
+  score: [0, 0],
   tiles: createTiles()
 })
