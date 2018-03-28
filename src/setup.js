@@ -20,8 +20,6 @@ const INITIAL_CHIPS = [
   {id: 'b5', index: 107, team: BLUE}
 ]
 
-const chipFromIndex = index => INITIAL_CHIPS.find(x => index === x.index)
-
 const fieldTeamFromIndex = index =>
   rowFromIndex(index)
     .map(row => row < ROWS / 2)
@@ -75,14 +73,11 @@ const bonusFromIndex = index => positionFromIndex(index).map(isBonus)
 const tileFromIndex = index => ({
   row: rowFromIndex(index).some(),
   col: colFromIndex(index).some(),
-  chip: chipFromIndex(index),
   field: fieldTeamFromIndex(index).some(),
   area: areaFromIndex(index).some(),
   goal: goalFromIndex(index).some(),
   outside: outsideFromIndex(index).some(),
-  bonus: bonusFromIndex(index).some(),
-  enabled: false,
-  selection: false
+  bonus: bonusFromIndex(index).some()
 })
 
 const createIndexArray = size =>
