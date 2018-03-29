@@ -1,7 +1,7 @@
 import { Left, List, Right, Some, Identity } from 'monet'
 import {get, set, update, log} from 'immootable'
-import * as Tile from './tile'
 import * as Chip from './chip'
+import * as Movement from './movement'
 
 // const currentPlayer = game => get('currentPlayer', game)
 // const getTile = index => game => get(['tiles', index], game)
@@ -15,6 +15,12 @@ const setChip = game => chip =>
     game
   )
 
+const setMovements = game => movements => set(
+  'movements',
+  movements,
+  game
+)
+
 const getSelectedChip = game => List(get('chips', game))
   .find(Chip.isSelected)
 
@@ -27,11 +33,10 @@ const moveSelectedChipTo = index => game =>
 
 const cleanHighlights = game => set('highlights', [])
 
-const enableMovements = game => getSelectedChip(game)
-  // .map(get('index'))
-  // .map(calculateMovementPosition)
-  // .map(disableNonPosibleMovements(game))
-  // .map(highlights => set('highlights', highlights, game))
+const enableTiles = game => getSelectedChip(game)
+  .map(get('index'))
+  .map(Movement.fromGame)
+  .map(setMovements(game))
   .orSome(game)
 
 const eitherSelectedChipMatchesIndex = index => game =>
@@ -57,7 +62,7 @@ const eitherSelectChip = index => game => Right(game)
   .flatMap(eitherSelectedChipMatchesIndex(index))
   .leftMap(Chip.select)
   .leftMap(setChip(game))
-  .leftMap(enableMovements)
+  .leftMap(enableTiles)
 
 const selectTile = game => index => Right(game)
   .flatMap(eitherApplyMove(index))

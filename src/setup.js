@@ -89,7 +89,7 @@ export const createGame = _ => ({
   currentPlayer: RED,
   chips: INITIAL_CHIPS,
   movements: [],
-  highlights: [],
+  log: [],
   score: [0, 0],
   tiles: createTiles()
 })
