@@ -30,6 +30,12 @@ const createLine = distance => [
 const mapToRows = list => list.map(Position.setRow)
 const mapToCols = list => list.map(Position.setCol)
 
+const mapToRowsColsSame = list => list.map(
+  increment => ({row: increment, col: increment})
+)
+const mapToRowsColsInv = list => list.map(
+  increment => ({row: increment, col: -increment})
+)
 const appendVerticals = position => list => Some(createLine(4))
   .map(mapToRows)
   .map(l => l.map(Position.concat(position)))
@@ -42,8 +48,17 @@ const appendHorizontals = position => list => Some(createLine(4))
   .map(l => list.concat(l))
   .orSome(list)
 
-const appendDiagonal1 = position => list => list
-const appendDiagonal2 = position => list => list
+const appendDiagonal1 = position => list => Some(createLine(4))
+  .map(mapToRowsColsSame)
+  .map(l => l.map(Position.concat(position)))
+  .map(l => list.concat(l))
+  .orSome(list)
+
+const appendDiagonal2 = position => list => Some(createLine(4))
+  .map(mapToRowsColsInv)
+  .map(l => l.map(Position.concat(position)))
+  .map(l => list.concat(l))
+  .orSome(list)
 
 const calculateMovements = position => Some([])
   .map(appendVerticals(position))
@@ -60,8 +75,6 @@ export const fromIndex = index =>
   Some(index)
     .map(Position.fromIndex)
     .map(calculateMovements)
-    .map(tap('filter invalid >>>'))
     .map(filterInvalidPositions)
-    .map(tap('filter invalid <<<<'))
     .map(convertToIndexes)
     .orSome([])
