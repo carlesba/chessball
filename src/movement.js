@@ -36,36 +36,49 @@ const mapToRowsColsSame = list => list.map(
 const mapToRowsColsInv = list => list.map(
   increment => ({row: increment, col: -increment})
 )
-const appendVerticals = position => list => Some(createLine(4))
-  .map(mapToRows)
-  .map(l => l.map(Position.concat(position)))
-  .map(l => list.concat(l))
-  .orSome(list)
+// const appendVerticals = position => list => Some(createLine(4))
+//   .map(mapToRows)
+//   .map(l => l.map(Position.concat(position)))
+//   .map(l => list.concat(l))
+//   .orSome(list)
 
-const appendHorizontals = position => list => Some(createLine(4))
-  .map(mapToCols)
-  .map(l => l.map(Position.concat(position)))
-  .map(l => list.concat(l))
-  .orSome(list)
+// const appendHorizontals = position => list => Some(createLine(4))
+//   .map(mapToCols)
+//   .map(l => l.map(Position.concat(position)))
+//   .map(l => list.concat(l))
+//   .orSome(list)
 
-const appendDiagonal1 = position => list => Some(createLine(4))
-  .map(mapToRowsColsSame)
-  .map(l => l.map(Position.concat(position)))
-  .map(l => list.concat(l))
-  .orSome(list)
+// const appendDiagonal1 = position => list => Some(createLine(4))
+//   .map(mapToRowsColsSame)
+//   .map(l => l.map(Position.concat(position)))
+//   .map(l => list.concat(l))
+//   .orSome(list)
 
-const appendDiagonal2 = position => list => Some(createLine(4))
-  .map(mapToRowsColsInv)
-  .map(l => l.map(Position.concat(position)))
-  .map(l => list.concat(l))
-  .orSome(list)
+// const appendDiagonal2 = position => list => Some(createLine(4))
+//   .map(mapToRowsColsInv)
+//   .map(l => l.map(Position.concat(position)))
+//   .map(l => list.concat(l))
+//   .orSome(list)
 
-const calculateMovements = position => Some([])
-  .map(appendVerticals(position))
-  .map(appendHorizontals(position))
-  .map(appendDiagonal1(position))
-  .map(appendDiagonal2(position))
-  .orSome([])
+const someIncrementPositions = Some(createLine(4))
+  .map(list => ([
+    ...mapToRows(list),
+    ...mapToCols(list),
+    ...mapToRowsColsSame(list),
+    ...mapToRowsColsInv(list)
+  ]))
+
+// const calculateMovements = position => Some([])
+//   .map(appendVerticals(position))
+//   .map(appendHorizontals(position))
+//   .map(appendDiagonal1(position))
+//   .map(appendDiagonal2(position))
+//   .orSome([])
+
+const calculateMovements = position =>
+  someIncrementPositions
+    .map(l => l.map(Position.concat(position)))
+    .orSome([])
 
 const convertToIndexes = positions => positions.map(Position.toIndex)
 
