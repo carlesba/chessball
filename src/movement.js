@@ -1,6 +1,10 @@
 import {Some} from 'monet'
 import {get, log} from 'immootable'
 import * as Position from './position'
+const tap = text => x => {
+  console.log(text, x)
+  return x
+}
 /*
   movement = {
     index::Number
@@ -23,16 +27,18 @@ const createLine = distance => [
   ...createIndexArray(distance, i => i + 1)
 ]
 
-const referRowsTo = position => list => list.map(Position.updateRowBy(position))
-const referColsTo = position => list => list.map(Position.updateColBy(position))
+const mapToRows = list => list.map(Position.setRow)
+const mapToCols = list => list.map(Position.setCol)
 
 const appendVerticals = position => list => Some(createLine(4))
-  .map(referRowsTo(position))
+  .map(mapToRows)
+  .map(l => l.map(Position.concat(position)))
   .map(l => list.concat(l))
   .orSome(list)
 
 const appendHorizontals = position => list => Some(createLine(4))
-  .map(referColsTo(position))
+  .map(mapToCols)
+  .map(l => l.map(Position.concat(position)))
   .map(l => list.concat(l))
   .orSome(list)
 
@@ -46,11 +52,16 @@ const calculateMovements = position => Some([])
   .map(appendDiagonal2(position))
   .orSome([])
 
-const convertToIndexes = Positions => Positions.map(Position.toIndex)
+const convertToIndexes = positions => positions.map(Position.toIndex)
+
+const filterInvalidPositions = positions => positions.filter(Position.isValid)
 
 export const fromIndex = index =>
   Some(index)
     .map(Position.fromIndex)
     .map(calculateMovements)
+    .map(tap('filter invalid >>>'))
+    .map(filterInvalidPositions)
+    .map(tap('filter invalid <<<<'))
     .map(convertToIndexes)
     .orSome([])

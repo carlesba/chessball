@@ -1,5 +1,6 @@
-import {Some} from 'monet'
+import { None, Some } from 'monet'
 import {COLUMNS, ROWS} from './constants'
+import { get, log } from 'immootable'
 
 export const rowFromIndex = index => Math.floor(index / COLUMNS)
 
@@ -27,3 +28,29 @@ export const updateRowBy = ({row, col}) => value => ({row: row + value, col})
 export const updateColBy = ({row, col}) => value => ({row, col: col + value})
 
 export const toIndex = ({row, col}) => row * COLUMNS + col
+
+export const concat = pa => pb => ({
+  row: pa.row + pb.row,
+  col: pa.col + pb.col
+})
+
+export const setRow = row => ({row, col: 0})
+export const setCol = col => ({row: 0, col})
+
+const checkRow = position => Some(position)
+  .map(get('row'))
+  .flatMap(row => row < 0 ? None() : Some(row))
+  .flatMap(row => row > ROWS - 1 ? None() : Some(row))
+  .map(_ => position)
+
+const checkCol = position => Some(position)
+  .map(get('col'))
+  // .map(log(x => (['>>>> check col', x])))
+  .flatMap(col => col < 0 ? None() : Some(col))
+  .flatMap(col => col > COLUMNS - 1 ? None() : Some(col))
+  .map(_ => position)
+
+export const isValid = position => Some(position)
+  .flatMap(checkRow)
+  .flatMap(checkCol)
+  .cata(_ => false, _ => true)
