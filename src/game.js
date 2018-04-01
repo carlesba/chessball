@@ -33,6 +33,13 @@ const setChip = game => chip =>
     game
   )
 
+const deselectChipByIndex = index => game => Right(game)
+  .map(getChipByIndex(index))
+  .flatMap(chip => !chip ? Left(game) : Right(chip))
+  .map(Chip.deselect)
+  .map(setChip(game))
+  .cata(x => x, x => x)
+
 const setMovements = game => movements => set(
   'movements',
   movements,
@@ -84,6 +91,12 @@ const eitherSelectChip = index => game => Right(game)
   .flatMap(chip => chip ? Left(chip) : Right(game))
   .leftMap(Chip.select)
   .leftMap(setChip(game))
+  .leftMap(g => Some(game)
+    .flatMap(getSelectedChip)
+    .map(Chip.deselect)
+    .map(setChip(g))
+    .orSome(g)
+  )
 
 export const selectTile = index => game => Right(game)
   .map(tap('move'))
