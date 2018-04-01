@@ -53,11 +53,11 @@ const moveSelectedChipTo = index => game =>
 
 const cleanHighlights = game => set('movements', [], game)
 
-// const enableTiles = game => getSelectedChip(game)
-//   .map(get('index'))
-//   .map(Movement.fromGame)
-//   .map(setMovements(game))
-//   .orSome(game)
+const enableTiles = game => getSelectedChip(game)
+  .map(get('index'))
+  .map(Movement.fromIndex)
+  .map(setMovements(game))
+  .orSome(game)
 
 const eitherSelectedChipMatchesIndex = index => game =>
   getSelectedChip(game)
@@ -92,6 +92,7 @@ const eitherSelectChip = index => game => Right(game)
     .map(setChip(g))
     .orSome(g)
   )
+  .leftMap(enableTiles)
 
 export const selectTile = index => game => Right(game)
   .map(tap('move'))

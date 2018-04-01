@@ -29,6 +29,7 @@ const Tile = styled.div`
   outline: 2px solid black;
   float: left;
   ${p => p.value.col === 0 && 'clear: left;'}
+  ${p => p.isEnabled && 'opacity: 0.8;'}
 `
 
 const Chip = styled.div`
@@ -63,6 +64,7 @@ const Board = ({game, onSelect}) => {
         <Tile
           key={index}
           value={tile}
+          isEnabled={game.movements.includes(index)}
           onClick={_ => onSelect(index)}
         >
           {renderPosition(tile, index)}
