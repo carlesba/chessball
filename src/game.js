@@ -33,12 +33,7 @@ const setChip = game => chip =>
     game
   )
 
-const deselectChipByIndex = index => game => Right(game)
-  .map(getChipByIndex(index))
-  .flatMap(chip => !chip ? Left(game) : Right(chip))
-  .map(Chip.deselect)
-  .map(setChip(game))
-  .cata(x => x, x => x)
+const isChipTeamTurn = (game, chip) => game.currentPlayer === chip.team
 
 const setMovements = game => movements => set(
   'movements',
@@ -88,7 +83,7 @@ const eitherUnselectChip = index => game => Right(game)
 // index -> game -> Either(game)
 const eitherSelectChip = index => game => Right(game)
   .map(getChipByIndex(index))
-  .flatMap(chip => chip ? Left(chip) : Right(game))
+  .flatMap(chip => chip && isChipTeamTurn(game, chip) ? Left(chip) : Right(game))
   .leftMap(Chip.select)
   .leftMap(setChip(game))
   .leftMap(g => Some(game)
