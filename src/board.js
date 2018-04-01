@@ -17,6 +17,7 @@ const colorFromTile = tile => Right(tile)
   .some()
 
 const colorFromChip = chip => Right(chip)
+  .flatMap(c => c.id === 'ball' ? Left('yellow') : Right(chip))
   .flatMap(c => isRed(c) ? Left('red') : Right('blue'))
   .cata(Just, Just)
   .some()

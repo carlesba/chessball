@@ -16,8 +16,9 @@ const INITIAL_CHIPS = [
   {id: 'b1', index: 137, team: BLUE, keeper: true},
   {id: 'b2', index: 124, team: BLUE},
   {id: 'b3', index: 128, team: BLUE},
-  {id: 'b4', index: 101, team: BLUE},
-  {id: 'b5', index: 107, team: BLUE}
+  {id: 'b4', index: 90, team: BLUE},
+  {id: 'b5', index: 96, team: BLUE},
+  {id: 'ball', index: 82, team: undefined}
 ]
 
 const fieldTeamFromIndex = index =>
