@@ -4,9 +4,27 @@ import * as Chip from './chip'
 import * as Movement from './movement'
 
 // const currentPlayer = game => get('currentPlayer', game)
-// const getTile = index => game => get(['tiles', index], game)
+
+const tap = text => x => {
+  console.log(text, x)
+  return x
+}
+const stop = x => {
+  console.log(x)
+  debugger
+  return x
+}
+
+// game -> Array(tiles | nil)
+export const getTiles = game => get('tiles', game) || []
+
+export const getChipByIndex = index => game =>
+  List.fromArray(get('chips', game))
+    .find(Chip.checkIndex(index))
+    .orSome(undefined)
+
 const isEnabled = index => game =>
-  get('highlights', game).includes(index)
+  get('movements', game).includes(index)
 
 const setChip = game => chip =>
   update(
@@ -21,7 +39,7 @@ const setMovements = game => movements => set(
   game
 )
 
-const getSelectedChip = game => List(get('chips', game))
+const getSelectedChip = game => List.fromArray(get('chips', game))
   .find(Chip.isSelected)
 
 const moveSelectedChipTo = index => game =>
@@ -31,23 +49,26 @@ const moveSelectedChipTo = index => game =>
     .map(setChip(game))
     .orSome(game)
 
-const cleanHighlights = game => set('highlights', [])
+const cleanHighlights = game => set('movements', [], game)
 
-const enableTiles = game => getSelectedChip(game)
-  .map(get('index'))
-  .map(Movement.fromGame)
-  .map(setMovements(game))
-  .orSome(game)
+// const enableTiles = game => getSelectedChip(game)
+//   .map(get('index'))
+//   .map(Movement.fromGame)
+//   .map(setMovements(game))
+//   .orSome(game)
 
 const eitherSelectedChipMatchesIndex = index => game =>
   getSelectedChip(game)
-    .flatMap(chip => Chip.checkIndex(index)(chip)
-      ? Left(chip)
-      : Right(game)
+    .cata(
+      _ => Right(game),
+      chip => Chip.checkIndex(index)(chip)
+        ? Left(chip)
+        : Right(game)
     )
 
 // index -> game -> Either(game)
-const eitherApplyMove = index => game => Right(isEnabled(index))
+const eitherApplyMove = index => game => Right(game)
+  .map(isEnabled(index))
   .flatMap(enabled => enabled ? Left(game) : Right(game))
   .leftMap(moveSelectedChipTo(index))
   .leftMap(cleanHighlights)
@@ -59,20 +80,18 @@ const eitherUnselectChip = index => game => Right(game)
 
 // index -> game -> Either(game)
 const eitherSelectChip = index => game => Right(game)
-  .flatMap(eitherSelectedChipMatchesIndex(index))
+  .map(getChipByIndex(index))
+  .flatMap(chip => chip ? Left(chip) : Right(game))
   .leftMap(Chip.select)
   .leftMap(setChip(game))
-  .leftMap(enableTiles)
 
-const selectTile = game => index => Right(game)
+export const selectTile = index => game => Right(game)
+  .map(tap('move'))
   .flatMap(eitherApplyMove(index))
+  .map(tap('unselect chip'))
   .flatMap(eitherUnselectChip(index))
+  .map(tap('select chip'))
   .flatMap(eitherSelectChip(index))
+  .map(tap('nothing'))
   .map(cleanHighlights)
-  .cata(Identity, Identity)
-
-const Game = game => ({
-  selectTile: selectTile(game)
-})
-
-export default Game
+  .cata(x => x, x => x)

@@ -1,6 +1,7 @@
 import {render} from 'react-dom'
 import React from 'react'
 import App from './app'
+import monet from 'monet'
 
 export default function mount (id) {
   render(
@@ -8,3 +9,4 @@ export default function mount (id) {
     document.getElementById(id)
   )
 }
+window.m = monet

@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
 import Board from './board'
 import {createGame} from './setup'
-import Game from './game'
+import {selectTile} from './game'
+import {Some} from 'monet'
 import {log} from 'immootable'
 
 const wrapState = game => ({ game })
@@ -19,9 +20,10 @@ class App extends Component {
     console.log('>>game:', game)
     return (
       <Board
-        tiles={game.tiles}
+        game={game}
         onSelect={index =>
-          Game(game).selectTile(index)
+          Some(game)
+            .map(selectTile(index))
             .cata(
               e => console.error(e),
               this.update

@@ -1,7 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Left, Right, Just } from 'monet'
+import { Left, Right, Just, Identity, Some } from 'monet'
 import { isRed } from './chip'
+import * as Game from './game'
 
 const whenTileIs = attribute => value => x =>
   x[attribute] ? Left(value) : Right(x)
@@ -35,6 +36,9 @@ const Chip = styled.div`
   margin: 5px;
   border-radius: ${p => p.value.keeper ? '30' : '50'}%;
   background: ${p => colorFromChip(p.value)};
+  border-color: black;
+  border-style: solid;
+  border-width: ${p => p.value.selected ? '3px' : '0'};
 `
 
 const renderPosition = ({row, col}, index) => (
@@ -44,17 +48,24 @@ const renderPosition = ({row, col}, index) => (
   </div>
 )
 
-const Board = ({tiles, onSelect}) => {
+const renderChip = (game, index) => {
+  const chip = Game.getChipByIndex(index)(game)
+  return !chip
+    ? undefined
+    : <Chip value={chip} />
+}
+
+const Board = ({game, onSelect}) => {
   return (
     <div>
-      {tiles.map((tile, index) =>
+      {Game.getTiles(game).map((tile, index) =>
         <Tile
           key={index}
           value={tile}
           onClick={_ => onSelect(index)}
         >
           {renderPosition(tile, index)}
-          {tile.chip && <Chip value={tile.chip} />}
+          {renderChip(game, index)}
         </Tile>
       )}
     </div>
