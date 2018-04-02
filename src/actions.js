@@ -21,12 +21,10 @@ const eitherApplyMove = index => game => Right(game)
   .leftMap(Status.logMovement(index))
   .cata(
     g => Game.ballHasOwner(g)
-      ? Left(g)
+      ? Left(Game.selectBall(g))
       : Left(Status.toggleTurn(g)),
     Identity
   )
-  // .leftMap(Status.toggleTurn)
-  .map(x => { console.log('>>>>', x); return x })
 
 const eitherUnselectChip = index => game => Right(game)
   .flatMap(eitherSelectedChipMatchesIndex(index))

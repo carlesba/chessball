@@ -13,3 +13,4 @@ export const isSelected = chip => get('selected', chip)
 export const select = chip => set('selected', true, chip)
 export const setIndex = index => chip =>
   set('index', index, chip)
+export const setTeam = team => chip => set('team', team, chip)

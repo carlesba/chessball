@@ -5,6 +5,7 @@ import * as Position from './position'
 import * as Movements from './movements'
 import { RED, BLUE } from './constants'
 import both from 'ramda/es/both'
+import when from 'ramda/es/when'
 
 /*
   utils
@@ -68,6 +69,8 @@ export const getChipByIndex = index => game =>
     .find(Chip.checkIndex(index))
     .orSome(undefined)
 
+const getCurrentPlayer = game => get('currentPlayer', game)
+
 const getPlayerChips = game =>
   List.fromArray(get('chips', game))
     .filter(Chip.isPlayer)
@@ -84,11 +87,23 @@ export const isChipTeamTurn = (game, chip) => game.currentPlayer === chip.team
 export const isEnabled = index => game =>
   get('movements', game).includes(index)
 
+export const mapChips = fn => game =>
+  Some(game)
+    .map(get('chips'))
+    .map(chips => chips.map(fn))
+    .map(setChips(game))
+    .orSome(game)
+
 export const moveSelectedChipTo = index => game =>
   getSelectedChip(game)
     .map(Chip.setIndex(index))
     .map(Chip.deselect)
     .map(setChip(game))
+    .orSome(game)
+
+export const selectBall = game =>
+  Some(game)
+    .map(mapChips(when(Chip.isBall, Chip.select)))
     .orSome(game)
 
 export const setChip = game => chip =>
@@ -97,6 +112,8 @@ export const setChip = game => chip =>
     chips => chips.map(c => Chip.equals(c, chip) ? chip : c),
     game
   )
+
+const setChips = game => chips => set('chips', chips, game)
 
 export const setMovements = game => movements => set(
   'movements',
