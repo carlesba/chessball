@@ -13,7 +13,7 @@ const eitherSelectedChipMatchesIndex = index => game =>
   Game.getSelectedChip(game)
     .cata(
       _ => Right(game),
-      chip => Chip.checkIndex(index)(chip)
+      chip => Chip.checkIndex(index)(chip) && Chip.isPlayer(chip)
         ? Left(chip)
         : Right(game)
     )
