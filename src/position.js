@@ -50,7 +50,16 @@ const checkCol = position => Some(position)
   .flatMap(col => col > COLUMNS - 1 ? None() : Some(col))
   .map(_ => position)
 
+const distance = (a, b) =>
+  Math.sqrt(Math.abs(a.row - b.row) + Math.abs(a.col - b.col))
+
 export const isValid = position => Some(position)
   .flatMap(checkRow)
   .flatMap(checkCol)
   .cata(_ => false, _ => true)
+
+export const nextTo = indexA => indexB =>
+  Some([fromIndex(indexA), fromIndex(indexB)])
+    .map(([a, b]) => distance(a, b))
+    .flatMap(dist => dist !== 1 ? None() : Some(true))
+    .orSome(false)

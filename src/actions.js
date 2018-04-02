@@ -1,4 +1,4 @@
-import { Left, Right, Some } from 'monet'
+import { Left, Right, Some, Identity } from 'monet'
 import * as Chip from './chip'
 import * as Status from './status'
 import * as Game from './game'
@@ -18,8 +18,14 @@ const eitherApplyMove = index => game => Right(game)
   .flatMap(enabled => enabled ? Left(game) : Right(game))
   .leftMap(Game.moveSelectedChipTo(index))
   .leftMap(Game.cleanHighlights)
-  .leftMap(Status.toggleTurn)
   .leftMap(Status.logMovement(index))
+  .cata(
+    g => Game.ballHasOwner(g)
+      ? Left(g)
+      : Left(Status.toggleTurn(g)),
+    Identity
+  )
+  // .leftMap(Status.toggleTurn)
   .map(x => { console.log('>>>>', x); return x })
 
 const eitherUnselectChip = index => game => Right(game)

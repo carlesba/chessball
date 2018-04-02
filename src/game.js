@@ -1,8 +1,43 @@
-import { List } from 'monet'
-import {get, set, update} from 'immootable'
+import { compose, Left, List, None, Right, Some } from 'monet'
+import { get, set, update } from 'immootable'
 import * as Chip from './chip'
+import * as Position from './position'
 import * as Movements from './movements'
 import { RED, BLUE } from './constants'
+import both from 'ramda/es/both'
+
+/*
+  utils
+*/
+const checkSome = x => (!x || !x.length) ? None(x) : Some(x)
+
+const countRed = chips =>
+  List.fromArray(chips)
+    .filter(both(Chip.isPlayer, Chip.isRed))
+    .size()
+
+const countBlue = chips =>
+  List.fromArray(chips)
+    .filter(both(Chip.isPlayer, Chip.isBlue))
+    .size()
+
+const calculateMajority = chips => {
+  const red = countRed(chips)
+  const blue = countBlue(chips)
+  return red > blue ? Some(RED) : blue < red ? Some(BLUE) : None()
+}
+
+/*
+  setters
+*/
+
+export const ballHasOwner = game =>
+  Some(game)
+    .map(getBallPosition)
+    .map(filterChipsNextTo(getPlayerChips(game)))
+    .flatMap(checkSome)
+    .flatMap(calculateMajority)
+    .orSome(false)
 
 export const cleanHighlights = game => set('movements', [], game)
 export const enableTiles = game => getSelectedChip(game)
@@ -13,10 +48,30 @@ export const enableTiles = game => getSelectedChip(game)
   .map(setMovements(game))
   .orSome(game)
 
+const filterChipsNextTo = chips => index =>
+  List.fromArray(chips)
+    .filter(compose(Position.nextTo(index), get('index')))
+    .toArray()
+
+const getBall = game =>
+  List.fromArray(get('chips', game))
+    .filter(Chip.isBall)
+    .head()
+
+const getBallPosition = game =>
+  Some(getBall(game))
+    .map(get('index'))
+    .orSome()
+
 export const getChipByIndex = index => game =>
   List.fromArray(get('chips', game))
     .find(Chip.checkIndex(index))
     .orSome(undefined)
+
+const getPlayerChips = game =>
+  List.fromArray(get('chips', game))
+    .filter(Chip.isPlayer)
+    .toArray()
 
 // game -> Array(tiles | nil)
 export const getTiles = game => get('tiles', game) || []
