@@ -3,6 +3,12 @@ import * as Chip from './chip'
 import * as Status from './status'
 import * as Game from './game'
 
+const selectAndHighlightBall = game =>
+  Some(game)
+    .map(Game.selectBall)
+    .map(Game.enableTiles)
+    .orSome(game)
+
 const eitherSelectedChipMatchesIndex = index => game =>
   Game.getSelectedChip(game)
     .cata(
@@ -21,7 +27,7 @@ const eitherApplyMove = index => game => Right(game)
   .leftMap(Status.logMovement(index))
   .cata(
     g => Game.ballHasOwner(g)
-      ? Left(Game.selectBall(g))
+      ? Left(selectAndHighlightBall(g))
       : Left(Status.toggleTurn(g)),
     Identity
   )
