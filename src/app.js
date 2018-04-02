@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import Board from './board'
 import {createGame} from './setup'
-import {selectTile} from './game'
+import * as Actions from './actions'
 import {Some} from 'monet'
 import {log} from 'immootable'
 
@@ -23,7 +23,7 @@ class App extends Component {
         game={game}
         onSelect={index =>
           Some(game)
-            .map(selectTile(index))
+            .map(Actions.selectTile(index))
             .cata(
               e => console.error(e),
               this.update
