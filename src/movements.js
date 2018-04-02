@@ -1,6 +1,6 @@
 import {Some} from 'monet'
-import {get, log} from 'immootable'
 import * as Position from './position'
+import { BALL_DISTANCE, PLAYER_DISTANCE } from './constants'
 const tap = text => x => {
   console.log(text, x)
   return x
@@ -60,13 +60,14 @@ const mapToRowsColsInv = list => list.map(
 //   .map(l => list.concat(l))
 //   .orSome(list)
 
-const someIncrementPositions = Some(createLine(4))
-  .map(list => ([
-    ...mapToRows(list),
-    ...mapToCols(list),
-    ...mapToRowsColsSame(list),
-    ...mapToRowsColsInv(list)
+const incrementalPositions = Some(createLine(4))
+  .map(increments => ([
+    ...mapToRows(increments),
+    ...mapToCols(increments),
+    ...mapToRowsColsSame(increments),
+    ...mapToRowsColsInv(increments)
   ]))
+  .some()
 
 // const calculateMovements = position => Some([])
 //   .map(appendVerticals(position))
@@ -75,19 +76,20 @@ const someIncrementPositions = Some(createLine(4))
 //   .map(appendDiagonal2(position))
 //   .orSome([])
 
-const calculateMovements = position =>
-  someIncrementPositions
-    .map(l => l.map(Position.concat(position)))
-    .orSome([])
+const calculateMovements = distance => position =>
+  incrementalPositions.map(Position.concat(position))
 
 const convertToIndexes = positions => positions.map(Position.toIndex)
 
 const filterInvalidPositions = positions => positions.filter(Position.isValid)
 
-export const fromIndex = index =>
+export const distanceFromIndex = distance => index =>
   Some(index)
     .map(Position.fromIndex)
-    .map(calculateMovements)
+    .map(calculateMovements(distance))
     .map(filterInvalidPositions)
     .map(convertToIndexes)
     .orSome([])
+
+export const ballFromIndex = distanceFromIndex(BALL_DISTANCE)
+export const playerFromIndex = distanceFromIndex(PLAYER_DISTANCE)

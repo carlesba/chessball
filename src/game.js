@@ -1,19 +1,7 @@
 import { Left, List, Right, Some, Identity } from 'monet'
 import {get, set, update, log} from 'immootable'
 import * as Chip from './chip'
-import * as Movement from './movement'
-
-// const currentPlayer = game => get('currentPlayer', game)
-
-const tap = text => x => {
-  console.log(text, x)
-  return x
-}
-const stop = x => {
-  console.log(x)
-  debugger
-  return x
-}
+import * as Movements from './movements'
 
 // game -> Array(tiles | nil)
 export const getTiles = game => get('tiles', game) || []
@@ -54,8 +42,10 @@ const moveSelectedChipTo = index => game =>
 const cleanHighlights = game => set('movements', [], game)
 
 const enableTiles = game => getSelectedChip(game)
-  .map(get('index'))
-  .map(Movement.fromIndex)
+  .map(chip => Chip.isBall(chip)
+    ? Movements.ballFromIndex(get('index', chip))
+    : Movements.playerFromIndex(get('index', chip))
+  )
   .map(setMovements(game))
   .orSome(game)
 
@@ -95,12 +85,8 @@ const eitherSelectChip = index => game => Right(game)
   .leftMap(enableTiles)
 
 export const selectTile = index => game => Right(game)
-  .map(tap('move'))
   .flatMap(eitherApplyMove(index))
-  .map(tap('unselect chip'))
   .flatMap(eitherUnselectChip(index))
-  .map(tap('select chip'))
   .flatMap(eitherSelectChip(index))
-  .map(tap('nothing'))
   .map(cleanHighlights)
   .cata(x => x, x => x)
