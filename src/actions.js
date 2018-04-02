@@ -14,16 +14,13 @@ const eitherSelectedChipMatchesIndex = index => game =>
 
 // index -> game -> Either(game)
 const eitherApplyMove = index => game => Right(game)
-  .map(x => {
-    console.log('>>>>', x)
-    return x
-  })
   .map(Game.isEnabled(index))
   .flatMap(enabled => enabled ? Left(game) : Right(game))
   .leftMap(Game.moveSelectedChipTo(index))
   .leftMap(Game.cleanHighlights)
   .leftMap(Status.toggleTurn)
   .leftMap(Status.logMovement(index))
+  .map(x => { console.log('>>>>', x); return x })
 
 const eitherUnselectChip = index => game => Right(game)
   .flatMap(eitherSelectedChipMatchesIndex(index))

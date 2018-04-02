@@ -5,7 +5,7 @@ import {togglePlayer} from './game'
 const check = value => !value ? None() : Some(value)
 
 const applyFoo = foo => game => value => set(foo, value, game)
-const applyMovement = applyFoo('movements')
+const applyLog = applyFoo('log')
 const applyCurrentPlayer = applyFoo('currentPlayer')
 
 export const toggleTurn = game =>
@@ -18,7 +18,7 @@ export const toggleTurn = game =>
 
 export const logMovement = index => game =>
   Some(game)
-    .map(get('movements'))
+    .map(get('log'))
     .map(append(index))
-    .map(applyMovement(game))
+    .map(applyLog(game))
     .orSome(game)
