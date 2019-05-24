@@ -5,23 +5,52 @@
   "main": "index.js",
   "scripts": {
     "start": "parcel src/index.html",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/carlesba/chessball.git"
   },
   "author": "carlesba",
+  "jest": {
+    "preset": "ts-jest",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "setupFilesAfterEnv": [
+      "<rootDir>/src/setupTests.ts"
+    ],
+    "moduleNameMapper": {
+      ".+\\.css$": "<rootDir>/src/styles.css.d.ts"
+    },
+    "testMatch": [
+      "**/src/**/*.(test|spec).(ts|tsx|js)"
+    ]
+  },
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/carlesba/chessball/issues"
   },
   "homepage": "https://github.com/carlesba/chessball#readme",
   "dependencies": {
+    "@emotion/core": "^10.0.10",
+    "@emotion/styled": "^10.0.11",
     "react": "^16.8.6",
-    "react-dom": "^16.8.6"
+    "react-dom": "^16.8.6",
+    "reset-css": "^4.0.1"
   },
   "devDependencies": {
-    "parcel-bundler": "^1.12.3"
+    "@types/jest": "^24.0.13",
+    "@types/react": "^16.8.17",
+    "@types/react-dom": "^16.8.4",
+    "babel-jest": "^24.8.0",
+    "jest": "^24.8.0",
+    "jest-dom": "^3.2.2",
+    "parcel-bundler": "^1.12.3",
+    "react-testing-library": "^7.0.0",
+    "ts-jest": "^24.0.2",
+    "typescript": "^3.4.5"
   }
 }

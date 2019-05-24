@@ -1,4 +1,6 @@
 import React from 'react'
 import DOM from 'react-dom'
+import App from './App'
+import 'reset-css'
 
-DOM.render(<div>hey!</div>, document.getElementById('app'))
+DOM.render(<App />, document.getElementById('app'))
