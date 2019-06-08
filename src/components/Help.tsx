@@ -142,9 +142,12 @@ const Help = () => {
 
         <h2>Bonus Squares</h2>
 
-        <p>
+        <div style={{ marginLeft: 20 }}>
           <BonusSquare dark />
-          {'   '} Squares with a dot are <strong>Bonus Squares</strong>.
+        </div>
+
+        <p>
+          Squares with a dot are <strong>Bonus Squares</strong>.
         </p>
 
         <p>
