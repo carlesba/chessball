@@ -9,16 +9,16 @@ interface CornerProps {
 const Corner = styled.a`
   position: fixed;
   right: 10px;
-  ${(p: CornerProps) => (p.bottom ? 'bottom: 10px;' : 'top: 10px;')}
-  font-size: 20px;
+  top: 10px;
+  font-size: 15px;
   font-family: Helvetica, sans-serif;
   font-weight: bold;
   border-radius: 50%;
-  width: 30px;
-  height: 30px;
+  width: 16px;
+  height: 16px;
   text-align: center;
-  line-height: ${(p: CornerProps) => (p.close ? 31 : 35)}px;
-  box-shadow: inset 0 0 0 2px currentColor;
+  line-height: ${(p: CornerProps) => (p.close ? 17 : 20)}px;
+  box-shadow: 0 0 0 2px currentColor;
   text-decoration: none;
   &:link {
     color: currentColor;

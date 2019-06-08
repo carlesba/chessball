@@ -17,13 +17,6 @@ import GameOver from './components/GameOver'
 const BACKGROUND = '#2f3133'
 const TEXT = '#FBF8F8'
 
-const Title = styled.h1`
-  position: absolute;
-  font-size: 30px;
-  font-family: Helvetica, sans-serif;
-  font-weight: bold;
-  font-style: italic;
-`
 const Wrapper = styled.div`
   height: 100vh;
   width: 100vw;
@@ -67,7 +60,6 @@ const App = () => {
   const winner = getWinner(state)
   return (
     <Wrapper>
-      <Title>mastergoal</Title>
       {winner && (
         <GameOver team={winner} score={state.score} onRestart={restart} />
       )}

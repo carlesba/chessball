@@ -106,7 +106,6 @@ const Wrapper = styled.div`
   height: ${sizeFromUnits(15)};
   overflow: hidden;
   border-radius: 32px;
-  box-shadow: 0 0 0 20px #414446;
 `
 interface RowProps {
   first?: boolean

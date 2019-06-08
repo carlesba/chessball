@@ -4,8 +4,8 @@ import { RED, BLUE } from '../colors'
 
 const Row = styled.div`
   font-family: Helvetica, sans-serif;
-  font-size: 20px;
-  line-height: 30px;
+  font-size: 14px;
+  line-height: 20px;
   box-sizing: border-box;
 `
 const Wrapper = styled.div`
@@ -19,7 +19,7 @@ const Team = styled.span`
   margin-right: 0.5em;
 `
 const Text = styled.span`
-  font-size: 16px;
+  font-size: 14px;
 `
 const Passes = styled.span``
 
